@@ -1,5 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'sinatra'
-
-gem 'mongoid'
+gem 'sinatra-flash'
+gem 'sequel'
+gem 'thor'
+gem 'sqlite3'
+gem 'pry'
