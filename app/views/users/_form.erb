@@ -1,0 +1,8 @@
+<form method="post" action="<%= @user.new? ? '/users' : "/user/#{@user.id}" %>">
+  <input type="text" name="email" value="<%= @user.email %>">
+  <input type="text" name="name" value="<%= @user.name %>">
+  <input type="password" name="password">
+  <input type="text" name="role"  value="<%= @user.role || 'user' %>">
+
+  <input type="submit">
+</form>

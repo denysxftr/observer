@@ -1,7 +1,9 @@
 require 'sinatra'
 require 'sqlite3'
 require 'sequel'
+require 'logger'
 require 'json'
+require 'digest/sha1'
 require 'pry'
 
 def load_path(path)

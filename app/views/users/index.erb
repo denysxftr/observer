@@ -1,0 +1,6 @@
+<% @users.each do |user| %>
+  <p><a href="/user/<%= user.id %>"><%= user.email %></a></p>
+  <form method="post" action="<%= "/user/#{user.id}/delete" %>">
+    <input type="submit" value="Delete">
+  </form>
+<% end %>
