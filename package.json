@@ -1,0 +1,19 @@
+{
+  "name": "observer",
+  "version": "1.0.0",
+  "description": "Observer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ololyay/observer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ololyay/observer/issues"
+  },
+  "homepage": "https://github.com/ololyay/observer"
+}

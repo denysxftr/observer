@@ -3,7 +3,7 @@ class PingsController < ApplicationController
 
   end
 
-  post '/ping' do
+  post '/pings' do
 
   end
 

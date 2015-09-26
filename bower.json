@@ -1,0 +1,19 @@
+{
+  "name": "observer",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ololyay/observer",
+  "authors": [
+    "Denis Sergienko <olol.toor@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

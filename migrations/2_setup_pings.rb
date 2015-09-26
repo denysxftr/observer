@@ -5,6 +5,7 @@ Sequel.migration do
       String :url, null: false, default: nil
       String :is_ping, default: true
       String :http_method, default: 'GET'
+      index :url
     end
   end
 end

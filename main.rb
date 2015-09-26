@@ -13,5 +13,7 @@ load_path('./app/models/*.rb')
 load_path('./app/controllers/*.rb')
 
 class ObserverApp < ApplicationController
-  use WebController
+  [WebController, UsersController, PingsController].each do |controller|
+    use controller
+  end
 end
