@@ -5,6 +5,7 @@ class SessionController < ApplicationController
 
   post '/sign_in' do
     user = User.find(email: params[:email], password_hash: Digest::SHA1.hexdigest(params[:password]))
+
     if user
       session[:id] = user.id
       redirect '/'
