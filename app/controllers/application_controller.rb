@@ -1,6 +1,12 @@
 class ApplicationController < Sinatra::Base
   set :views, File.expand_path('./../../views', __FILE__)
   set :public_folder, File.expand_path('public')
+
+  def protect!
+    redirect '/' if session[:id] && params[:splat] == 'sign_in'
+    redirect '/sign_in' if !session[:id] && params[:splat] != ['sign_in']
+  end
+
   helpers do
     def assets_tags
       assets = nil
@@ -20,7 +26,7 @@ class ApplicationController < Sinatra::Base
       end
 
       js_tag = "<script src='/assets/#{assets[:js]}' type='text/javascript'></script>"
-      css_tag = "<link rel='stylesheet' src='/assets/#{ assets[:css] }'>"
+      css_tag = "<link rel='stylesheet' src='/assets/#{assets[:css]}'>"
 
       js_tag + css_tag
     end
