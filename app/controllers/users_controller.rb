@@ -44,7 +44,7 @@ class UsersController < ApplicationController
     if @user.valid?
       redirect '/users'
     else
-      erb :'user/new'
+      erb :'user/edit'
     end
   end
 
