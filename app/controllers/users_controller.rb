@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     @user = User[params[:id]]
     erb :'users/edit'
   end
-
+ 
   post '/user/:id' do
     @user = User[params[:id]]
     @user.update(
