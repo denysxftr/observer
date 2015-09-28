@@ -8,7 +8,6 @@ Sequel.migration do
       String :role, null: false, default: 'user'
       index :email
       index [:email, :password_hash]
-      index :auth_token
     end
   end
 end

@@ -1,4 +1,8 @@
 class User < Sequel::Model
+  def admin?
+    role == 'admin'
+  end
+
   def validate
     super
     %i(email name password_hash).each do |attr|

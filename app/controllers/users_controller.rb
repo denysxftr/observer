@@ -1,15 +1,18 @@
 class UsersController < ApplicationController
   get '/users' do
+    protect_admin!
     @users = User.all
     erb :'users/index'
   end
 
   get '/users/new' do
+    protect_admin!
     @user = User.new
     erb :'users/new'
   end
 
   post '/users' do
+    protect_admin!
     @user = User.new(
       email: params[:email],
       name: params[:name],
@@ -25,11 +28,13 @@ class UsersController < ApplicationController
   end
 
   get '/user/:id' do
+    protect_admin!
     @user = User[params[:id]]
     erb :'users/edit'
   end
  
   post '/user/:id' do
+    protect_admin!
     @user = User[params[:id]]
     @user.update(
       email: params[:email],
@@ -49,6 +54,7 @@ class UsersController < ApplicationController
   end
 
   post '/user/:id/delete' do
+    protect_admin!
     User[params[:id]].destroy
     redirect :'/users'
   end

@@ -3,9 +3,18 @@ class ApplicationController < Sinatra::Base
   set :public_folder, File.expand_path('public')
   enable :sessions
 
+  def current_user
+    @current_user ||= User[session[:id]]
+  end
+
   def protect!
     redirect '/' if session[:id] && params[:splat] == 'sign_in'
     redirect '/sign_in' if !session[:id] && params[:splat] != ['sign_in']
+  end
+
+  def protect_admin!
+    protect!
+    redirect '/' unless current_user.admin?
   end
 
   helpers do

@@ -1,10 +1,12 @@
 class PingsController < ApplicationController
   get '/pings' do
+    protect!
     @pings = Ping.all
     erb :'pings/index'
   end
 
   post '/pings' do
+    protect!
     @ping = Ping.new(
       url: params[:url],
       is_ping: params[:is_ping],
@@ -19,6 +21,7 @@ class PingsController < ApplicationController
   end
 
   post '/ping/:id' do
+    protect!
     @ping = Ping[params[:id]]
     @ping.update(
       url: params[:url],
@@ -31,5 +34,11 @@ class PingsController < ApplicationController
     else
       erb :'ping/edit'
     end
+  end
+
+  post '/ping/:id/delete' do
+    protect!
+    Ping[params[:id]].delete
+    redirect '/pings'
   end
 end

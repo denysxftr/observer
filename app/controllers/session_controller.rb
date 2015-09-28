@@ -15,6 +15,7 @@ class SessionController < ApplicationController
   end
 
   post '/sign_out' do
+    protect!
     session[:id] = nil
     redirect '/sign_in'
   end
