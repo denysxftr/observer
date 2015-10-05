@@ -18,6 +18,14 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
+    def alert
+      session.delete(:alert)
+    end
+
+    def notice
+      session.delete(:notice)
+    end
+
     def assets_tags
       assets = nil
       tries = 5
@@ -36,7 +44,7 @@ class ApplicationController < Sinatra::Base
       end
 
       js_tag = "<script src='/assets/#{assets[:js]}' type='text/javascript'></script>"
-      css_tag = "<link rel='stylesheet' src='/assets/#{assets[:css]}'>"
+      css_tag = "<link rel='stylesheet' type='text/css' href='/assets/#{assets[:css]}'>"
 
       js_tag + css_tag
     end

@@ -14,7 +14,12 @@ var paths = {
     'bower_components/skeleton/css/normalize.css',
     'bower_components/skeleton/css/skeleton.css'
   ]
-}
+};
+
+var watchPaths = {
+  js: ['frontend/js/*'],
+  css: ['frontend/scss/*']
+};
 
 gulp.task('clean', function() {
   return gulp.src('public/assets/*', { read: false })
@@ -51,8 +56,8 @@ gulp.task('dev', ['clean', 'scripts', 'styles'], function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.js, ['dev']);
-  gulp.watch(paths.css, ['dev']);
+  gulp.watch(watchPaths.js, ['dev']);
+  gulp.watch(watchPaths.css, ['dev']);
 });
 
 gulp.task('default', ['clean', 'dev', 'watch']);

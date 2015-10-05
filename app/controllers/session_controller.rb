@@ -8,13 +8,15 @@ class SessionController < ApplicationController
 
     if user
       session[:id] = user.id
+      session[:notice] = 'Signed in!'
       redirect '/'
     else
+      session[:alert] = 'Login or password is wrong!'
       redirect '/sign_in'
     end
   end
 
-  post '/sign_out' do
+  get '/sign_out' do
     protect!
     session[:id] = nil
     redirect '/sign_in'

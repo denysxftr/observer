@@ -5,6 +5,10 @@
     <%= assets_tags %>
   </head>
   <body>
-    <%= yield %>
+    <div class="wrapper">
+      <div class="alert"><%= alert %></div>
+      <div class="notice"><%= notice %></div>
+      <%= yield %>
+    </div>
   </body>
 </html>

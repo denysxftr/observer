@@ -32,7 +32,7 @@ class UsersController < ApplicationController
     @user = User[params[:id]]
     erb :'users/edit'
   end
- 
+
   post '/user/:id' do
     protect_admin!
     @user = User[params[:id]]
