@@ -5,6 +5,12 @@ class PingsController < ApplicationController
     erb :'pings/index'
   end
 
+  get '/pings/new' do
+    protect!
+    @ping = Ping.new
+    erb :'pings/new'
+  end
+
   post '/pings' do
     protect!
     @ping = Ping.new(
@@ -13,6 +19,7 @@ class PingsController < ApplicationController
       http_method: params[:http_method]
     )
     @ping.save
+
     if @ping.valid?
       redirect '/pings'
     else

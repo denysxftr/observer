@@ -10,7 +10,7 @@
 
 .alert {
   @include notification;
-  background-color: #E79293;
+  background-color: $fail-color;
 }
 
 .alert:empty {
@@ -19,7 +19,7 @@
 
 .notice {
   @include notification;
-  background-color: #9DBA7E;
+  background-color: $success-color;
 }
 
 .notice:empty {

@@ -1,0 +1,44 @@
+.ping-form {
+  border: 1px solid $border-color;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.pings-list-item {
+  border: 1px solid $border-color;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  &.success {
+    border-left: 5px solid $success-color;
+  }
+
+  &.fail {
+    border-left: 5px solid $fail-color;
+    background-color: lighten($fail-color, 20);
+  }
+
+  .ping-type {
+    color: $minor-text-color;
+    border: 1px solid $minor-border-color;
+    border-radius: 2px;
+    padding: 3px;
+    background-color: lighten($border-color, 30);
+    margin-right: 10px;
+  }
+
+  .ping-url {
+    text-decoration: none;
+    color: $minor-text-color;
+
+    &:hover {
+      color: lighten($minor-text-color, 20);
+    }
+  }
+
+  .ping-lag {
+    color: lighten($minor-text-color, 10);
+    float: right;
+  }
+}

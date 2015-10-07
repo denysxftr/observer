@@ -8,11 +8,14 @@ var gulp            = require('gulp'),
     clean           = require('gulp-clean');
 
 var paths = {
-  js: ['frontend/js/*'],
+  js: [
+    'bower_components/jquery/dist/jquery.min.js',
+    'frontend/js/*'
+  ],
   css: [
-    'frontend/scss/main.scss',
     'bower_components/skeleton/css/normalize.css',
-    'bower_components/skeleton/css/skeleton.css'
+    'bower_components/skeleton/css/skeleton.css',
+    'frontend/scss/main.scss'
   ]
 };
 

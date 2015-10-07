@@ -1,7 +1,7 @@
 class WebController < ApplicationController
   get '/' do
     protect!
-    erb :welcome
+    redirect '/pings'
   end
 
   get '/settings' do

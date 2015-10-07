@@ -1,0 +1,15 @@
+<% @pings.each do |ping| %>
+  <div class="pings-list-item <%= ping.is_ok ? 'success' : 'fail' %>">
+    <span class="ping-type"><%= ping.is_ping ? 'PING' : 'HTTP' %></span>
+    <% unless ping.is_ping %>
+      <span class="ping-http-method"><%= ping.http_method %></span>
+    <% end %>
+    <a class="ping-url" href="/ping/<%= ping.id %>"><%= ping.url %></a>
+    <% if ping.is_ok %>
+      <span class="ping-lag"><%= ping.last_response_time %>ms</span>
+    <% end %>
+<!--     <form method="post" action="<%= "/ping/#{ping.id}/delete" %>">
+      <input type="submit" value="Delete">
+    </form> -->
+  </div>
+<% end %>

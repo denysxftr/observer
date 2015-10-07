@@ -1,14 +1,14 @@
 .wrapper {
   margin: 0 auto;
   width: 80%;
-  max-width: 960px;
+  max-width: 800px;
   height: 100%;
-  border-left: 1px solid #888;
-  border-right: 1px solid #888;
+  border-left: 1px solid $border-color;
+  border-right: 1px solid $border-color;
   padding: 20px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   .wrapper {
     width: 100%;
   }
