@@ -1,7 +1,15 @@
 <form method="post" action="<%= @ping.new? ? '/pings' : "/ping/#{@ping.id}" %>">
   <label>URL:</label>
   <input type="text" name="url" value="<%= @ping.url %>">
-  <input type="hidden" name="http_method" value="GET">
-  <input type="hidden" name="is_ping" value="1">
+  <label>Type:</label>
+  <select name="is_ping" class="js-ping-type-select">
+    <option value="0" <%= 'selected' unless @ping.is_ping %>>HTTP</option>
+    <option value="1" <%= 'selected' if @ping.is_ping %>>PING</option>
+  </select>
+  <div class='js-http-method-input'>
+    <label>HTTP method:</label>
+    <input type="text" name="http_method" value="<%= @ping.http_method || 'GET' %>">
+  </div>
+  <br>
   <input type="submit">
 </form>

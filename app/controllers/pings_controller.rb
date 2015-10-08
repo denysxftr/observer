@@ -27,6 +27,13 @@ class PingsController < ApplicationController
     end
   end
 
+  get '/ping/:id' do
+    protect!
+    @ping = Ping[params[:id]]
+
+    erb :'pings/show'
+  end
+
   post '/ping/:id' do
     protect!
     @ping = Ping[params[:id]]

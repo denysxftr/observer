@@ -1,0 +1,10 @@
+<div class="ping-show">
+  <div class="headline">
+    <span class="type"><%= @ping.is_ping ? 'PING' : "HTTP #{@ping.http_method}" %></span>
+    <span class="url"><%= @ping.url %></span>
+  </div>
+
+  <form method="post" action="<%= "/ping/#{@ping.id}/delete" %>">
+    <input type="submit" value="Delete">
+  </form> 
+</div>

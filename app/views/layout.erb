@@ -5,6 +5,15 @@
     <%= assets_tags %>
   </head>
   <body>
+    <header>
+      <a href="/"><h1>Observer</h1></a>
+      <% if current_user %>
+        <div class="user-panel">
+          <span><%= current_user.email %></span>
+          <a class="button" href="/sign_out">Sign out</a>
+        </div>
+      <% end %>
+    </header>
     <div class="wrapper">
       <div class="alert"><%= alert %></div>
       <div class="notice"><%= notice %></div>

@@ -1,3 +1,31 @@
+header {
+  width: 100%;
+  background-color: lighten($border-color, 40);
+  border-bottom: 1px solid $border-color;
+  padding: 10px;
+
+  a {
+    text-decoration: none;
+    color: $minor-text-color;
+
+    &:hover {
+      color: darken($minor-text-color, 20);
+    }
+
+
+    h1 {
+      display: inline;
+      font-size: 3rem;
+      margin: 0;
+    }
+  }
+
+  .user-panel {
+    float: right;
+    color: $minor-text-color;
+  }
+}
+
 .wrapper {
   margin: 0 auto;
   width: 80%;
