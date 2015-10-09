@@ -2,7 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     coderay (1.1.0)
+    http (0.6.1)
+      http_parser.rb (~> 0.6.0)
+    http_parser.rb (0.6.0)
     method_source (0.8.2)
+    net-ping (1.7.8)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -26,6 +30,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  http
+  net-ping
   pry
   sequel
   sinatra
