@@ -1,2 +1,2 @@
-DB = Sequel.connect('sqlite://test.db')
-DB.loggers << Logger.new($stdout)
+DB = Sequel.connect(APP_CONFIG['database_url'])
+# DB.loggers << Logger.new($stdout)

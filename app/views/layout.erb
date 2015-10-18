@@ -9,7 +9,10 @@
       <a href="/"><h1>Observer</h1></a>
       <% if current_user %>
         <div class="user-panel">
-          <span><%= current_user.email %></span>
+          <% if current_user.admin? %>
+            <a class="button" href="/users">Users</a>
+          <% end %>
+          <a href="/user/<%= current_user.id %>"><%= current_user.email %></a>
           <a class="button" href="/sign_out">Sign out</a>
         </div>
       <% end %>

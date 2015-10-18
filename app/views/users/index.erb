@@ -1,6 +1,7 @@
+<h2>Users</h2>
+<a class="button" href="/users/new">New one</a>
 <% @users.each do |user| %>
-  <p><a href="/user/<%= user.id %>"><%= user.email %></a></p>
-  <form method="post" action="<%= "/user/#{user.id}/delete" %>">
-    <input type="submit" value="Delete">
-  </form>
+  <div class="users-list-item">
+    <a href="/user/<%= user.id %>"><%= user.email %></a>
+  </div>
 <% end %>

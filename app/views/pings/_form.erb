@@ -8,7 +8,8 @@
   </select>
   <div class='js-http-method-input'>
     <label>HTTP method:</label>
-    <input type="text" name="http_method" value="<%= @ping.http_method || 'GET' %>">
+    <span>GET</span>
+    <input type="hidden" name="http_method" value="<%= @ping.http_method || 'GET' %>">
   </div>
   <br>
   <input type="submit">

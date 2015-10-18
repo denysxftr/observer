@@ -1,0 +1,3 @@
+database_url: postgres://rails:rails@localhost/observer
+mailgun_domain: blablabla.mailgun.org
+mailgun_key: key-blablabla

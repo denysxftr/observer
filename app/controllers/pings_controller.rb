@@ -1,7 +1,7 @@
 class PingsController < ApplicationController
   get '/pings' do
     protect!
-    @pings = Ping.all
+    @pings = Ping.order(:url)
     erb :'pings/index'
   end
 

@@ -7,6 +7,10 @@ class ApplicationController < Sinatra::Base
     @current_user ||= User[session[:id]]
   end
 
+  def current_user_resource?
+    current_user && (params[:id].to_i == current_user.id)
+  end
+
   def protect!
     redirect '/' if session[:id] && params[:splat] == 'sign_in'
     redirect '/sign_in' if !session[:id] && params[:splat] != ['sign_in']

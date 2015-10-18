@@ -1,8 +1,17 @@
+<h2><%= @user.new? ? 'New user' : 'Edit user' %></h2>
 <form method="post" action="<%= @user.new? ? '/users' : "/user/#{@user.id}" %>">
+  <label>Email:</label>
   <input type="text" name="email" value="<%= @user.email %>">
+  <label>Name:</label>
   <input type="text" name="name" value="<%= @user.name %>">
+  <label>Password:</label>
   <input type="password" name="password">
-  <input type="text" name="role"  value="<%= @user.role || 'user' %>">
-
+  <label>Role:</label>
+  <select name="role">
+    <% %w[user admin].each do |role| %>
+      <option value="<%= role %>" <%= 'selected' if @user.role == role %>><%= role %></option>
+    <% end %>
+  </select>
+  <br>
   <input type="submit">
 </form>

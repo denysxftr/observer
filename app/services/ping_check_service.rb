@@ -37,10 +37,25 @@ class PingCheckService
   end
 
   def send_failure_emails
-
+    send_emails(
+      "#{@ping.url} is down!",
+      "#{@ping.url} doesn't respond to requests!"
+    )
   end
 
   def send_successful_emails
+    send_emails(
+      "#{@ping.url} is up!",
+      "#{@ping.url} has just started to respond to requests!"
+    )
+  end
 
+  def send_emails(subject, text)
+    emails = User.select_map(:email)
+    Mailer.send_message(APP_CONFIG['mailgun_domain'],
+      from: 'bot@observer.railsreactor.com',
+      to: emails,
+      subject: subject,
+      text: text)
   end
 end

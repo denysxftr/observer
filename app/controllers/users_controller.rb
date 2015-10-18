@@ -28,13 +28,13 @@ class UsersController < ApplicationController
   end
 
   get '/user/:id' do
-    protect_admin!
+    current_user_resource? || protect_admin!
     @user = User[params[:id]]
     erb :'users/edit'
   end
 
   post '/user/:id' do
-    protect_admin!
+    current_user_resource? || protect_admin!
     @user = User[params[:id]]
     @user.update(
       email: params[:email],

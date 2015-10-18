@@ -2,3 +2,4 @@ node_modules
 bower_components
 test.db
 public/assets/*
+config.yml

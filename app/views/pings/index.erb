@@ -1,4 +1,6 @@
-<a class="button" href="/pings/new">New one</a>
+<% if current_user.admin? %>
+  <a class="button" href="/pings/new">New one</a>
+<% end %>
 
 <% @pings.each do |ping| %>
   <div class="pings-list-item <%= ping.is_ok ? 'success' : 'fail' %>">

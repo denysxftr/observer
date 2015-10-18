@@ -1,12 +1,16 @@
 require 'sinatra'
-require 'sqlite3'
+require 'pg'
 require 'sequel'
 require 'logger'
 require 'json'
 require 'digest/sha1'
 require 'net/ping'
 require 'http'
+require 'yaml'
+require 'mailgun'
 require 'pry'
+
+APP_CONFIG = YAML.load_file('config.yml')
 
 Thread.abort_on_exception = true
 
