@@ -10,11 +10,13 @@ var gulp            = require('gulp'),
 var paths = {
   js: [
     'bower_components/jquery/dist/jquery.min.js',
+    'bower_components/parsleyjs/dist/parsley.min.js',
     'frontend/js/*'
   ],
   css: [
     'bower_components/skeleton/css/normalize.css',
     'bower_components/skeleton/css/skeleton.css',
+    'bower_components/parsleyjs/src/parsley.css',
     'frontend/scss/main.scss'
   ]
 };

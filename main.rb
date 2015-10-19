@@ -15,7 +15,7 @@ APP_CONFIG = YAML.load_file('config.yml')
 Thread.abort_on_exception = true
 
 def load_path(path)
-  Dir[path].each { |f| require f }
+  Dir[path].sort.each { |f| require f }
 end
 
 load_path('./initializers/*.rb')

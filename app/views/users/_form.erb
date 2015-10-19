@@ -1,11 +1,11 @@
 <h2><%= @user.new? ? 'New user' : 'Edit user' %></h2>
-<form method="post" action="<%= @user.new? ? '/users' : "/user/#{@user.id}" %>">
+<form method="post" action="<%= @user.new? ? '/users' : "/user/#{@user.id}" %>" data-parsley-validate="true">
   <label>Email:</label>
-  <input type="text" name="email" value="<%= @user.email %>">
+  <input type="text" name="email" value="<%= @user.email %>" data-parsley-required="true" data-parsley-type="email">
   <label>Name:</label>
   <input type="text" name="name" value="<%= @user.name %>">
   <label>Password:</label>
-  <input type="password" name="password">
+  <input type="password" name="password" data-parsley-required="true" data-parsley-minlength="8">
   <label>Role:</label>
   <select name="role">
     <% %w[user admin].each do |role| %>

@@ -55,7 +55,7 @@ class ApplicationController < Sinatra::Base
 
     def read_manifest
       result = {}
-      manifest = JSON.parse(File.read(File.expand_path('public/assets/manifest.json')))
+      manifest = JSON.parse(File.read(File.join(settings.public_folder, 'assets/manifest.json')))
       result[:js] = manifest['application.js']
       result[:css] = manifest['application.css']
 

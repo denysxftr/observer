@@ -1,6 +1,6 @@
-<form method="post" action="<%= @ping.new? ? '/pings' : "/ping/#{@ping.id}" %>">
+<form method="post" action="<%= @ping.new? ? '/pings' : "/ping/#{@ping.id}" %>" data-parsley-validate>
   <label>URL:</label>
-  <input type="text" name="url" value="<%= @ping.url %>">
+  <input type="text" name="url" value="<%= @ping.url %>" data-parsley-required="true" data-parsley-type="url">
   <label>Type:</label>
   <select name="is_ping" class="js-ping-type-select">
     <option value="0" <%= 'selected' unless @ping.is_ping %>>HTTP</option>
