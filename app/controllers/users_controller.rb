@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     @user = User.new(
       email: params[:email],
       name: params[:name],
-      password_hash: Digest::SHA1.hexdigest(params[:password]),
+      password: params[:password],
       role: params[:role]
     )
     @user.save

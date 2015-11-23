@@ -3,7 +3,7 @@ class CheckerDaemonWorker
     Thread.new do
       loop do
         PingsCheckWorker.new.perform
-        sleep(30)
+        sleep(120)
       end
     end
   end

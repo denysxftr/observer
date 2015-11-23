@@ -12,20 +12,13 @@ class PingCheckService
   private
 
   def check_ping
-    start_time = Time.now
-    ping = Net::Ping::External.new(@ping.url)
-    result = ping.ping?
-    response_time = (Time.now - start_time) * 1000
-    @ping.update(last_response_time: response_time, is_ok: result)
+    3.times.any? { |_x| respond_to_ping? }
+    @ping.update(last_response_time: @response_time, is_ok: @result)
   end
 
   def check_http
-    start_time = Time.now
-    request = HTTP.get(@ping.url)
-    response_time = (Time.now - start_time) * 1000
-    @ping.update(last_response_time: response_time, is_ok: request.status < 400)
-  rescue Errno::ECONNREFUSED, SocketError
-    @ping.update(last_response_time: nil, is_ok: false)
+    3.times.any? { |_x| respond_to_http? }
+    @ping.update(last_response_time: @response_time, is_ok: @result)
   end
 
   def check_result
@@ -36,26 +29,34 @@ class PingCheckService
     end
   end
 
+  def respond_to_http?
+    start_time = Time.now
+    request = HTTP.get(@ping.url)
+    @response_time = (Time.now - start_time) * 1000
+    @result = request.status < 400
+    sleep(10) unless @result
+    @result
+  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, SocketError
+    @result = false
+    @response_time = nil
+    sleep(10)
+    @result
+  end
+
+  def respond_to_ping?
+    start_time = Time.now
+    ping = Net::Ping::External.new(@ping.url)
+    @result = ping.ping?
+    @response_time = (Time.now - start_time) * 1000
+    sleep(10) unless @result
+    @result
+  end
+
   def send_failure_emails
-    send_emails(
-      "#{@ping.url} is down!",
-      "#{@ping.url} doesn't respond to requests!"
-    )
+    MailerService.new.send_host_failed_email(@ping)
   end
 
   def send_successful_emails
-    send_emails(
-      "#{@ping.url} is up!",
-      "#{@ping.url} has just started to respond to requests!"
-    )
-  end
-
-  def send_emails(subject, text)
-    emails = User.select_map(:email)
-    Mailer.send_message(APP_CONFIG['mailgun_domain'],
-      from: 'bot@observer.railsreactor.com',
-      to: emails,
-      subject: subject,
-      text: text)
+    MailerService.new.send_host_success_email(@ping)
   end
 end

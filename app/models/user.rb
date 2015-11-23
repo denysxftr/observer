@@ -9,4 +9,8 @@ class User < Sequel::Model
       errors.add(attr, 'cannot be empty') if !send(attr) || send(attr).empty?
     end
   end
+
+  def password=(pass)
+    self.password_hash = Digest::SHA1.hexdigest(pass)
+  end
 end
