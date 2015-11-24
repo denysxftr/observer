@@ -1,6 +1,7 @@
 class PingsController < ApplicationController
   get '/pings' do
     protect!
+    @current_user = User.first
     @pings = Ping.order(:url)
     erb :'pings/index'
   end

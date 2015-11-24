@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'pg'
+require 'redis'
 require 'sequel'
 require 'logger'
 require 'json'
@@ -12,7 +13,7 @@ require 'pry'
 
 APP_CONFIG = YAML.load_file('config.yml')
 
-Thread.abort_on_exception = true
+# Thread.abort_on_exception = true
 
 def load_path(path)
   Dir[path].sort.each { |f| require f }

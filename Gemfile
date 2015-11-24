@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'puma'
 gem 'sinatra'
 gem 'sinatra-flash'
 gem 'sequel'
@@ -9,3 +9,4 @@ gem 'net-ping'
 gem 'http'
 gem 'pry'
 gem 'mailgun-ruby'
+gem 'redis'

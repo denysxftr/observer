@@ -2,6 +2,7 @@ class ApplicationController < Sinatra::Base
   set :views, File.expand_path('./../../views', __FILE__)
   set :public_folder, File.expand_path('public')
   enable :sessions
+  set :session_secret, "something"
 
   def current_user
     @current_user ||= User[session[:id]]

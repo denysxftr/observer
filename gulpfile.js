@@ -11,12 +11,16 @@ var paths = {
   js: [
     'bower_components/jquery/dist/jquery.min.js',
     'bower_components/parsleyjs/dist/parsley.min.js',
+    'bower_components/peity/jquery.peity.min.js',
+    'bower_components/d3/d3.min.js',
+    'bower_components/c3/c3.min.js',
     'frontend/js/*'
   ],
   css: [
     'bower_components/skeleton/css/normalize.css',
     'bower_components/skeleton/css/skeleton.css',
     'bower_components/parsleyjs/src/parsley.css',
+    'bower_components/c3/c3.min.css',
     'frontend/scss/main.scss'
   ]
 };
@@ -34,7 +38,7 @@ gulp.task('clean', function() {
 gulp.task('scripts', function() {
   return gulp.src(paths.js)
     .pipe(concat('application.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('public/assets'))
 });
 
@@ -44,7 +48,7 @@ gulp.task('styles', function() {
     .pipe(sass({errLogToConsole: true }))
     .pipe(autoprefixer())
     .pipe(concat('application.css'))
-    .pipe(minifycss())
+    // .pipe(minifycss())
     .pipe(gulp.dest('public/assets'))
 });
 
