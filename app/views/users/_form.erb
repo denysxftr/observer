@@ -5,13 +5,15 @@
   <label>Name:</label>
   <input type="text" name="name" value="<%= @user.name %>">
   <label>Password:</label>
-  <input type="password" name="password" data-parsley-required="true" data-parsley-minlength="8">
-  <label>Role:</label>
-  <select name="role">
-    <% %w[user admin].each do |role| %>
-      <option value="<%= role %>" <%= 'selected' if @user.role == role %>><%= role %></option>
-    <% end %>
-  </select>
+  <input type="password" name="password" <%= 'data-parsley-required="true"' if @user.new? %> data-parsley-minlength="8">
+  <% if current_user.admin? %>
+    <label>Role:</label>
+    <select name="role">
+      <% %w[user admin].each do |role| %>
+        <option value="<%= role %>" <%= 'selected' if @user.role == role %>><%= role %></option>
+      <% end %>
+    </select>
+  <% end %>
   <br>
   <input type="submit">
 </form>

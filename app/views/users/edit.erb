@@ -1,5 +1,5 @@
 <%= erb :'users/_form' %>
-<% if current_user.admin? %>
+<% if current_user.admin? && current_user != @user %>
   <form method="post" action="<%= "/user/#{@user.id}/delete" %>">
     <input type="submit" value="Delete">
   </form>

@@ -1,7 +1,6 @@
 class PingsController < ApplicationController
   get '/pings' do
     protect!
-    @current_user = User.first
     @pings = Ping.order(:url)
     erb :'pings/index'
   end
@@ -33,6 +32,13 @@ class PingsController < ApplicationController
     @ping = Ping[params[:id]]
 
     erb :'pings/show'
+  end
+
+  get '/ping/:id/edit' do
+    protect!
+    @ping = Ping[params[:id]]
+
+    erb :'pings/edit'
   end
 
   post '/ping/:id' do

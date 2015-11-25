@@ -13,12 +13,7 @@ class UsersController < ApplicationController
 
   post '/users' do
     protect_admin!
-    @user = User.new(
-      email: params[:email],
-      name: params[:name],
-      password: params[:password],
-      role: params[:role]
-    )
+    @user = User.new(user_params)
     @user.save
     if @user.valid?
       redirect '/users'
@@ -36,17 +31,10 @@ class UsersController < ApplicationController
   post '/user/:id' do
     current_user_resource? || protect_admin!
     @user = User[params[:id]]
-    @user.update(
-      email: params[:email],
-      name: params[:name],
-      role: params[:role]
-    )
-
-    if params[:password] && !params[:password].empty?
-      @user.update(password_hash: Digest::SHA1.hexdigest(params[:password]))
-    end
+    @user.update(user_params)
 
     if @user.valid?
+      session[:notice] = 'Profile updated'
       redirect '/users'
     else
       erb :'user/edit'
@@ -57,5 +45,16 @@ class UsersController < ApplicationController
     protect_admin!
     User[params[:id]].destroy
     redirect :'/users'
+  end
+
+  private
+
+  def user_params
+    accepted_params = %w[email name].tap do |attrs|
+      attrs << 'password' if @user.new? || params[:password] && !params[:password].empty?
+      attrs << 'role' if current_user.admin?
+    end
+
+    params.select { |k, v| accepted_params.include?(k) }
   end
 end
