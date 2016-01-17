@@ -1,2 +1,3 @@
 web: bundle exec puma -C puma.rb
-worker: WORKER=1 bundle exec ruby main.rb 
+sidekiq: bundle exec sidekiq -r ./main.rb
+scheduler: bundle exec ruby scheduler.rb

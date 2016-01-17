@@ -3,12 +3,12 @@
 <body>
   <div style="width: 90%; margin: 0 auto;">
     <div>
-      <p style="color: #8FB347; font-size: 20px;">URL <%= @ping.url %> started respond to <%= @ping.is_ping ? 'PING' : 'HTTP GET' %> requests</p>
+      <p style="color: #8FB347; font-size: 20px;">URL <%= @check.url %> started respond to HTTP GET requests</p>
       <p style="color: #8290A1; font-size: 16px;">at <%= Time.now.utc %></p>
     </div>
     <hr style="margin-bottom: 20px;">
     <div>
-      <a target="_blank" style="border: 1px solid #8290A1; border-radius: 2px; padding: 10px; font-size: 16px; color: #8FB347; margin: 30px;" href="http://<%= APP_CONFIG['host'] %>/ping/<%= @ping.id %>">Click here to see more info</a>
+      <a target="_blank" style="border: 1px solid #8290A1; border-radius: 2px; padding: 10px; font-size: 16px; color: #8FB347; margin: 30px;" href="http://<%= APP_CONFIG['host'] %>/check/<%= @check.id %>">Click here to see more info</a>
     </div>
     <hr style="margin-bottom: 20px; margin-top: 20px;">
     <div>

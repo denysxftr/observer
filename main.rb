@@ -9,6 +9,7 @@ require 'http'
 require 'yaml'
 require 'mailgun'
 require 'securerandom'
+require 'sidekiq/web'
 
 APP_CONFIG = YAML.load_file('config.yml')
 

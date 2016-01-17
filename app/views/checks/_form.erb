@@ -7,7 +7,9 @@
   <br>
   <input type="submit">
 </form>
-<!--
-<form method="post" action="<%= "/check/#{@check.id}/delete" %>">
-  <input type="submit" value="Delete">
-</form> -->
+
+<% if @check.persisted? %>
+  <form method="post" action="<%= "/check/#{@check.id}/delete" %>">
+    <input type="submit" value="Delete">
+  </form>
+<% end %>

@@ -1,20 +1,20 @@
 class MailerService
-  def send_host_failed_email(ping)
-    @ping = ping
-    send_emails("Observer: #{@ping.host} check failed!", 'host_down')
+  def send_host_failed_email(check)
+    @check = check
+    send_emails("Observer: #{@check.name} check failed!", 'host_down')
   end
 
-  def send_host_success_email(ping)
-    @ping = ping
-    send_emails("Observer: #{@ping.host} check succeed!", 'host_up')
+  def send_host_success_email(check)
+    @check = check
+    send_emails("Observer: #{@check.name} check succeed!", 'host_up')
   end
 
   def render(action)
-    ERB.new(File.read("#{ObserverApp.views}/mailer/#{action}.erb")).result(binding)
+    ERB.new(File.read("./app/views/mailer/#{action}.erb")).result(binding)
   end
 
   def send_emails(subject, action)
-    emails = User.select_map(:email)
+    emails = User.pluck(:email)
     Mailer.send_message(APP_CONFIG['mailgun_domain'],
       from: APP_CONFIG['email_from'],
       to: emails,

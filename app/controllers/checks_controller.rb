@@ -52,6 +52,7 @@ end
 
 post '/check/:id/delete' do
   protect!
-  Check.find(params[:id]).delete
-  redirect '/checks'
+  check = Check.find(params[:id])
+  check.delete
+  redirect "/project/#{check.project.id}"
 end

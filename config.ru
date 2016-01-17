@@ -1,3 +1,3 @@
 require './main'
 
-run ObserverApp.new
+run Rack::URLMap.new('/' => Sinatra::Application, '/sidekiq' => Sidekiq::Web)
