@@ -49,7 +49,7 @@ end
 
 def user_params
   accepted_params = %w[email name].tap do |attrs|
-    attrs << 'password' if @user.new? || params[:password] && !params[:password].empty?
+    attrs << 'password' if !@user.persisted? || params[:password] && !params[:password].empty?
     attrs << 'role' if current_user.admin?
   end
 

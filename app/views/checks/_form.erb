@@ -1,20 +1,13 @@
-<form method="post" action="<%= @ping.new? ? '/pings' : "/ping/#{@ping.id}" %>" data-parsley-validate>
+<form method="post" action="<%= @check.persisted? ? "/check/#{@check.id}" : "/project/#{params[:project_id]}/check/new" %>" data-parsley-validate>
+  <label>Name:</label>
+  <input type="text" name="name" value="<%= @check.name %>">
+  <br>
   <label>URL:</label>
-  <input type="text" name="url" value="<%= @ping.url %>" data-parsley-required="true" data-parsley-type="url">
-  <label>Type:</label>
-  <select name="is_ping" class="js-ping-type-select">
-    <option value="0" <%= 'selected' unless @ping.is_ping %>>HTTP</option>
-    <option value="1" <%= 'selected' if @ping.is_ping %>>PING</option>
-  </select>
-  <div class='js-http-method-input'>
-    <label>HTTP method:</label>
-    <span>GET</span>
-    <input type="hidden" name="http_method" value="<%= @ping.http_method || 'GET' %>">
-  </div>
+  <input type="text" name="url" value="<%= @check.url %>" data-parsley-required="true" data-parsley-type="url">
   <br>
   <input type="submit">
 </form>
-
-<form method="post" action="<%= "/ping/#{@ping.id}/delete" %>">
+<!--
+<form method="post" action="<%= "/check/#{@check.id}/delete" %>">
   <input type="submit" value="Delete">
-</form>
+</form> -->

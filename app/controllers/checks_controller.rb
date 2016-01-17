@@ -1,26 +1,21 @@
-get '/checks' do
-  protect!
-  @checks = Check.order(:url)
-  erb :'checks/index'
-end
 
-get '/checks/new' do
+get '/project/:project_id/check/new' do
   protect!
   @check = Check.new
   erb :'checks/new'
 end
 
-post '/checks' do
+post '/project/:project_id/check/new' do
   protect!
   @check = Check.new(
     url: params[:url],
-    is_ok: params[:is_ok],
-    name: params[:name]
+    name: params[:name],
+    project: Project.find(params[:project_id])
   )
   @check.save
 
   if @check.valid?
-    redirect '/checks'
+    redirect "/project/#{params[:project_id]}"
   else
     erb :'check/new'
   end
@@ -29,11 +24,7 @@ end
 get '/check/:id' do
   protect!
   @check = Check.find(params[:id])
-  if request.xhr?
-    json @check
-  else
-    erb :'checks/show'
-  end
+  erb :'checks/show'
 end
 
 get '/check/:id/edit' do
@@ -53,7 +44,7 @@ post '/check/:id' do
   )
 
   if @check.valid?
-    redirect '/checks'
+    redirect "/project/#{@check.project.id}"
   else
     erb :'check/edit'
   end

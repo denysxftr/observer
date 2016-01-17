@@ -7,7 +7,7 @@ class Check
   belongs_to :project
 
   field :name, type: String
-  field :is_ok, type: Boolean
+  field :is_ok, type: Boolean, default: true
   field :url, type: String
 
   def host
@@ -15,5 +15,4 @@ class Check
   rescue URI::InvalidURIError
     url
   end
-
 end

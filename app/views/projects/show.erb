@@ -12,5 +12,13 @@
   </div>
 <% end %>
 
+<div class="row">
+  <a class="right" href="/project/<%= @project.id %>/check/new">new</a>
+  <h4>HTTP Checks</h4>
+</div>
 
-<h4>Checks</h4>
+<% @project.checks.each do |check| %>
+  <div class="list-item <%= check.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/check/<%= check.id %>"><%= check.url %></a>
+  </div>
+<% end %>
