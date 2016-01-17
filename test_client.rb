@@ -1,16 +1,17 @@
 require 'http'
+require 'usagewatch_ext'
 
 token = ENV['TOKEN']
+server = ENV['SERVER']
 
 loop do
-  p 'SEND' + Time.now.to_i.to_s
+  params = {
+    cpu: Usagewatch.uw_cpuused,
+    ram: Usagewatch.uw_memused
+  }
   HTTP.post(
-    "http://localhost:3000/state/#{token}",
-    params: {
-      cpu: rand(50..90),
-      ram: rand(500..600),
-      ram_total: 1024
-    }
+    "http://#{server}/state/#{token}",
+    params: params
   )
-  sleep 10
+  sleep 60
 end
