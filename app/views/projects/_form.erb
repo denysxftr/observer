@@ -1,0 +1,7 @@
+<h2><%= @project.persisted? ? 'Edit project' : 'New project' %></h2>
+<form method="post" action="<%= @project.persisted? ? "/project/#{@project.id}" : '/project/new'  %>" data-parsley-validate="true">
+  <label>Name:</label>
+  <input type="text" name="name" value="<%= @project.name %>">
+  <br>
+  <input type="submit">
+</form>

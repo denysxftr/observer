@@ -1,0 +1,16 @@
+<a href="/project/<%= @project.id %>/edit" class="right">Edit</a>
+<h3><%= @project.name %></h3>
+
+<div class="row">
+  <a class="right" href="/project/<%= @project.id %>/server/new">new</a>
+  <h4>Servers</h4>
+</div>
+
+<% @project.servers.each do |server| %>
+  <div class="list-item <%= server.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/server/<%= server.id %>"><%= server.name %></a>
+  </div>
+<% end %>
+
+
+<h4>Checks</h4>

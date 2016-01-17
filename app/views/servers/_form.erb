@@ -1,0 +1,7 @@
+<h2><%= @server.persisted? ? 'Edit server' : 'New server' %></h2>
+<form method="post" action="<%= @server.persisted? ? "/server/#{@server.id}" : "/project/#{params[:project_id]}/server/new"  %>" data-parsley-validate="true">
+  <label>Name:</label>
+  <input type="text" name="name" value="<%= @server.name %>">
+  <br>
+  <input type="submit">
+</form>

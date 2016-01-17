@@ -3,3 +3,6 @@ bower_components
 test.db
 public/assets/*
 config.yml
+tmp/*
+mongoid.yml
+

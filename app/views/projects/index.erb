@@ -1,0 +1,10 @@
+<% if current_user.admin? %>
+<a class="button right" href="/project/new">New one</a>
+<% end %>
+<h3>Projects</h3>
+
+<% @projects.each do |project| %>
+  <div class="list-item <%= project.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/project/<%= project.id %>"><%= project.name %></a>
+  </div>
+<% end %>

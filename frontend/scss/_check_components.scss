@@ -16,4 +16,17 @@
       font-size: 2rem;
     }
   }
+
+  .c3-region {
+    fill: red;
+  }
+
+  .c3-tooltip-name-response.time .name {
+    display: none;
+  }
+}
+
+.ping-lag {
+  color: lighten($minor-text-color, 10);
+  float: right;
 }

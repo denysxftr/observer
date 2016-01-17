@@ -1,12 +1,17 @@
 source 'https://rubygems.org'
 gem 'puma'
+
 gem 'sinatra'
+gem 'sinatra-contrib'
 gem 'sinatra-flash'
-gem 'sequel'
+
 gem 'thor'
-gem 'pg'
-gem 'net-ping'
+
 gem 'http'
-gem 'pry'
 gem 'mailgun-ruby'
+gem 'sidekiq'
+
 gem 'redis'
+gem 'mongoid'
+
+gem 'pry'

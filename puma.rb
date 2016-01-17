@@ -1,3 +1,4 @@
+require 'yaml'
 APP_CONFIG = YAML.load_file('config.yml')
 
 threads 0,16

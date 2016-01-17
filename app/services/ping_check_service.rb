@@ -13,7 +13,7 @@ class PingCheckService
   private
 
   def save_data
-    REDIS.set("checklog:#{@ping.id}:#{Time.now.to_i}", @response_time, ex: 86400) if @response_time
+    REDIS.set("checklog:#{@ping.id}:#{Time.now.to_i}", @response_time || -1, ex: 86400)
   end
 
   def check_ping
@@ -41,7 +41,7 @@ class PingCheckService
     @result = request.status < 400
     sleep(10) unless @result
     @result
-  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, SocketError, IOError
+  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, SocketError, IOError, URI::InvalidURIError
     @result = false
     @response_time = nil
     sleep(10)

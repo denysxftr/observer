@@ -8,7 +8,9 @@
 </div>
 <script type="text/javascript">
 columns = [
-  ['time', <%= @ping.timeouts_log.keys.map { |x| "'#{x.strftime('%Y-%m-%d %H:%M:%S')}'" }.join(', ') %>],
+  ['time', "<%= @ping.timeouts_log.keys.join('", "') %>"],
   ['response time', <%= @ping.timeouts_log.values.join(',') %>]
 ];
+
+regions = <%= @ping.incidents_regions.to_json %>;
 </script>

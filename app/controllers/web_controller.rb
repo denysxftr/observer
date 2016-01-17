@@ -1,12 +1,10 @@
-class WebController < ApplicationController
-  get '/' do
-    protect!
-    redirect '/pings'
-  end
+get '/' do
+  protect!
+  redirect '/projects'
+end
 
-  get '/settings' do
-  end
+get '/settings' do
+end
 
-  post '/settings' do
-  end
+post '/settings' do
 end

@@ -1,16 +1,17 @@
-class User < Sequel::Model
-  def admin?
-    role == 'admin'
-  end
+class User
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-  def validate
-    super
-    %i(email name password_hash).each do |attr|
-      errors.add(attr, 'cannot be empty') if !send(attr) || send(attr).empty?
-    end
-  end
+  field :email, type: String
+  field :name, type: String
+  field :password_hash, type: String
+  field :role, type: String, default: 'user'
 
   def password=(pass)
     self.password_hash = Digest::SHA1.hexdigest(pass)
+  end
+
+  def admin?
+    role == 'admin'
   end
 end
