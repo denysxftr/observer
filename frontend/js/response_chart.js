@@ -1,12 +1,16 @@
 $(function(){
+  if($('#responses_chart').length == 0) {
+    return;
+  }
+
   chart = c3.generate({
-    bindto: '#chart',
+    bindto: '#responses_chart',
     data: {
       x: 'time',
       xFormat: '%Y-%m-%d %H:%M:%S',
-      columns: columns
+      columns: []
     },
-    regions: regions,
+    regions: [],
     point: {
       show: false
     },
@@ -29,7 +33,7 @@ $(function(){
     tooltip: {
       format: {
         value: function (value, ratio, id) {
-          return value == -1 ? 'no response' : value + 'ms';
+          return value == -1 ? 'no response or wrong one' : value + 'ms';
         }
       }
     },
@@ -38,16 +42,46 @@ $(function(){
     }
   });
 
-  setInterval(function(){
-    $.get('/ping/5', function(data) {
+  var extractFailRagions = function(data) {
+    var regions = [];
+    var positive = true;
+    var start = null;
+    _.forEach(data, function(value, key) {
+      if(value == -1 && positive) {
+        positive = false;
+        start = key;
+      }
+
+      if(value > -1 && !positive) {
+        positive = true
+        regions.push({ axis: 'x', start: start, end: key })
+      }
+
+      if(value > -1) {
+        positive = true;
+      }
+    })
+
+    if(!positive) {
+      regions.push({ axis: 'x', start: start, end:  _.last(_.keysIn(data)) })
+    }
+    return regions;
+  }
+
+  var retrieveData = function() {
+    $.get('/check/' + checkId + '/data', function(data) {
       chart.load({
         columns: [
-          ['response time'].concat(data.timeouts_log.values),
-          ['time'].concat(data.timeouts_log.keys)
+          ['response time'].concat(_.toArray(data.log)),
+          ['time'].concat(_.keysIn(data.log))
         ]
       });
       chart.regions.remove();
-      chart.regions.add(data.incidents_regions);
+      chart.regions.add(extractFailRagions(data.log));
     });
-  }, 60000);
+  }
+
+  var checkId = $('#responses_chart').data('id');
+  retrieveData();
+  setInterval(retrieveData, 10000);
 });

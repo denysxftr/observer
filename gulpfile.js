@@ -11,9 +11,9 @@ var paths = {
   js: [
     'bower_components/jquery/dist/jquery.min.js',
     'bower_components/parsleyjs/dist/parsley.min.js',
-    'bower_components/peity/jquery.peity.min.js',
     'bower_components/d3/d3.min.js',
     'bower_components/c3/c3.min.js',
+    'bower_components/lodash/dist/lodash.min.js',
     'frontend/js/*'
   ],
   css: [
