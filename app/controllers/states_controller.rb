@@ -3,7 +3,6 @@ post '/state/:token' do
   State.create(
     server: server,
     cpu_load: params[:cpu],
-    ram_usage: params[:ram],
-    ram_total: params[:ram_total]
+    ram_usage: params[:ram]
   )
 end
