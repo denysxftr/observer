@@ -24,7 +24,7 @@ private
 
     denominator = @states.map { |state| (state.created_at.to_i - x_mean) ** 2 }.sum
     k = numerator.to_f / denominator
-    return unless k <= 1
+    return if k <= 0.2
     @new_state = false
     @message = 'Strange CPU load change'
   end
