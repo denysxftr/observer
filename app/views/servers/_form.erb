@@ -5,3 +5,9 @@
   <br>
   <input type="submit">
 </form>
+
+<% if @server.persisted? %>
+  <form method="post" action="<%= "/servers/#{@server.id}/delete" %>">
+    <input type="submit" value="Delete">
+  </form>
+<% end %>

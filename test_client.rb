@@ -7,10 +7,10 @@ loop do
   HTTP.post(
     "http://localhost:3000/state/#{token}",
     params: {
-      cpu: rand(50..60),
+      cpu: rand(50..90),
       ram: rand(500..600),
       ram_total: 1024
     }
   )
-  sleep 60
+  sleep 10
 end

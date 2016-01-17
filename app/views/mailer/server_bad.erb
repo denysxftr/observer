@@ -1,0 +1,18 @@
+<head>
+</head>
+<body>
+  <div style="width: 90%; margin: 0 auto;">
+    <div>
+      <p style="color: #8F3130; font-size: 20px;">Server <%= @server.name %> <%= @message %></p>
+      <p style="color: #8290A1; font-size: 16px;">at <%= Time.now.utc %></p>
+    </div>
+    <hr style="margin-bottom: 20px;">
+    <div>
+      <a target="_blank" style="border: 1px solid #8290A1; border-radius: 2px; padding: 10px; font-size: 16px; color: #8F3130; margin: 30px;" href="http://<%= APP_CONFIG['host'] %>/server/<%= @server.id %>">Click here to see more info</a>
+    </div>
+    <hr style="margin-bottom: 20px; margin-top: 20px;">
+    <div>
+      <p style="color: #8290A1;">Sent by <a href="https://github.com/ololyay/observer">Observer</a></p>
+    </div>
+  </div>
+</body>

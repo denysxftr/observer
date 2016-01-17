@@ -31,6 +31,17 @@ get '/server/:id' do
   erb :'servers/show'
 end
 
+get '/server/:id/data' do
+  protect!
+  server = Server.find(params[:id])
+  data = {
+    time: server.states.pluck(:created_at).map { |x| x.strftime('%Y-%m-%d %H:%M:%S') },
+    cpu: server.states.pluck(:cpu_load)
+  }
+
+  json data
+end
+
 post '/server/:id' do
   protect!
   @server = Server.find(params[:id])
@@ -42,6 +53,7 @@ end
 
 post '/servers/:id/delete' do
   protect!
-  Server.find(params[:id]).delete
-  redirect '/servers'
+  server = Server.find(params[:id])
+  server.delete
+  redirect "/project/#{server.project.id}"
 end

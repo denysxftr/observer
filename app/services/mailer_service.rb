@@ -9,6 +9,12 @@ class MailerService
     send_emails("Observer: #{@check.name} check succeed!", 'host_up')
   end
 
+  def send_server_bad(server, message)
+    @server = server
+    @message = message
+    send_emails("Observer: #{@server.name} overload!", 'server_bad')
+  end
+
   def render(action)
     ERB.new(File.read("./app/views/mailer/#{action}.erb")).result(binding)
   end
