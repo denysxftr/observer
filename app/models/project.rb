@@ -7,4 +7,12 @@ class Project
 
   field :name, type: String
   field :is_ok, type: Boolean, default: true
+
+  def recalc_state
+    if servers.all? { |x| x.is_ok } && checks.all? { |x| x.is_ok }
+      update(is_ok: true)
+    else
+      update(is_ok: false)
+    end
+  end
 end

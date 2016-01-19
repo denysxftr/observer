@@ -26,7 +26,7 @@ private
     k = numerator.to_f / denominator
     return if k <= 0.2
     @new_state = false
-    @message = 'Strange CPU load change'
+    @message = 'strange CPU load change'
   end
 
   def check_load_current
@@ -39,6 +39,7 @@ private
 
   def save_data
     @server.update(is_ok: @new_state)
+    @server.project.recalc_state
   end
 
   def send_notifications

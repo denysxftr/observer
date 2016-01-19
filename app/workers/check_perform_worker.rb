@@ -12,7 +12,7 @@ class CheckPerformWorker
   private
 
   def save_data
-    @check.results << Result.new(is_ok: @result, timeout: @response_time, response: @response)
+    @check.results << Result.new(is_ok: @result, timeout: @response_time, response: @response, status: @status)
   end
 
   def check_http
@@ -26,6 +26,7 @@ class CheckPerformWorker
     elsif !@old_state && @check.is_ok
       send_successful_emails
     end
+    @check.project.recalc_state
   end
 
   def respond_to_http?
@@ -33,6 +34,7 @@ class CheckPerformWorker
     request = HTTP.get(@check.url)
     @response_time = (Time.now - start_time) * 1000
     @result = request.status < 400
+    @status = request.status
     @response = request.body
     sleep(10) unless @result
     @result

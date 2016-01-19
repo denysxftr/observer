@@ -6,6 +6,8 @@ class Server
 
   embeds_many :states
 
+  has_many :incidents
+
   field :name, type: String
   field :is_ok, type: Boolean, default: true
   field :token, type: String

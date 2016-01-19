@@ -10,7 +10,8 @@ post '/project/:project_id/check/new' do
   @check = Check.new(
     url: params[:url],
     name: params[:name],
-    project: Project.find(params[:project_id])
+    project: Project.find(params[:project_id]),
+    is_ok: true
   )
   @check.save
 
@@ -46,7 +47,7 @@ post '/check/:id' do
   @check = Check.find(params[:id])
   @check.update(
     url: params[:url],
-    is_ok: params[:is_ok],
+    is_ok: true,
     name: params[:name]
   )
 
