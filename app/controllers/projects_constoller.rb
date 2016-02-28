@@ -40,6 +40,7 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
+  p params
   @project.update(
     name: params[:name],
     user_ids: Array(params[:user_ids])

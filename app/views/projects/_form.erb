@@ -3,7 +3,7 @@
   <label>Name:</label>
   <input type="text" name="name" value="<%= @project.name %>">
   <label>Subscribed users</label>
-  <select multiple name="user_ids">
+  <select multiple="multiple" name="user_ids[]">
     <% User.all.each do |user| %>
       <option value="<%= user.id %>" <%= 'selected' if @project.users.include?(user) %>><%= user.email %></option>
     <% end %>
