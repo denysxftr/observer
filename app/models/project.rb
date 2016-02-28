@@ -5,8 +5,12 @@ class Project
   has_many :servers
   has_many :checks
 
+  has_and_belongs_to_many :users
+
   field :name, type: String
   field :is_ok, type: Boolean, default: true
+
+  validates :name, presence: true
 
   def recalc_state
     if servers.all? { |x| x.is_ok } && checks.all? { |x| x.is_ok }

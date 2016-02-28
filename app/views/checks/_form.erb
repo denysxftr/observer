@@ -1,4 +1,4 @@
-<form method="post" action="<%= @check.persisted? ? "/check/#{@check.id}" : "/project/#{params[:project_id]}/check/new" %>" data-parsley-validate>
+<form method="post" action="<%= @check.new_record? ? "/project/#{params[:project_id]}/check/new" : "/check/#{@check.id}" %>" data-parsley-validate>
   <label>Name:</label>
   <input type="text" name="name" value="<%= @check.name %>">
   <br>
@@ -8,7 +8,7 @@
   <input type="submit">
 </form>
 
-<% if @check.persisted? %>
+<% if !@check.new_record? %>
   <form method="post" action="<%= "/check/#{@check.id}/delete" %>">
     <input type="submit" value="Delete">
   </form>

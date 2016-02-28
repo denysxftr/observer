@@ -6,6 +6,5 @@ class Result
 
   field :is_ok, type: Boolean
   field :timeout, type: Integer
-  field :response, type: String, default: ''
   field :status, type: Integer
 end

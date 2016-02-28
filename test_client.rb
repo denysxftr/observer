@@ -2,7 +2,7 @@ require 'http'
 require 'usagewatch_ext'
 
 token = ENV['TOKEN']
-server = ENV['SERVER']
+server = '127.0.0.1:3000' 
 
 loop do
   params = {

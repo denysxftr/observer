@@ -12,7 +12,7 @@ class CheckPerformWorker
   private
 
   def save_data
-    @check.results << Result.new(is_ok: @result, timeout: @response_time, response: @response, status: @status)
+    @check.results << Result.new(is_ok: @result, timeout: @response_time, status: @status)
   end
 
   def check_http
@@ -35,7 +35,6 @@ class CheckPerformWorker
     @response_time = (Time.now - start_time) * 1000
     @result = request.status < 400
     @status = request.status
-    @response = request.body
     sleep(10) unless @result
     @result
   rescue Errno::ECONNREFUSED, Errno::ENETDOWN, SocketError, IOError, URI::InvalidURIError

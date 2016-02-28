@@ -1,17 +1,20 @@
 class MailerService
   def send_host_failed_email(check)
     @check = check
+    @emails = check.project.users.pluck(:email)
     send_emails("Observer: #{@check.name} check failed!", 'host_down')
   end
 
   def send_host_success_email(check)
     @check = check
+    @emails = check.project.users.pluck(:email)
     send_emails("Observer: #{@check.name} check succeed!", 'host_up')
   end
 
   def send_server_bad(server, message)
     @server = server
     @message = message
+    @emails = server.project.users.pluck(:email)
     send_emails("Observer: #{@server.name} overload!", 'server_bad')
   end
 
@@ -20,10 +23,9 @@ class MailerService
   end
 
   def send_emails(subject, action)
-    emails = User.pluck(:email)
     Mailer.send_message(APP_CONFIG['mailgun_domain'],
       from: APP_CONFIG['email_from'],
-      to: emails,
+      to: @emails,
       subject: subject,
       html: render(action))
   end

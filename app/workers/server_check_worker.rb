@@ -15,7 +15,7 @@ class ServerCheckWorker
 private
 
   def check_load_change
-    @states = @server.states.order(:created_at.desc).limit(5).reverse
+    @states = @server.states.order(:created_at.desc).limit(10).reverse
     return if @states.count <= 1
     x_mean = @states.map(&:created_at).map(&:to_i).sum / @states.count
     y_mean = @states.map(&:cpu_load).sum / @states.count
@@ -30,7 +30,7 @@ private
   end
 
   def check_load_current
-    @states = @server.states.order(:created_at.desc).limit(3)
+    @states = @server.states.order(:created_at.desc).limit(6)
     if @states.all? { |x| x.cpu_load > 90 }
       @new_state = false
       @message = 'CPU load is too high'

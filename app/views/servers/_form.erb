@@ -1,12 +1,12 @@
-<h2><%= @server.persisted? ? 'Edit server' : 'New server' %></h2>
-<form method="post" action="<%= @server.persisted? ? "/server/#{@server.id}" : "/project/#{params[:project_id]}/server/new"  %>" data-parsley-validate="true">
+<h2><%= @server.new_record? ? 'New server' : 'Edit server' %></h2>
+<form method="post" action="<%= @server.new_record? ? "/project/#{params[:project_id]}/server/new" : "/server/#{@server.id}" %>" data-parsley-validate="true">
   <label>Name:</label>
   <input type="text" name="name" value="<%= @server.name %>">
   <br>
   <input type="submit">
 </form>
 
-<% if @server.persisted? %>
+<% if !@server.new_record? %>
   <form method="post" action="<%= "/servers/#{@server.id}/delete" %>">
     <input type="submit" value="Delete">
   </form>

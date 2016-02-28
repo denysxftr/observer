@@ -14,6 +14,8 @@ class Server
 
   before_create :generate_token
 
+  validates :name, presence: true
+
 private
 
   def generate_token

@@ -1,7 +1,13 @@
-<h2><%= @project.persisted? ? 'Edit project' : 'New project' %></h2>
-<form method="post" action="<%= @project.persisted? ? "/project/#{@project.id}" : '/project/new'  %>" data-parsley-validate="true">
+<h2><%= @project.new_record? ? 'New project' : 'Edit project' %></h2>
+<form method="post" action="<%= @project.new_record? ? '/project/new' : "/project/#{@project.id}" %>" data-parsley-validate="true">
   <label>Name:</label>
   <input type="text" name="name" value="<%= @project.name %>">
+  <label>Subscribed users</label>
+  <select multiple name="user_ids">
+    <% User.all.each do |user| %>
+      <option value="<%= user.id %>" <%= 'selected' if @project.users.include?(user) %>><%= user.email %></option>
+    <% end %>
+  </select>
   <br>
   <input type="submit">
 </form>

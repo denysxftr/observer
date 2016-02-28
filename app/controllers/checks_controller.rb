@@ -31,7 +31,7 @@ end
 get '/check/:id/data' do
   protect!
   check = Check.find(params[:id])
-  log = check.results.map { |x| [x.created_at.strftime('%Y-%m-%d %H:%M:%S'), x.is_ok ? x.timeout : -1] }.to_h
+  log = check.results.map { |x| [x.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'), x.is_ok ? x.timeout : -1] }.to_h
   json({ log: log })
 end
 
