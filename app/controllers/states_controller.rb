@@ -3,6 +3,9 @@ post '/state/:token' do
   State.create(
     server: server,
     cpu_load: params[:cpu],
-    ram_usage: params[:ram]
+    ram_usage: params[:ram],
+    uptime: params[:uptime],
+    swap_usage: params[:swap],
+    disks: JSON.parse(params[:disks])
   )
 end

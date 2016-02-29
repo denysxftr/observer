@@ -4,6 +4,9 @@ class State
 
   belongs_to :server
 
-  field :cpu_load, type: Integer
-  field :ram_usage, type: Integer
+  field :cpu_load, type: Float
+  field :ram_usage, type: Float
+  field :swap_usage, type: Float
+  field :uptime, type: Integer
+  field :disks, type: Array
 end
