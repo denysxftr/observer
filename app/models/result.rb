@@ -2,7 +2,7 @@ class Result
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  embedded_in :check
+  belongs_to :check
 
   field :is_ok, type: Boolean
   field :timeout, type: Integer

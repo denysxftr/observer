@@ -12,7 +12,7 @@ class CheckPerformWorker
   private
 
   def save_data
-    @check.results << Result.new(is_ok: @result, timeout: @response_time, status: @status)
+    Result.create(is_ok: @result, timeout: @response_time, status: @status, check: @check)
   end
 
   def check_http

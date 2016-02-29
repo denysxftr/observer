@@ -1,4 +1,8 @@
 <a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
 <h3><%= @server.name %></h3>
 <p><%= @server.token %></p>
-<div id="server_chart" data-id="<%= @server.id %>"></div>
+<h3>CPU:</h3>
+<div id="server_chart_cpu" data-id="<%= @server.id %>"></div>
+<hr>
+<h3>RAM:</h3>
+<div id="server_chart_ram"></div>

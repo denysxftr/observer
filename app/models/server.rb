@@ -4,7 +4,7 @@ class Server
 
   belongs_to :project
 
-  embeds_many :states
+  has_many :states
 
   has_many :incidents
 

@@ -2,7 +2,7 @@ class Check
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  embeds_many :results
+  has_many :results
 
   belongs_to :project
 

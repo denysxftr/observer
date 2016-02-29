@@ -36,7 +36,8 @@ get '/server/:id/data' do
   server = Server.find(params[:id])
   data = {
     time: server.states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
-    cpu: server.states.pluck(:cpu_load)
+    cpu: server.states.pluck(:cpu_load),
+    ram: server.states.pluck(:ram_usage)
   }
 
   json data

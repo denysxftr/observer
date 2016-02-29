@@ -47,7 +47,7 @@ gulp.task('scripts', function() {
 gulp.task('styles', function() {
   return gulp.src(paths.css)
     .pipe(concat('main.scss'))
-    .pipe(sass({errLogToConsole: true }))
+    .pipe(sass({errLogToConsole: true, includePaths: ['./frontend/scss']}))
     .pipe(autoprefixer())
     .pipe(concat('application.css'))
     // .pipe(minifycss())

@@ -42,7 +42,7 @@ $(function(){
     }
   });
 
-  var extractFailRagions = function(data) {
+  var extractFailRegions = function(data) {
     var regions = [];
     var positive = true;
     var start = null;
@@ -77,7 +77,7 @@ $(function(){
         ]
       });
       chart.regions.remove();
-      chart.regions.add(extractFailRagions(data.log));
+      chart.regions.add(extractFailRegions(data.log));
     });
   }
 
