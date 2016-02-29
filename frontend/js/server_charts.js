@@ -42,7 +42,7 @@ $(function(){
         columns: [
           ['CPU'].concat(data.cpu),
           ['MEM'].concat(data.ram),
-          ['SWAP'].concat(data.ram),
+          ['SWAP'].concat(data.swap),
           ['time'].concat(data.time)
         ]
       });
