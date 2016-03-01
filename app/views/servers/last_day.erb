@@ -1,0 +1,6 @@
+<a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
+<h3><%= @server.name %>
+<small>(last 24h data)</small></h3>
+<a href="/server/<%= @server.id %>">Current state</a>
+
+<div id="server_chart" data-id="<%= @server.id %>"></div>

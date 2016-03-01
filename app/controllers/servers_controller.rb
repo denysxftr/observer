@@ -32,6 +32,12 @@ get '/server/:id' do
   erb :'servers/show'
 end
 
+get '/server/:id/last_day' do
+  protect!
+  @server = Server.find(params[:id])
+  erb :'servers/last_day'
+end
+
 get '/server/:id/data' do
   protect!
   server = Server.find(params[:id])

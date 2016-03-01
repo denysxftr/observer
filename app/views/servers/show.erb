@@ -1,5 +1,46 @@
 <a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
 <h3><%= @server.name %></h3>
 <p><%= @server.token %></p>
-<h3>Last 24h data</h3>
-<div id="server_chart" data-id="<%= @server.id %>"></div>
+<a href="/server/<%= @server.id %>/last_day">Last day chart</a>
+
+<% if @server.states.count > 0 %>
+  <div class="row">
+    <div class="six columns">
+      <p>
+        <strong>Uptime:</strong>
+        <%= @server.current_data[:uptime] %>
+      </p>
+      <div>
+        <% @server.current_data[:disks].each do |disk| %>
+          <strong>Partition: <%= disk[:path] %></strong>
+          <%= "#{disk[:free]}GB free from #{disk[:total]}GB total" %>
+          <div class="progress">
+            <div class="bar <%= disk[:usage] > 80 ? 'fail' : 'ok' %>" style="width: <%= disk[:usage] %>%">
+            <span class="value"><%= "#{disk[:usage]}%" %></span>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="six columns">
+      <strong>CPU:</strong>
+      <div class="progress">
+        <span class="value"><%= @server.current_data[:cpu] %>%</span>
+        <div class="bar <%= @server.current_data[:cpu] > 80 ? 'fail' : 'ok' %>" style="width: <%= @server.current_data[:cpu] %>%"></div>
+      </div>
+      <strong>RAM:</strong>
+      <div class="progress">
+        <span class="value"><%= @server.current_data[:ram] %>%</span>
+        <div class="bar <%= @server.current_data[:ram] > 80 ? 'fail' : 'ok' %>" style="width: <%= @server.current_data[:ram] %>%"></div>
+      </div>
+      <strong>SWAP:</strong>
+      <div class="progress">
+        <span class="value"><%= @server.current_data[:swap] %>%</span>
+        <div class="bar <%= @server.current_data[:swap] > 80 ? 'fail' : 'ok' %>" style="width: <%= @server.current_data[:swap] %>%"></div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <strong>No data collected yet</strong>
+<% end %>

@@ -1,0 +1,26 @@
+.progress {
+  height: 2.5rem;
+  width: 100%;
+  border: 1px solid $border-color;
+  position: relative;
+
+  .value {
+    position: absolute;
+    left: 45%;
+    color: #444;
+  }
+
+  .bar {
+    display: inline-block;
+    height: 100%;
+    background-color: $minor-text-color;
+
+    &.ok {
+      background-color: $success-color;
+    }
+
+    &.fail {
+      background-color: $fail-color;
+    }
+  }
+}
