@@ -4,7 +4,7 @@ class Check
 
   has_many :results
 
-  belongs_to :project
+  belongs_to :project, index: true
 
   field :name, type: String
   field :is_ok, type: Boolean, default: true

@@ -25,6 +25,8 @@ load_path('./app/controllers/*.rb')
 load_path('./app/services/*.rb')
 load_path('./app/workers/*.rb')
 
+::Mongoid::Tasks::Database.create_indexes
+
 set :views, File.expand_path('./../app/views', __FILE__)
 set :public_folder, File.expand_path('public')
 enable :sessions

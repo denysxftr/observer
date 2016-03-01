@@ -2,7 +2,7 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  has_and_belongs_to_many :projects
+  has_and_belongs_to_many :projects, index: true
 
   field :email, type: String
   field :name, type: String

@@ -2,7 +2,7 @@ class Server
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :project
+  belongs_to :project, index: true
 
   has_many :states
 
