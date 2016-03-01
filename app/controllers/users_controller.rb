@@ -17,6 +17,7 @@ post '/users' do
   if @user.valid?
     redirect '/users'
   else
+    session[:alert] = @user.errors.full_messages.join(' ')
     erb :'users/new'
   end
 end
@@ -36,6 +37,7 @@ post '/user/:id' do
     session[:notice] = 'Profile updated'
     redirect '/users'
   else
+    session[:alert] = @user.errors.full_messages.join(' ')
     erb :'users/edit'
   end
 end

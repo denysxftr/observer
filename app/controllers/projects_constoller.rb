@@ -21,7 +21,8 @@ post '/project/new' do
   if @project.valid?
     redirect '/projects'
   else
-    erb :'project/new'
+    session[:alert] = @project.errors.full_messages.join(' ')
+    erb :'projects/new'
   end
 end
 
@@ -40,7 +41,7 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
-  p params
+
   @project.update(
     name: params[:name],
     user_ids: Array(params[:user_ids])

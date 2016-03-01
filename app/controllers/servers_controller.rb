@@ -15,7 +15,8 @@ post '/project/:project_id/server/new' do
   if @server.valid?
     redirect "/project/#{params[:project_id]}"
   else
-    erb :'server/new'
+    session[:alert] = @server.errors.full_messages.join(' ')
+    erb :'servers/new'
   end
 end
 

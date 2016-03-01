@@ -18,7 +18,8 @@ post '/project/:project_id/check/new' do
   if @check.valid?
     redirect "/project/#{params[:project_id]}"
   else
-    erb :'check/new'
+    session[:alert] = @check.errors.full_messages.join(' ')
+    erb :'checks/new'
   end
 end
 
