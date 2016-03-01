@@ -31,7 +31,7 @@ class Server
 private
 
   def formatted_disks(disks)
-    disks = disks.select { |disk| !%w[/dev /sys].include?(disk['path']) }
+    disks = disks.select { |disk| !(disk['path'] =~ /^(\/sys|\/run|\/dev)/) }
     disks.map do |disk|
       {
         path: disk['path'],
