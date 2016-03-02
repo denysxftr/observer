@@ -1,11 +1,12 @@
 <a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
+<a href="/project/<%= @server.project.id %>">back</a>
 <h3><%= @server.name %></h3>
-<p><%= @server.token %></p>
-<a href="/server/<%= @server.id %>/last_day">Last day chart</a>
-
+<a class="button active" href="/server/<%= @server.id %>">Current state</a>
+<a class="button" href="/server/<%= @server.id %>/last_hour">Last 1h</a>
+<a class="button" href="/server/<%= @server.id %>/last_day">Last 24h</a>
 <% if @server.states.count > 0 %>
   <div class="row">
-    <div class="six columns">
+    <div class="six columns panel">
       <p>
         <strong>Uptime:</strong>
         <%= @server.current_data[:uptime] %>
@@ -23,7 +24,7 @@
       </div>
     </div>
 
-    <div class="six columns">
+    <div class="six columns panel">
       <strong>CPU:</strong>
       <div class="progress">
         <span class="value"><%= @server.current_data[:cpu] %>%</span>

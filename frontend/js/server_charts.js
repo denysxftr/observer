@@ -37,7 +37,7 @@ $(function(){
   });
 
   var retrieveData = function() {
-    $.get('/server/' + serverId + '/data', function(data) {
+    $.get('/server/' + serverId + '/data?time=' + time, function(data) {
       chart.load({
         columns: [
           ['CPU'].concat(data.cpu),
@@ -50,6 +50,7 @@ $(function(){
   }
 
   var serverId = $('#server_chart').data('id');
+  var time = $('#server_chart').data('time');
   retrieveData();
   setInterval(retrieveData, 10000);
 });

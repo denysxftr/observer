@@ -15,3 +15,15 @@
 .c3-region {
   fill: red;
 }
+
+.panel {
+  background-color: lighten($border-color, 40);
+  padding: 10px;
+  border-radius: 3px;
+  margin: 10px;
+}
+
+.button.active {
+  border: 2px solid #bbb;
+  background-color: lighten($border-color, 40);
+}

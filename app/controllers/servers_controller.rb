@@ -38,14 +38,21 @@ get '/server/:id/last_day' do
   erb :'servers/last_day'
 end
 
+get '/server/:id/last_hour' do
+  protect!
+  @server = Server.find(params[:id])
+  erb :'servers/last_hour'
+end
+
 get '/server/:id/data' do
   protect!
   server = Server.find(params[:id])
+  states = server.states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 3600))
   data = {
-    time: server.states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
-    cpu: server.states.pluck(:cpu_load).map(&:to_i),
-    ram: server.states.pluck(:ram_usage).map(&:to_i),
-    swap: server.states.pluck(:swap_usage).map(&:to_i)
+    time: states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
+    cpu: states.pluck(:cpu_load).map(&:to_i),
+    ram: states.pluck(:ram_usage).map(&:to_i),
+    swap: states.pluck(:swap_usage).map(&:to_i)
   }
 
   json data

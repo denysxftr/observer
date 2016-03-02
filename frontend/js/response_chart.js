@@ -8,7 +8,10 @@ $(function(){
     data: {
       x: 'time',
       xFormat: '%Y-%m-%d %H:%M:%S',
-      columns: []
+      columns: [],
+      types: {
+        'response time': 'area'
+      }
     },
     regions: [],
     point: {
