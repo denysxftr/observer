@@ -37,7 +37,7 @@ $(function(){
   });
 
   var retrieveData = function() {
-    $.get('/server/' + serverId + '/data?time=' + time, function(data) {
+    $.get(path, function(data) {
       chart.load({
         columns: [
           ['CPU'].concat(data.cpu),
@@ -51,6 +51,12 @@ $(function(){
 
   var serverId = $('#server_chart').data('id');
   var time = $('#server_chart').data('time');
+  var isMonth = !!$('#server_chart').data('month');
+  if (isMonth) {
+    var path = '/server/' + serverId + '/log_data?time=' + time
+  } else {
+    var path = '/server/' + serverId + '/data?time=' + time
+  }
   retrieveData();
   setInterval(retrieveData, 10000);
 });

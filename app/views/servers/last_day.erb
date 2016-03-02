@@ -5,6 +5,7 @@
 <a class="button" href="/server/<%= @server.id %>">Current state</a>
 <a class="button" href="/server/<%= @server.id %>/last_hour">Last 1h</a>
 <a class="button active" href="/server/<%= @server.id %>/last_day">Last 24h</a>
+<a class="button" href="/server/<%= @server.id %>/last_month">Last 30d</a>
 
 <div class="panel">
   <div id="server_chart" data-id="<%= @server.id %>" data-time="24"></div>

@@ -5,6 +5,7 @@ class Server
   belongs_to :project, index: true
 
   has_many :states
+  has_many :log_states
 
   has_many :incidents
 
@@ -48,7 +49,7 @@ private
     hours = (seconds % 86400) / 3600
     minutes = (seconds % 3600) / 60
     sec = seconds % 60
-    "#{days}d #{hours}:#{minutes}:#{sec}"
+    "#{days}d #{hours}h #{minutes}m #{sec}s"
   end
 
   def generate_token

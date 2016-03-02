@@ -7,6 +7,7 @@ loop do
   Server.pluck(:id).each do |id|
     ServerCheckWorker.perform_async(id.to_s)
   end
+  LogStatesCreator.perform_async
   ClearData.perform_async
   sleep 120
 end
