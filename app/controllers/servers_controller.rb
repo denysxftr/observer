@@ -53,7 +53,7 @@ end
 get '/server/:id/data' do
   protect!
   server = Server.find(params[:id])
-  states = server.states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 3600))
+  states = server.states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 3600)).order_by(created_at: 'asc')
   data = {
     time: states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
     cpu: states.pluck(:cpu_load).map(&:to_i),
@@ -67,7 +67,7 @@ end
 get '/server/:id/log_data' do
   protect!
   server = Server.find(params[:id])
-  states = server.log_states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 86400))
+  states = server.log_states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 86400)).order_by(created_at: 'asc')
   data = {
     time: states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
     cpu: states.pluck(:cpu_load).map(&:to_i),

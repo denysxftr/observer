@@ -8,7 +8,8 @@ $(function(){
     data: {
       x: 'time',
       xFormat: '%Y-%m-%d %H:%M:%S',
-      columns: []
+      columns: [],
+      type: 'area'
     },
     regions: [],
     point: {
@@ -19,7 +20,7 @@ $(function(){
         type: 'timeseries',
         tick: {
           count: 10,
-          format: '%H:%M:%S'
+          format: '%H:%M:%S %d/%m'
         }
       },
       y: {

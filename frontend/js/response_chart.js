@@ -49,6 +49,7 @@ $(function(){
     var regions = [];
     var positive = true;
     var start = null;
+
     _.forEach(data, function(value, key) {
       if(value == -1 && positive) {
         positive = false;
@@ -68,6 +69,7 @@ $(function(){
     if(!positive) {
       regions.push({ axis: 'x', start: start, end:  _.last(_.keysIn(data)) })
     }
+
     return regions;
   }
 

@@ -6,6 +6,15 @@
 <a class="button" href="/server/<%= @server.id %>/last_day">Last 24h</a>
 <a class="button" href="/server/<%= @server.id %>/last_month">Last 30d</a>
 
+
+<% unless @server.is_ok %>
+  <div class="row">
+    <p class="alert">
+      <strong>Problems:</strong>
+      <%= @server.problems %>
+    </p>
+  </div>
+<% end %>
 <% if @server.states.count > 0 %>
   <div class="row">
     <div class="six columns panel">
@@ -45,5 +54,7 @@
     </div>
   </div>
 <% else %>
-  <strong>No data collected yet</strong>
+  <div class="row">
+    <strong>No available data</strong>
+  </div>
 <% end %>
