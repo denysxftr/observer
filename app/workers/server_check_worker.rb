@@ -63,6 +63,7 @@ private
     states = @server.log_states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago)
     ram_usages = states.pluck(:ram_usage)
     swap_usages = states.pluck(:swap_usage)
+    return if (ram_usages.max - ram_usages.min) < 10 || (swap_usages.max - swap_usages.min) < 10
     pattern = ram_usages.size.times.map { |x| x }
 
     if dtw(ram_usages, pattern) < 100 || dtw(swap_usages, pattern) < 100
