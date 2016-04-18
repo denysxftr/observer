@@ -7,6 +7,8 @@
 <a class="button" href="/server/<%= @server.id %>/last_day">Last 24h</a>
 <a class="button active" href="/server/<%= @server.id %>/last_month">Last 30d</a>
 
+<%= erb :'servers/_message' %>
+
 <div class="panel">
   <div id="server_chart" data-id="<%= @server.id %>" data-time="30" data-month='1'></div>
 </div>

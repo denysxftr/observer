@@ -1,0 +1,8 @@
+<% unless @server.is_ok %>
+  <div class="row">
+    <p class="alert">
+      <strong>Issues:</strong>
+      <%= @server.problems %>
+    </p>
+  </div>
+<% end %>
