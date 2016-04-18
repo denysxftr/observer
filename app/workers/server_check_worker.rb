@@ -69,6 +69,8 @@ private
       @new_state = false
       @messages << 'possible memory leak'
     end
+  rescue
+    nil
   end
 
   def dtw(input, pattern)
