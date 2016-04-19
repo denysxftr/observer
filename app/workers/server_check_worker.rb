@@ -27,7 +27,7 @@ private
 
   def check_is_good
     return unless @new_state.nil?
-    return if @states.any? { |x| x.cpu_load > 80 || x.ram_usage > 80 || x.swap_usage > 25 }
+    return if @states.any? { |x| x.cpu_load > 85 || x.ram_usage > 85 || x.swap_usage > 25 }
     @new_state = true
   end
 
@@ -53,13 +53,11 @@ private
   end
 
   def memory_leak_detection
-    states = @server.log_states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago)
-    ram_usages = states.pluck(:ram_usage)
-    swap_usages = states.pluck(:swap_usage)
-    return if (ram_usages.max - ram_usages.min) < 10 && (swap_usages.max - swap_usages.min) < 10
-    pattern = ram_usages.size.times.map { |x| x }
-
-    if dtw(ram_usages, pattern) < 50 || dtw(swap_usages, pattern) < 100
+    states = @server.states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago)
+    data = states.map { |x| x.ram_usage + x.swap_usage }
+    return if (data.max - data.min) < 10
+    pattern = data.size.times.map { |x| x }
+    if dtw(data, pattern) < 1000
       @new_state = false
       @messages << 'possible memory leak'
     end
