@@ -5,38 +5,33 @@ class ServerCheckWorker
     @server = Server.find(id)
     return if @server.states.count < 2
     @old_state = @server.is_ok
-    @ram_threshold = @old_state ? 85 : 80
-    @swap_threshold = @old_state ? 30 : 20
-    @new_state = true
+    @new_state = nil
     @messages = []
+    @states = @server.states.order(:created_at.desc).limit(6)
 
-    check_load_current_cpu
-    check_load_current_mem
-    check_load_current_swap
-    check_load_change_cpu
-    memory_leak_detection
+    check_is_bad
+    check_is_good
+
     save_data
     send_notifications
   end
 
 private
 
-  def check_load_change_cpu
-    @states = @server.states.order(:created_at.desc).limit(10).reverse
-    x_mean = @states.map(&:created_at).map(&:to_i).sum / @states.count
-    y_mean = @states.map(&:cpu_load).sum / @states.count
+  def check_is_bad
+    check_load_current_cpu
+    check_load_current_mem
+    check_load_current_swap
+    memory_leak_detection
+  end
 
-    numerator = @states.map { |state| (state.created_at.to_i - x_mean) * (state.cpu_load - y_mean) }.sum
-
-    denominator = @states.map { |state| (state.created_at.to_i - x_mean) ** 2 }.sum
-    k = numerator.to_f / denominator
-    return if k <= 0.2
-    @new_state = false
-    @messages << 'strange CPU load change'
+  def check_is_good
+    return unless @new_state.nil?
+    return if @states.any? { |x| x.cpu_load > 80 || x.ram_usage > 80 || x.swap_usage > 25 }
+    @new_state = true
   end
 
   def check_load_current_cpu
-    @states = @server.states.order(:created_at.desc).limit(6)
     if @states.all? { |x| x.cpu_load > 90 }
       @new_state = false
       @messages << 'CPU load is too high'
@@ -44,16 +39,14 @@ private
   end
 
   def check_load_current_mem
-    @states = @server.states.order(:created_at.desc).limit(6)
-    if @states.all? { |x| x.ram_usage > @ram_threshold }
+    if @states.all? { |x| x.ram_usage > 90 }
       @new_state = false
       @messages << 'RAM usage is too high'
     end
   end
 
   def check_load_current_swap
-    @states = @server.states.order(:created_at.desc).limit(6)
-    if @states.all? { |x| x.swap_usage > @swap_threshold }
+    if @states.all? { |x| x.swap_usage > 35 }
       @new_state = false
       @messages << 'SWAP usage is too high'
     end
@@ -66,7 +59,7 @@ private
     return if (ram_usages.max - ram_usages.min) < 10 && (swap_usages.max - swap_usages.min) < 10
     pattern = ram_usages.size.times.map { |x| x }
 
-    if dtw(ram_usages, pattern) < 100 || dtw(swap_usages, pattern) < 100
+    if dtw(ram_usages, pattern) < 50 || dtw(swap_usages, pattern) < 100
       @new_state = false
       @messages << 'possible memory leak'
     end
@@ -108,8 +101,8 @@ private
     distances.last.last
   end
 
-
   def save_data
+    return if @new_state.nil?
     @server.update(is_ok: @new_state, problems: @messages.join(' and '))
     @server.project.recalc_state
   end
