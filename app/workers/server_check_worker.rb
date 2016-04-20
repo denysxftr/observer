@@ -12,6 +12,8 @@ class ServerCheckWorker
     check_is_bad
     check_is_good
 
+    return if @new_state.nil?
+
     save_data
     send_notifications
   end
@@ -100,7 +102,6 @@ private
   end
 
   def save_data
-    return if @new_state.nil?
     @server.update(is_ok: @new_state, problems: @messages.join(' and '))
     @server.project.recalc_state
   end
