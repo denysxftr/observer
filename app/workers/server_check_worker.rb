@@ -55,8 +55,8 @@ private
   end
 
   def memory_leak_detection
-    states = @server.states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago)
-    data = states.map { |x| x.ram_usage + x.swap_usage }
+    states = @server.states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago).pluck(:ram_usage, :swap_usage)
+    data = states.map { |x| x.sum }
     return if (data.max - data.min) < 10
     pattern = data.size.times.map { |x| x }
     if dtw(data, pattern) < 1000
