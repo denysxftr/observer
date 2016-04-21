@@ -31,7 +31,9 @@ class CheckPerformWorker
 
   def respond_to_http?
     start_time = Time.now
-    request = HTTP.get(@check.url)
+    request = HTTP
+      .timeout(write: 5, connect: 5, read: 10)
+      .get(@check.url)
     @response_time = (Time.now - start_time) * 1000
     @result = request.status < 400
     @status = request.status
