@@ -39,7 +39,7 @@ class CheckPerformWorker
     @status = request.status
     sleep(10) unless @result
     @result
-  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError
+  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError
     @result = false
     @response_time = nil
     sleep(10)
