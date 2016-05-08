@@ -20,7 +20,7 @@ class Server
   field :is_ok, type: Boolean, default: true
 
   field :token, type: String
-  field :issues, type: Array
+  field :issues, type: Array, default: []
 
   before_create :generate_token
 

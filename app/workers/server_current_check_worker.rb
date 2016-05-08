@@ -5,7 +5,7 @@ class ServerCurrentCheckWorker
     @server = Server.find(id)
     return if @server.states.count < 2
     @issues = []
-    @states = @server.states.order(:created_at.desc).limit(10)
+    @states = @server.states.order(:created_at.desc).limit(6)
 
     check_load_current_cpu
     check_load_current_mem
