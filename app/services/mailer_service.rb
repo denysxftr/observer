@@ -11,9 +11,9 @@ class MailerService
     send_emails("Observer: #{@check.name} check succeed!", 'host_up')
   end
 
-  def send_server_bad(server, message)
+  def send_server_bad(server)
     @server = server
-    @message = message
+    @message = server.problems
     @emails = server.project.users.pluck(:email)
     send_emails("Observer: #{@server.name} overload!", 'server_bad')
   end

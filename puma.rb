@@ -1,5 +1,5 @@
 require 'yaml'
-APP_CONFIG = YAML.load_file('config.yml')
+APP_CONFIG = YAML.load_file('config/config.yml')
 
 threads 0,16
 workers 1

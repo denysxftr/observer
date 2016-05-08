@@ -6,6 +6,12 @@
       <p style="color: #8F3130; font-size: 20px;">Server <%= @server.name %> <%= @message %></p>
       <p style="color: #8290A1; font-size: 16px;">at <%= Time.now.utc %></p>
     </div>
+    <p style="color: #555; font-size: 16px;">
+      Current state:<br>
+      CPU: <%= @server.current_data[:cpu] %>%<br>
+      RAM: <%= @server.current_data[:ram] %>%<br>
+      SWAP: <%= @server.current_data[:swap] %>%
+    </p>
     <hr style="margin-bottom: 20px;">
     <div>
       <a target="_blank" style="border: 1px solid #8290A1; border-radius: 2px; padding: 10px; font-size: 16px; color: #8F3130; margin: 30px;" href="http://<%= APP_CONFIG['host'] %>/server/<%= @server.id %>">Click here to see more info</a>

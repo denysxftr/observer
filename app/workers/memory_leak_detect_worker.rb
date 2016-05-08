@@ -1,18 +1,12 @@
-class ServerCheckWorker
+class MemoryLeakDetectWorker
   include Sidekiq::Worker
 
   def perform(id)
     @server = Server.find(id)
-    return if @server.states.count < 2
-    @old_state = @server.is_ok
-    @new_state = nil
-    @messages = []
-    @states = @server.states.order(:created_at.desc).limit(6)
-
-    check_is_bad
-    check_is_good
-
-    return if @new_state.nil?
+    return if @server.states.count < 200
+    @detected_before = @server.issues.include?(:memory_leak)
+    @is_detected = false
+    memory_leak_detection
 
     save_data
     send_notifications
@@ -20,48 +14,13 @@ class ServerCheckWorker
 
 private
 
-  def check_is_bad
-    check_load_current_cpu
-    check_load_current_mem
-    check_load_current_swap
-    memory_leak_detection
-  end
-
-  def check_is_good
-    return unless @new_state.nil?
-    return if @states.any? { |x| x.cpu_load > 85 || x.ram_usage > 85 || x.swap_usage > 25 }
-    @new_state = true
-  end
-
-  def check_load_current_cpu
-    if @states.all? { |x| x.cpu_load > 90 }
-      @new_state = false
-      @messages << 'CPU load is too high'
-    end
-  end
-
-  def check_load_current_mem
-    if @states.all? { |x| x.ram_usage > 90 }
-      @new_state = false
-      @messages << 'RAM usage is too high'
-    end
-  end
-
-  def check_load_current_swap
-    if @states.all? { |x| x.swap_usage > 35 }
-      @new_state = false
-      @messages << 'SWAP usage is too high'
-    end
-  end
-
   def memory_leak_detection
     states = @server.states.order(:created_at.asc).where(:created_at.gt => 12.hours.ago).pluck(:ram_usage, :swap_usage)
     data = states.map { |x| x.sum }
     return if (data.max - data.min) < 10
     pattern = data.size.times.map { |x| x }
-    if dtw(data, pattern) < 1000
-      @new_state = false
-      @messages << 'possible memory leak'
+    if dtw(data, pattern) < 1000000000
+      @is_detected = true
     end
   rescue
     nil
@@ -102,14 +61,20 @@ private
   end
 
   def save_data
-    @server.update(is_ok: @new_state, problems: @messages.join(' and '))
+    if @is_detected
+      @server.issues << :memory_leak
+    else
+      @server.issues.delete(:memory_leak)
+    end
+    @server.issues.uniq!
+
+    @server.save
     @server.project.recalc_state
   end
 
   def send_notifications
-    message = @messages.join(' and ')
-    if @old_state && !@new_state
-      MailerService.new.send_server_bad(@server, message)
+    if !@detected_before && @is_detected
+      MailerService.new.send_server_bad(@server)
     end
   end
 end

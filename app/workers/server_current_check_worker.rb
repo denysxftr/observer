@@ -1,0 +1,51 @@
+class ServerCurrentCheckWorker
+  include Sidekiq::Worker
+
+  def perform(id)
+    @server = Server.find(id)
+    return if @server.states.count < 2
+    @issues = []
+    @states = @server.states.order(:created_at.desc).limit(10)
+
+    check_load_current_cpu
+    check_load_current_mem
+    check_load_current_swap
+
+    save_data
+    send_notifications
+  end
+
+private
+
+  def check_load_current_cpu
+    threshold = @server.issues.include?(:cpu_high) ? 80 : 90
+    if @states.all? { |x| x.cpu_load > threshold }
+      @issues << :cpu_high
+    end
+  end
+
+  def check_load_current_mem
+    threshold = @server.issues.include?(:ram_high) ? 85 : 90
+    if @states.all? { |x| x.ram_usage > threshold }
+      @issues << :ram_high
+    end
+  end
+
+  def check_load_current_swap
+    threshold = @server.issues.include?(:swap_usage) ? 30 : 35
+    if @states.all? { |x| x.swap_usage > threshold }
+      @issues << :swap_high
+    end
+  end
+
+  def save_data
+    @server.update(is_ok: @issues.empty?, issues: @server.issues | @issues)
+    @server.project.recalc_state
+  end
+
+  def send_notifications
+    if @issues.count >= @server.issues.count && @issues != @server.issues
+      MailerService.new.send_server_bad(@server)
+    end
+  end
+end

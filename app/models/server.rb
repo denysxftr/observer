@@ -2,6 +2,13 @@ class Server
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  PROBLEMS = {
+    cpu_high: 'CPU load is too high',
+    ram_high: 'RAM usage is too high',
+    swap_high: 'SWAP usage is too high',
+    memory_leak: 'possible memory leak'
+  }
+
   belongs_to :project, index: true
 
   has_many :states
@@ -11,12 +18,17 @@ class Server
 
   field :name, type: String
   field :is_ok, type: Boolean, default: true
+
   field :token, type: String
-  field :problems, type: String
+  field :issues, type: Array
 
   before_create :generate_token
 
   validates :name, presence: true
+
+  def problems
+    issues.map { |x| PROBLEMS[x] }.join(' and ')
+  end
 
   def current_data
     return @current_data if @current_data
