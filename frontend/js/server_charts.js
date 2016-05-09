@@ -5,11 +5,14 @@ $(function(){
 
   var chart = c3.generate({
     bindto: '#server_chart',
+    size: {
+      height: 400
+    },
     data: {
       x: 'time',
       xFormat: '%Y-%m-%d %H:%M:%S',
       columns: [],
-      type: 'area'
+      type: 'area-step'
     },
     regions: [],
     point: {
@@ -19,7 +22,7 @@ $(function(){
       x: {
         type: 'timeseries',
         tick: {
-          count: 10,
+          count: 20,
           format: '%H:%M:%S %d/%m'
         }
       },
@@ -33,11 +36,19 @@ $(function(){
       show: false
     },
     transition: {
-      duration: 1
+      duration: 0
     }
   });
 
   var retrieveData = function() {
+    $('.panel .loading').show()
+    var timezone = -(new Date()).getTimezoneOffset()/60
+    if (isMonth) {
+      var path = '/server/' + serverId + '/log_data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
+    } else {
+      var path = '/server/' + serverId + '/data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
+    }
+
     $.get(path, function(data) {
       chart.load({
         columns: [
@@ -47,17 +58,75 @@ $(function(){
           ['time'].concat(data.time)
         ]
       });
+      $('.panel .loading').hide()
     });
   }
 
   var serverId = $('#server_chart').data('id');
   var time = $('#server_chart').data('time');
   var isMonth = !!$('#server_chart').data('month');
+  var slider = document.getElementById('time_slider');
+  var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   if (isMonth) {
-    var path = '/server/' + serverId + '/log_data?time=' + time
+    fromTime = 7
+    toTime = 0
+    noUiSlider.create(slider,
+      {
+        start: [0, 7],
+        direction: 'rtl',
+        connect: true,
+        range: {
+          'min': 0,
+          'max': 30
+        },
+        step: 1,
+        pips: {
+          mode: 'steps',
+          format: {
+            to: function(v){
+              var d = new Date()
+              d.setDate(d.getDate() - v);
+              return [d.getDate(), monthNames[d.getMonth()]].join(' ');
+            }
+          },
+          filter: function(v) { return (v % 2); },
+          density: 3
+        }
+      });
   } else {
-    var path = '/server/' + serverId + '/data?time=' + time
+    fromTime = 6
+    toTime = 0
+    noUiSlider.create(slider,
+      {
+        start: [0, 6],
+        connect: true,
+        direction: 'rtl',
+        range: {
+          'min': 0,
+          'max': 24
+        },
+        step: 1,
+        pips: {
+          mode: 'steps',
+          format: {
+            to: function(v){
+              var d = new Date()
+              d.setHours(d.getHours() - v);
+              return [d.getHours(), d.getMinutes()].join(':');
+            }
+          },
+          filter: function(v) { return (v % 2) + 2; },
+          density: 1
+        }
+      });
   }
+  slider.noUiSlider.on('change', function(){
+    var values = document.getElementById('time_slider').noUiSlider.get()
+    window.fromTime = parseInt(values[1]);
+    window.toTime = parseInt(values[0]);
+
+    retrieveData();
+  });
+
   retrieveData();
-  setInterval(retrieveData, 10000);
 });

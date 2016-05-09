@@ -19,7 +19,7 @@ private
     data = states.map { |x| x.sum }
     return if (data.max - data.min) < 10
     pattern = data.size.times.map { |x| x }
-    if dtw(data, pattern) < 1000000000
+    if dtw(data, pattern) < 1000
       @is_detected = true
     end
   rescue

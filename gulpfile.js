@@ -13,6 +13,8 @@ var paths = {
     'bower_components/parsleyjs/dist/parsley.min.js',
     'bower_components/d3/d3.min.js',
     'bower_components/c3/c3.min.js',
+    'bower_components/nouislider/distribute/nouislider.min.js',
+    'bower_components/peity/jquery.peity.min.js',
     'bower_components/lodash/dist/lodash.min.js',
     'bower_components/chosen/chosen.jquery.js',
     'frontend/js/*'
@@ -21,6 +23,7 @@ var paths = {
     'bower_components/skeleton/css/normalize.css',
     'bower_components/skeleton/css/skeleton.css',
     'bower_components/chosen/chosen.css',
+    'bower_components/nouislider/distribute/nouislider.min.css',
     'bower_components/parsleyjs/src/parsley.css',
     'bower_components/c3/c3.min.css',
     'frontend/scss/main.scss'

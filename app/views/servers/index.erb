@@ -1,0 +1,21 @@
+<h3>Servers</h3>
+
+<% @servers.each do |server| %>
+  <div class="list-item <%= server.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/server/<%= server.id %>"><%= server.name %></a>
+    <div class="data">
+      <% unless server.issues.empty? %>
+      <span class="issues">issues: <%= server.problems %></span>
+      <% end %>
+      <div class="data-item">
+        <span class="sign">CPU:</span><span class="piety donut"><%= server.current_data[:cpu] %>/100</span>
+      </div>
+      <div class="data-item">
+        <span class="sign">RAM:</span><span class="piety donut"><%= server.current_data[:ram] %>/100</span>
+      </div>
+      <div class="data-item">
+        <span class="sign">SWAP:</span><span class="piety donut"><%= server.current_data[:ram] %>/100</span>
+      </div>
+    </div>
+  </div>
+<% end %>

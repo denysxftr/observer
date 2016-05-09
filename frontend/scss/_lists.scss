@@ -21,4 +21,27 @@
       color: lighten($minor-text-color, 20);
     }
   }
+
+
+  .data {
+    float: right;
+    color: $minor-text-color;
+
+    .issues {
+      color: darken($fail-color, 20);
+      float: left;
+      margin-right: 20px;
+    }
+    .data-item {
+      margin-right: 20px;
+      height: 30px;
+      font-size: 16px;
+      display: inline-block;
+
+      .sign {
+        height: 30px;
+        float: left;
+      }
+    }
+  }
 }

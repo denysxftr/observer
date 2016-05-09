@@ -21,6 +21,39 @@
   padding: 10px;
   border-radius: 3px;
   margin: 10px;
+  &.server {
+    padding-bottom: 50px;
+    position: relative;
+
+    .slider {
+      width: 90%;
+      margin: 0 auto;
+
+      .noUi-value.noUi-value-horizontal.noUi-value-large {
+        width: 50px;
+      }
+      .noUi-connect {
+        background: #ccc;
+      }
+    }
+
+    .loading {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 400px;
+      background-color: lighten($border-color, 40);
+      z-index: 100500;
+      text-align: center;
+      padding-top: 150px;
+
+      .icon {
+        color: #ccc;
+        font-size: 10rem;
+      }
+    }
+  }
 }
 
 .button.active {

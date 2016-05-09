@@ -20,10 +20,10 @@ post '/project/:project_id/server/new' do
   end
 end
 
-get '/server/:id/edit' do
+get '/servers' do
   protect!
-  @server = Server.find(params[:id])
-  erb :'servers/edit'
+  @servers = Server.all
+  erb :'servers/index'
 end
 
 get '/server/:id' do
@@ -32,17 +32,18 @@ get '/server/:id' do
   erb :'servers/show'
 end
 
+get '/server/:id/edit' do
+  protect!
+  @server = Server.find(params[:id])
+  erb :'servers/edit'
+end
+
 get '/server/:id/last_day' do
   protect!
   @server = Server.find(params[:id])
   erb :'servers/last_day'
 end
 
-get '/server/:id/last_hour' do
-  protect!
-  @server = Server.find(params[:id])
-  erb :'servers/last_hour'
-end
 
 get '/server/:id/last_month' do
   protect!
@@ -53,9 +54,12 @@ end
 get '/server/:id/data' do
   protect!
   server = Server.find(params[:id])
-  states = server.states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 3600)).order_by(created_at: 'asc')
+  states = server.states
+    .where(:created_at.gt => params[:from].to_i.hours.ago, :created_at.lt => params[:to].to_i.hours.ago)
+    .order_by(created_at: 'asc')
+
   data = {
-    time: states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
+    time: states.pluck(:created_at).map { |x| (x.utc + params[:timezone].to_i.hours).strftime('%Y-%m-%d %H:%M:%S') },
     cpu: states.pluck(:cpu_load).map(&:to_i),
     ram: states.pluck(:ram_usage).map(&:to_i),
     swap: states.pluck(:swap_usage).map(&:to_i)
@@ -67,9 +71,12 @@ end
 get '/server/:id/log_data' do
   protect!
   server = Server.find(params[:id])
-  states = server.log_states.where(:created_at.gt => Time.at(Time.now.utc.to_i - params[:time].to_i * 86400)).order_by(created_at: 'asc')
+  states = server.log_states
+    .where(:created_at.gt => params[:from].to_i.days.ago, :created_at.lt => params[:to].to_i.days.ago)
+    .order_by(created_at: 'asc')
+
   data = {
-    time: states.pluck(:created_at).map { |x| x.utc.strftime('%Y-%m-%d %H:%M:%S') },
+    time: states.pluck(:created_at).map { |x| (x.utc + params[:timezone].to_i.hours).strftime('%Y-%m-%d %H:%M:%S') },
     cpu: states.pluck(:cpu_load).map(&:to_i),
     ram: states.pluck(:ram_usage).map(&:to_i),
     swap: states.pluck(:swap_usage).map(&:to_i)

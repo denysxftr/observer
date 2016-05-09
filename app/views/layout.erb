@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Observer</title>
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
     <%= assets_tags %>
   </head>
   <body>
@@ -9,6 +9,8 @@
       <a href="/"><h1>Observer</h1></a>
       <% if current_user %>
         <div class="user-panel">
+          <a class="button" href="/">Projects</a>
+          <a class="button" href="/servers">Servers</a>
           <% if current_user.admin? %>
             <a class="button" href="/users">Users</a>
           <% end %>

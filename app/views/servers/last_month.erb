@@ -1,14 +1,13 @@
 <a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
-<a href="/project/<%= @server.project.id %>">back</a>
-<h3><%= @server.name %>
-<small>(last 30d data)</small></h3>
+<a href="/project/<%= @server.project.id %>">to project</a>
+<h3><%= @server.name %></h3>
 <a class="button" href="/server/<%= @server.id %>">Current state</a>
-<a class="button" href="/server/<%= @server.id %>/last_hour">Last 1h</a>
 <a class="button" href="/server/<%= @server.id %>/last_day">Last 24h</a>
 <a class="button active" href="/server/<%= @server.id %>/last_month">Last 30d</a>
 
 <%= erb :'servers/_message' %>
-
-<div class="panel">
+<div class="panel server">
+  <div class="loading"><span class="icon fa fa-refresh fa-spin"></span></div>
   <div id="server_chart" data-id="<%= @server.id %>" data-time="30" data-month='1'></div>
+  <div id="time_slider" class="slider"></div>
 </div>

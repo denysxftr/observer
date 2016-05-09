@@ -32,7 +32,7 @@ class Server
 
   def current_data
     return @current_data if @current_data
-    state = states.last
+    state = states.order(:created_at.asc).last
     @current_data ||= {
       uptime: formatted_uptime(state.uptime),
       cpu: state.cpu_load.round(1),
