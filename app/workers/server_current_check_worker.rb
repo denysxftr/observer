@@ -39,7 +39,8 @@ private
   end
 
   def save_data
-    @server.update(is_ok: @issues.empty?, issues: @server.issues | @issues)
+    @issues << :memory_leak if @server.issues.include?(:memory_leak)
+    @server.update(is_ok: @issues.empty?, issues: @issues)
     @server.project.recalc_state
   end
 
