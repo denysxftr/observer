@@ -5,6 +5,7 @@ class ServerCurrentCheckWorker
     @server = Server.find(id)
     return if @server.states.count < 2
     @issues = []
+    @old_issues = @server.issues
     @states = @server.states.order(:created_at.desc).limit(6)
 
     check_load_current_cpu
@@ -45,7 +46,7 @@ private
   end
 
   def send_notifications
-    if @issues.count >= @server.issues.count && @issues != @server.issues
+    if @issues.count >= @old_issues.count && @issues.sort != @old_issues.sort
       MailerService.new.send_server_bad(@server)
     end
   end
