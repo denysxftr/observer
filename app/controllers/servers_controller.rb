@@ -9,7 +9,7 @@ post '/server/new' do
   @server = Server.new(
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails]
+    emails: params[:emails] || []
   )
   @server.save
 
@@ -92,7 +92,7 @@ post '/server/:id' do
   @server.update(
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails]
+    emails: params[:emails] || []
   )
   redirect "/server/#{params[:id]}"
 end

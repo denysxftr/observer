@@ -10,7 +10,7 @@ post '/check/new' do
     url: params[:url],
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails],
+    emails: params[:emails] || [],
     is_ok: true
   )
   @check.save
@@ -56,7 +56,7 @@ post '/check/:id' do
     url: params[:url],
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails]
+    emails: params[:emails] || []
   )
 
   if @check.valid?
