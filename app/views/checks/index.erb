@@ -1,0 +1,8 @@
+<h3>HTTP checks</h3>
+
+<% @checks.each do |check| %>
+  <div class="list-item <%= check.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/check/<%= check.id %>"><%= check.project ? "[#{check.project.name}] #{check.name}" : check.name %></a>
+    <a href="<%= check.url %>"><%= check.url %></a>
+  </div>
+<% end %>

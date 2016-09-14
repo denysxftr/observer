@@ -14,8 +14,6 @@ class Server
   has_many :states
   has_many :log_states
 
-  has_many :incidents
-
   field :name, type: String
   field :is_ok, type: Boolean, default: true
 

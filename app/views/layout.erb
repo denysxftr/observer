@@ -9,8 +9,9 @@
       <a href="/"><h1>Observer</h1></a>
       <% if current_user %>
         <div class="user-panel">
-          <a class="button" href="/">Projects</a>
+          <a class="button" href="/checks">HTTP checks</a>
           <a class="button" href="/servers">Servers</a>
+          <a class="button" href="/">Projects</a>
           <% if current_user.admin? %>
             <a class="button" href="/users">Users</a>
           <% end %>

@@ -1,4 +1,3 @@
-
 get '/project/:project_id/check/new' do
   protect!
   @check = Check.new
@@ -21,6 +20,12 @@ post '/project/:project_id/check/new' do
     session[:alert] = @check.errors.full_messages.join(' ')
     erb :'checks/new'
   end
+end
+
+get '/checks' do
+  protect!
+  @checks = Check.all
+  erb :'checks/index'
 end
 
 get '/check/:id' do
