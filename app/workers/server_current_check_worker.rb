@@ -41,7 +41,7 @@ private
   def save_data
     @issues << :memory_leak if @server.issues.include?(:memory_leak)
     @server.update(is_ok: @issues.empty?, issues: @issues)
-    @server.project.recalc_state
+    @server.project&.recalc_state
   end
 
   def send_notifications

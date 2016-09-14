@@ -2,3 +2,5 @@ mailgun_domain: blablabla.mailgun.org
 mailgun_key: key-blablabla
 host: example.com
 email_from: 'bot@example.com'
+default_emails:
+  - 'email@example.com'

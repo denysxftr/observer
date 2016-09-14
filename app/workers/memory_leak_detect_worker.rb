@@ -69,7 +69,7 @@ private
     @server.issues.uniq!
 
     @server.save
-    @server.project.recalc_state
+    @server.project&.recalc_state
   end
 
   def send_notifications

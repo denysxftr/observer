@@ -26,7 +26,7 @@ class CheckPerformWorker
     elsif !@old_state && @check.is_ok
       send_successful_emails
     end
-    @check.project.recalc_state
+    @check.project&.recalc_state
   end
 
   def respond_to_http?
