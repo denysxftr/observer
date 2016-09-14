@@ -1,6 +1,8 @@
 <div class="check-show">
   <div class="headline">
-    <a href="/project/<%= @check.project.id %>">back</a>
+    <% if @check.project %>
+      <a href="/project/<%= @check.project.id %>">[<%= @check.project.name %>]</a>
+    <% end %>
     <h2><%= @check.name %></h2>
     <span class="url"><%= @check.url %></span>
     <a class="button right" href="/check/<%= @check.id %>/edit">Edit</a>

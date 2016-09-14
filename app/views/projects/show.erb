@@ -29,12 +29,13 @@
 <% end %>
 
 <div class="row">
-  <a class="right" href="/project/<%= @project.id %>/check/new">new</a>
+  <a class="right" href="/check/new">new</a>
   <h4>HTTP Checks</h4>
 </div>
 
-<% @project.checks.each do |check| %>
+<% @project.checks.each .each do |check| %>
   <div class="list-item <%= check.is_ok ? 'success' : 'fail' %>">
-    <a class="item-url" href="/check/<%= check.id %>"><%= check.url %></a>
+    <a class="item-url" href="/check/<%= check.id %>"><%= check.name %></a>
+    <a href="<%= check.url %>"><%= check.url %></a>
   </div>
 <% end %>

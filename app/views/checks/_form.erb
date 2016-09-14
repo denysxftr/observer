@@ -1,9 +1,17 @@
-<form method="post" action="<%= @check.new_record? ? "/project/#{params[:project_id]}/check/new" : "/check/#{@check.id}" %>" data-parsley-validate>
+<form method="post" action="<%= @check.new_record? ? "/check/new" : "/check/#{@check.id}" %>" data-parsley-validate>
   <label>Name:</label>
   <input type="text" name="name" value="<%= @check.name %>">
   <br>
   <label>URL:</label>
   <input type="text" name="url" value="<%= @check.url %>" data-parsley-required="true" data-parsley-type="url">
+  <br>
+  <label>Project:</label>
+  <select name="project_id">
+    <option selected value>none</option>
+    <% Project.all.each do |p| %>
+      <option value="<%= p.id %>"><%= p.name %></option>
+    <% end %>
+  </select>
   <br>
   <input type="submit">
 </form>

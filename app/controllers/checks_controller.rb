@@ -1,21 +1,21 @@
-get '/project/:project_id/check/new' do
+get '/check/new' do
   protect!
   @check = Check.new
   erb :'checks/new'
 end
 
-post '/project/:project_id/check/new' do
+post '/check/new' do
   protect!
   @check = Check.new(
     url: params[:url],
     name: params[:name],
-    project: Project.find(params[:project_id]),
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
     is_ok: true
   )
   @check.save
 
   if @check.valid?
-    redirect "/project/#{params[:project_id]}"
+    redirect "/check/#{@check.id}"
   else
     session[:alert] = @check.errors.full_messages.join(' ')
     erb :'checks/new'
@@ -24,7 +24,7 @@ end
 
 get '/checks' do
   protect!
-  @checks = Check.all
+  @checks = Check.all.order_by(is_ok: :asc, name: :asc)
   erb :'checks/index'
 end
 
