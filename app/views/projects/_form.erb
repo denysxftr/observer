@@ -2,12 +2,6 @@
 <form method="post" action="<%= @project.new_record? ? '/project/new' : "/project/#{@project.id}" %>" data-parsley-validate="true">
   <label>Name:</label>
   <input type="text" name="name" value="<%= @project.name %>">
-  <label>Subscribed users</label>
-  <select multiple="multiple" name="user_ids[]">
-    <% User.all.each do |user| %>
-      <option value="<%= user.id %>" <%= 'selected' if @project.users.include?(user) %>><%= user.email %></option>
-    <% end %>
-  </select>
   <br>
   <input type="submit">
 </form>

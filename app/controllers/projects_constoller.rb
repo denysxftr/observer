@@ -12,10 +12,7 @@ end
 
 post '/project/new' do
   protect!
-  @project = Project.new(
-  name: params[:name],
-  user_ids: Array(params[:user_ids])
-  )
+  @project = Project.new(name: params[:name])
   @project.save
 
   if @project.valid?
@@ -41,11 +38,8 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
+  @project.update(name: params[:name])
 
-  @project.update(
-    name: params[:name],
-    user_ids: Array(params[:user_ids])
-  )
   redirect "/project/#{params[:id]}"
 end
 

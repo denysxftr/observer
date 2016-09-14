@@ -1,19 +1,20 @@
-get '/project/:project_id/server/new' do
+get '/server/new' do
   protect!
   @server = Server.new
   erb :'servers/new'
 end
 
-post '/project/:project_id/server/new' do
+post '/server/new' do
   protect!
   @server = Server.new(
     name: params[:name],
-    project: Project.find(params[:project_id])
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails]
   )
   @server.save
 
   if @server.valid?
-    redirect "/project/#{params[:project_id]}"
+    redirect "/server/#{@server.id}"
   else
     session[:alert] = @server.errors.full_messages.join(' ')
     erb :'servers/new'
@@ -89,7 +90,9 @@ post '/server/:id' do
   protect!
   @server = Server.find(params[:id])
   @server.update(
-    name: params[:name]
+    name: params[:name],
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails]
   )
   redirect "/server/#{params[:id]}"
 end
@@ -98,5 +101,6 @@ post '/servers/:id/delete' do
   protect!
   server = Server.find(params[:id])
   server.delete
-  redirect "/project/#{server.project.id}"
+  session[:success] = 'Server deleted'
+  redirect "/"
 end

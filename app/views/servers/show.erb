@@ -1,5 +1,7 @@
 <a href="/server/<%= @server.id %>/edit" class="right">Edit</a>
-<a href="/project/<%= @server.project.id %>">to project</a>
+<% if @server.project %>
+  <a href="/project/<%= @server.project.id %>">[<%= @server.project.name %>]</a>
+<% end %>
 <h3><%= @server.name %></h3>
 <a class="button active" href="/server/<%= @server.id %>">Current state</a>
 <a class="button" href="/server/<%= @server.id %>/last_day">Last 24h</a>

@@ -1,6 +1,6 @@
 <form method="post" action="<%= @check.new_record? ? "/check/new" : "/check/#{@check.id}" %>" data-parsley-validate>
   <label>Name:</label>
-  <input type="text" name="name" value="<%= @check.name %>">
+  <input type="text" name="name" value="<%= @check.name %>" data-parsley-required="true">
   <br>
   <label>URL:</label>
   <input type="text" name="url" value="<%= @check.url %>" data-parsley-required="true" data-parsley-type="url">
@@ -9,7 +9,18 @@
   <select name="project_id">
     <option selected value>none</option>
     <% Project.all.each do |p| %>
-      <option value="<%= p.id %>"><%= p.name %></option>
+      <option value="<%= p.id %>" <%= 'selected' if p.id == @check.project_id %>><%= p.name %></option>
+    <% end %>
+
+  </select>
+  <br>
+  <label>Emails:</label>
+  <select name="emails[]" class="js-select-tags" multiple="true">
+    <% @check.emails.each do |email| %>
+      <option value="<%= email %>" selected><%= email %></option>
+    <% end %>
+    <% APP_CONFIG['default_emails'].each do |email| %>
+      <option value="<%= email %>"><%= email %></option>
     <% end %>
   </select>
   <br>

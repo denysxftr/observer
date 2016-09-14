@@ -20,6 +20,8 @@ class Server
   field :token, type: String
   field :issues, type: Array, default: []
 
+  field :emails, type: Array, default: []
+
   before_create :generate_token
 
   validates :name, presence: true
@@ -38,6 +40,14 @@ class Server
       swap: state.swap_usage.round(1),
       disks: formatted_disks(state.disks)
     }
+  end
+
+  def name_with_project
+    if project
+      "[#{project.name}] #{name}"
+    else
+      name
+    end
   end
 
 private

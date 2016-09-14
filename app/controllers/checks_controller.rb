@@ -10,6 +10,7 @@ post '/check/new' do
     url: params[:url],
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails],
     is_ok: true
   )
   @check.save
@@ -53,12 +54,13 @@ post '/check/:id' do
   @check = Check.find(params[:id])
   @check.update(
     url: params[:url],
-    is_ok: true,
-    name: params[:name]
+    name: params[:name],
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails]
   )
 
   if @check.valid?
-    redirect "/project/#{@check.project.id}"
+    redirect "/check/#{@check.id}"
   else
     erb :'check/edit'
   end
@@ -68,5 +70,6 @@ post '/check/:id/delete' do
   protect!
   check = Check.find(params[:id])
   check.delete
-  redirect "/project/#{check.project.id}"
+  session[:success] = 'HTTP check deleted'
+  redirect "/"
 end

@@ -17,14 +17,14 @@
   },
   "homepage": "https://github.com/ololyay/observer",
   "dependencies": {
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.0.2",
-    "gulp-clean": "^0.3.1",
-    "gulp-cli": "^0.3.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-minify-css": "^1.2.1",
-    "gulp-rev": "^6.0.1",
-    "gulp-sass": "^2.0.4",
-    "gulp-uglify": "^1.4.1"
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-clean": "*",
+    "gulp-cli": "*",
+    "gulp-concat": "*",
+    "gulp-minify-css": "*",
+    "gulp-rev": "*",
+    "gulp-sass": "*",
+    "gulp-uglify": "*"
   }
 }

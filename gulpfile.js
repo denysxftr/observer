@@ -16,16 +16,16 @@ var paths = {
     'bower_components/nouislider/distribute/nouislider.min.js',
     'bower_components/peity/jquery.peity.min.js',
     'bower_components/lodash/dist/lodash.min.js',
-    'bower_components/chosen/chosen.jquery.js',
+    'bower_components/select2/dist/js/select2.full.min.js',
     'frontend/js/*'
   ],
   css: [
     'bower_components/skeleton/css/normalize.css',
     'bower_components/skeleton/css/skeleton.css',
-    'bower_components/chosen/chosen.css',
     'bower_components/nouislider/distribute/nouislider.min.css',
     'bower_components/parsleyjs/src/parsley.css',
     'bower_components/c3/c3.min.css',
+    'bower_components/select2/dist/css/select2.min.css',
     'frontend/scss/main.scss'
   ]
 };

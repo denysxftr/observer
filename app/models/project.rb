@@ -5,8 +5,6 @@ class Project
   has_many :servers
   has_many :checks
 
-  has_and_belongs_to_many :users, index: true
-
   field :name, type: String
   field :is_ok, type: Boolean, default: true
 

@@ -1,7 +1,25 @@
 <h2><%= @server.new_record? ? 'New server' : 'Edit server' %></h2>
-<form method="post" action="<%= @server.new_record? ? "/project/#{params[:project_id]}/server/new" : "/server/#{@server.id}" %>" data-parsley-validate="true">
+<form method="post" action="<%= @server.new_record? ? "/server/new" : "/server/#{@server.id}" %>" data-parsley-validate="true">
   <label>Name:</label>
   <input type="text" name="name" value="<%= @server.name %>">
+  <br>
+  <label>Project:</label>
+  <select name="project_id">
+    <option selected value>none</option>
+    <% Project.all.each do |p| %>
+      <option value="<%= p.id %>" <%= 'selected' if p.id == @server.project_id %>><%= p.name %></option>
+    <% end %>
+  </select>
+  <br>
+  <label>Emails:</label>
+  <select name="emails[]" class="js-select-tags" multiple="true">
+    <% @server.emails.each do |email| %>
+      <option value="<%= email %>" selected><%= email %></option>
+    <% end %>
+    <% APP_CONFIG['default_emails'].each do |email| %>
+      <option value="<%= email %>"><%= email %></option>
+    <% end %>
+  </select>
   <br>
   <input type="submit">
 </form>
