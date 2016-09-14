@@ -25,7 +25,7 @@ end
 
 get '/checks' do
   protect!
-  @checks = Check.all.order_by(is_ok: :asc, name: :asc)
+  @checks = Check.all.sort_by(&:name_with_project)
   erb :'checks/index'
 end
 
