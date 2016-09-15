@@ -17,3 +17,12 @@ gem 'redis'
 gem 'mongoid'
 
 gem 'pry'
+
+
+group :test do
+  gem 'factory_girl'
+  gem 'rspec'
+  gem 'database_cleaner'
+  gem 'vcr'
+  gem 'webmock'
+end

@@ -1,13 +1,13 @@
 class MailerService
-  def send_host_failed_email(check)
-    @check = check
-    @emails = check.emails
+  def send_host_failed_email(result)
+    @check = result.check
+    @emails = @check.emails
     send_emails("Observer: #{@check.name_with_project} check failed!", 'host_down')
   end
 
-  def send_host_success_email(check)
-    @check = check
-    @emails = check.emails
+  def send_host_success_email(result)
+    @check = result.check
+    @emails = @check.emails
     send_emails("Observer: #{@check.name_with_project} check succeed!", 'host_up')
   end
 
