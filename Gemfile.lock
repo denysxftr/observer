@@ -18,10 +18,17 @@ GEM
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
+    database_cleaner (1.5.1)
+    diff-lcs (1.2.5)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
     foreman (0.78.0)
       thor (~> 0.19.1)
+    hashdiff (0.3.0)
     http (2.0.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -64,6 +71,20 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
+    safe_yaml (1.0.4)
     sidekiq (4.1.2)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
@@ -90,6 +111,11 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    vcr (3.0.3)
+    webmock (2.1.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     whenever (0.9.4)
       chronic (>= 0.6.3)
 
@@ -97,6 +123,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  database_cleaner
+  factory_girl
   foreman
   http
   mailgun-ruby
@@ -104,12 +132,15 @@ DEPENDENCIES
   pry
   puma
   redis
+  rspec
   sidekiq
   sinatra
   sinatra-contrib
   sinatra-flash
   thor
+  vcr
+  webmock
   whenever
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

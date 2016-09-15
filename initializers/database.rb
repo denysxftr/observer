@@ -1,1 +1,1 @@
-Mongoid.load!('mongoid.yml', :development)
+Mongoid.load!('mongoid.yml', ENV['RACK_ENV'] || :development)

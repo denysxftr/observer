@@ -8,4 +8,11 @@
     <a class="button right" href="/check/<%= @check.id %>/edit">Edit</a>
   </div>
   <div id="responses_chart" data-id=<%= @check.id %>></div>
+  <% unless @check.is_ok %>
+    <br>
+    <h4>Current issues:</h4>
+    <% @check.results.order(:created_at.desc).first.issues.values.each do |issue| %>
+      <p><%= issue %></p>
+    <% end %>
+  <% end %>
 </div>

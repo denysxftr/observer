@@ -11,7 +11,10 @@ post '/check/new' do
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
     emails: params[:emails] || [],
-    is_ok: true
+    is_ok: true,
+    expected_ip: params[:expected_ip],
+    expected_status: params[:expected_status],
+    retries: params[:retries]
   )
   @check.save
 
@@ -38,8 +41,10 @@ end
 get '/check/:id/data' do
   protect!
   check = Check.find(params[:id])
-  log = check.results.order(:created_at.asc).map { |x| [x.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'), x.is_ok ? x.timeout : -1] }.to_h
-  json({ log: log })
+  results = check.results.order(:created_at.asc)
+  log = prepare_logs(results, is_ok: true)
+  fails_log = prepare_logs(results, is_ok: false)
+  json({ log: log, fails_log: fails_log })
 end
 
 get '/check/:id/edit' do
@@ -56,7 +61,10 @@ post '/check/:id' do
     url: params[:url],
     name: params[:name],
     project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || []
+    emails: params[:emails] || [],
+    expected_ip: params[:expected_ip],
+    expected_status: params[:expected_status],
+    retries: params[:retries]
   )
 
   if @check.valid?
@@ -72,4 +80,13 @@ post '/check/:id/delete' do
   check.delete
   session[:success] = 'HTTP check deleted'
   redirect "/"
+end
+
+def prepare_logs(results, is_ok:)
+  results.map do |x|
+    [
+      x.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
+      (is_ok ? x.is_ok : !x.is_ok) ? x.timeout.to_i : 0
+    ]
+  end.to_h
 end

@@ -3,8 +3,12 @@
 <body>
   <div style="width: 90%; margin: 0 auto;">
     <div>
-      <p style="color: #8F3130; font-size: 20px;">URL <%= @check.url %> stopped respond to HTTP GET requests</p>
+      <p style="color: #8F3130; font-size: 20px;">URL <%= @check.url %> failed request test</p>
       <p style="color: #8290A1; font-size: 16px;">at <%= Time.now.utc %></p>
+      <p style="color: #31353D; font-size: 18px;">Issues:</p>
+      <% @result.issues.values.each do |issue| %>
+        <p style="color: #31353D; font-size: 16px; padding-left: 20px;"><%= issue %></p>
+      <% end %>
     </div>
     <hr style="margin-bottom: 20px;">
     <div>
