@@ -10,7 +10,6 @@
   <br>
   <label>Expected HTTP status:</label>
   <select name="expected_status">
-    <option selected value>none</option>
     <% STATUS_CODES.each do |s| %>
       <option value="<%= s %>" <%= 'selected' if s == @check.expected_status %>><%= s %></option>
     <% end %>

@@ -10,7 +10,7 @@ class Check
   field :is_ok, type: Boolean, default: true
   field :retries, type: Integer, default: 1
   field :expected_ip, type: String
-  field :expected_status, type: Integer
+  field :expected_status, type: Integer, default: 200
   field :url, type: String
 
   field :emails, type: Array, default: []
