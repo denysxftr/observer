@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] = 'test'
+
 require './main'
 
 require 'database_cleaner'

@@ -5,7 +5,13 @@ RSpec.describe CheckPerformWorker, :vcr do
         .to receive(:send_host_success_email).and_return(true)
     end
 
-    let(:check) { create :check, url: 'http://example.com', is_ok: false }
+    let(:check) do
+      create :check,
+        url: 'http://example.com',
+        is_ok: false,
+        expected_ip: '93.184.216.34',
+        expected_status: 200
+    end
 
     it 'successfully checks url' do
       described_class.new.perform(check.id)
