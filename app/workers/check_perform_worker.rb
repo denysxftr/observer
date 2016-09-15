@@ -4,7 +4,7 @@ class CheckPerformWorker
 
   def perform(id)
     @check = Check.find(id)
-    @result = Result.new
+    @result = Result.new(check: @check)
     perform_check
     save_data
     send_notifications

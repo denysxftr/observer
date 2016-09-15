@@ -5,12 +5,20 @@ $(function(){
 
   chart = c3.generate({
     bindto: '#responses_chart',
+    size: {
+      height: 200
+    },
     data: {
+      colors: {
+        'good response': '#41C24C',
+        'bad response': '#FD7466'
+      },
       x: 'time',
       xFormat: '%Y-%m-%d %H:%M:%S',
       columns: [],
       types: {
-        'response time': 'area'
+        'good response': 'area-step',
+        'bad response': 'area-step'
       }
     },
     regions: [],
@@ -33,56 +41,20 @@ $(function(){
     legend: {
       show: false
     },
-    tooltip: {
-      format: {
-        value: function (value, ratio, id) {
-          return value == -1 ? 'no response or wrong one' : value + 'ms';
-        }
-      }
-    },
     transition: {
       duration: 1
     }
   });
 
-  var extractFailRegions = function(data) {
-    var regions = [];
-    var positive = true;
-    var start = null;
-
-    _.forEach(data, function(value, key) {
-      if(value == -1 && positive) {
-        positive = false;
-        start = key;
-      }
-
-      if(value > -1 && !positive) {
-        positive = true
-        regions.push({ axis: 'x', start: start, end: key })
-      }
-
-      if(value > -1) {
-        positive = true;
-      }
-    })
-
-    if(!positive) {
-      regions.push({ axis: 'x', start: start, end:  _.last(_.keysIn(data)) })
-    }
-
-    return regions;
-  }
-
   var retrieveData = function() {
     $.get('/check/' + checkId + '/data', function(data) {
       chart.load({
         columns: [
-          ['response time'].concat(_.toArray(data.log)),
+          ['good response'].concat(_.toArray(data.log)),
+          ['bad response'].concat(_.toArray(data.fails_log)),
           ['time'].concat(_.keysIn(data.log))
         ]
       });
-      chart.regions.remove();
-      chart.regions.add(extractFailRegions(data.log));
     });
   }
 

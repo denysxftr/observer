@@ -5,6 +5,20 @@
   <label>URL:</label>
   <input type="text" name="url" value="<%= @check.url %>" data-parsley-required="true" data-parsley-type="url">
   <br>
+  <label>Expected IP in A records:</label>
+  <input type="text" name="expected_ip" value="<%= @check.expected_ip %>" placeholder="leave empty to skip this">
+  <br>
+  <label>Expected HTTP status:</label>
+  <select name="expected_status">
+    <option selected value>none</option>
+    <% STATUS_CODES.each do |s| %>
+      <option value="<%= s %>" <%= 'selected' if s == @check.expected_status %>><%= s %></option>
+    <% end %>
+  </select>
+  <br>
+  <label>Retries:</label>
+    <input type="text" name="retries" value="<%= @check.retries %>" data-parsley-required="true" placeholder="should be grater than 0">
+  <br>
   <label>Project:</label>
   <select name="project_id">
     <option selected value>none</option>
