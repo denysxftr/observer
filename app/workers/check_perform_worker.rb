@@ -39,7 +39,7 @@ class CheckPerformWorker
     @result.status = request.status
   rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError
   ensure
-    sleep(1) unless @result.status
+    sleep(SLEEP_TIME) unless @result.status
   end
 
   def ip_resolving_check
