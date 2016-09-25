@@ -32,9 +32,7 @@ class CheckPerformWorker
   def http_check
     @result.status = nil
     start_time = Time.now
-    request = HTTP
-      .timeout(write: 5, connect: 5, read: 10)
-      .get(@check.url)
+    request = HTTP.get(@check.url)
     @result.timeout = (Time.now - start_time) * 1000
     @result.status = request.status
   rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError => e
