@@ -37,7 +37,8 @@ class CheckPerformWorker
       .get(@check.url)
     @result.timeout = (Time.now - start_time) * 1000
     @result.status = request.status
-  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError
+  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError => e
+    Sidekiq.logger.warn(e.inspect)
     nil
   rescue OpenSSL::SSL::SSLError
     @ssl_error = true
