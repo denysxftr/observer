@@ -65,5 +65,19 @@ RSpec.describe CheckPerformWorker, :vcr do
         expect(result.issues).to eq({ 'ip' => "'A' records error. Expected to have '127.0.0.1' got '93.184.216.34'." })
       end
     end
+
+    context 'when issues with SSL' do
+      let(:check) { create :check, url: 'https://example.com', is_ok: true }
+
+      it 'unsuccessfully checks url' do
+        expect_any_instance_of(HTTP::Client).to receive(:get).with('https://example.com').and_raise(OpenSSL::SSL::SSLError)
+        described_class.new.perform(check.id)
+        expect(check.reload.is_ok).to eq false
+        expect(Result.count).to eq 1
+        result = Result.first
+        expect(result.is_ok).to eq false
+        expect(result.issues).to eq({ 'ssl' => 'SSL error.' })
+      end
+    end
   end
 end

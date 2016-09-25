@@ -8,7 +8,7 @@ class Check
 
   field :name, type: String
   field :is_ok, type: Boolean, default: true
-  field :retries, type: Integer, default: 1
+  field :retries, type: Integer, default: 3
   field :expected_ip, type: String
   field :expected_status, type: Integer, default: 200
   field :url, type: String

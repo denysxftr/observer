@@ -1,6 +1,6 @@
 class CheckPerformWorker
   include Sidekiq::Worker
-  SLEEP_TIME = ENV['RACK_ENV'] == 'production' ? 10 : 0
+  SLEEP_TIME = ENV['RACK_ENV'] == 'production' ? 10 : 1
 
   def perform(id)
     @check = Check.find(id)
@@ -14,7 +14,7 @@ class CheckPerformWorker
 
   def perform_check
     @check.retries.times.any? { http_check }
-    ip_resolving_check
+    @check.retries.times.any? { ip_resolving_check }
     results_check
   end
 
@@ -38,25 +38,33 @@ class CheckPerformWorker
     @result.timeout = (Time.now - start_time) * 1000
     @result.status = request.status
   rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError
+    nil
+  rescue OpenSSL::SSL::SSLError
+    @ssl_error = true
   ensure
     sleep(SLEEP_TIME) unless @result.status
   end
 
   def ip_resolving_check
     @result.ip = `dig @8.8.8.8 #{@check.host} A +short`.strip
+    sleep(SLEEP_TIME) if @result.ip.empty?
+    !@result.ip.empty?
   end
 
   def results_check
+    if @ssl_error
+      @result.issues[:ssl] = "SSL error."
+      return
+    end
+
     unless @result.status
       @result.issues[:network] = "Host is down."
       return
     end
 
-
     if !@check.expected_ip.blank? && @result.ip != @check.expected_ip
       @result.issues[:ip] = "'A' records error. Expected to have '#{@check.expected_ip}' got '#{@result.ip}'."
     end
-
 
     if !@check.expected_status.blank? && @result.status != @check.expected_status
       @result.issues[:status] = "Response status error. Expected #{@check.expected_status} got #{@result.status}."
