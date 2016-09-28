@@ -31,16 +31,18 @@ class CheckPerformWorker
 
   def http_check
     @result.status = nil
+    conn = Faraday.new(@check.url)
     start_time = Time.now
-    request = HTTP
-      .timeout(write: 5, connect: 5, read: 10)
-      .get(@check.url)
+    response = conn.get do |req|
+      req.options.timeout = 20
+    end
     @result.timeout = (Time.now - start_time) * 1000
-    @result.status = request.status
-  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError, HTTP::TimeoutError, HTTP::ConnectionError => e
+    @result.status = response.status
+  rescue Errno::ECONNREFUSED, Errno::ENETDOWN, Errno::ETIMEDOUT, SocketError, IOError, URI::InvalidURIError,
+      Faraday::ConnectionFailed, Faraday::ResourceNotFound, Faraday::TimeoutError, Faraday::ParsingError => e
     Sidekiq.logger.warn(e.inspect)
-    nil
-  rescue OpenSSL::SSL::SSLError
+    @other_error = e.message
+  rescue OpenSSL::SSL::SSLError, Faraday::SSLError
     @ssl_error = true
   ensure
     sleep(SLEEP_TIME) unless @result.status
@@ -59,7 +61,7 @@ class CheckPerformWorker
     end
 
     unless @result.status
-      @result.issues[:network] = "Host is down."
+      @result.issues[:network] = "Host is down: #{@other_error}"
       return
     end
 

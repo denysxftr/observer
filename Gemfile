@@ -8,7 +8,7 @@ gem 'sinatra-flash'
 
 gem 'thor'
 
-gem 'http'
+gem 'faraday'
 gem 'mailgun-ruby'
 gem 'sidekiq'
 gem 'whenever', require: false
