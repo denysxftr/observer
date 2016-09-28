@@ -5,7 +5,6 @@ Bundler.require(:default, ENV['RACK_ENV'] || :development)
 require 'logger'
 require 'json'
 require 'digest/sha1'
-require 'http'
 require 'yaml'
 require 'mailgun'
 require 'securerandom'

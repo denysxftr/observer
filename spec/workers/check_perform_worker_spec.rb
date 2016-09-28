@@ -36,7 +36,11 @@ RSpec.describe CheckPerformWorker, :vcr do
         expect(Result.count).to eq 1
         result = Result.first
         expect(result.is_ok).to eq false
-        expect(result.issues).to eq({ 'network' => 'Host is down.' })
+        expect(result.issues)
+          .to eq({
+            'network' => 'Host is down: Failed to open TCP connection to example.wrong_domain:80 '\
+                         '(getaddrinfo: nodename nor servname provided, or not known)'
+          })
       end
     end
 
@@ -70,7 +74,7 @@ RSpec.describe CheckPerformWorker, :vcr do
       let(:check) { create :check, url: 'https://example.com', is_ok: true }
 
       it 'unsuccessfully checks url' do
-        expect_any_instance_of(HTTP::Client).to receive(:get).with('https://example.com').and_raise(OpenSSL::SSL::SSLError)
+        expect_any_instance_of(Faraday::Connection).to receive(:get).and_raise(OpenSSL::SSL::SSLError)
         described_class.new.perform(check.id)
         expect(check.reload.is_ok).to eq false
         expect(Result.count).to eq 1
