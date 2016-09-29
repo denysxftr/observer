@@ -13,8 +13,9 @@ class CheckPerformWorker
   private
 
   def perform_check
+    resolving_thread = Thread.new { @check.retries.times.any? { ip_resolving_check } }
     @check.retries.times.any? { http_check }
-    @check.retries.times.any? { ip_resolving_check }
+    resolving_thread.join
     results_check
   end
 
@@ -50,7 +51,7 @@ class CheckPerformWorker
 
   def ip_resolving_check
     @result.ip = `dig @8.8.8.8 #{@check.host} A +short`.strip
-    sleep(SLEEP_TIME) if @result.ip.empty?
+    sleep(SLEEP_TIME) if @result.ip.empty? || @result =~ /connection/
     !@result.ip.empty?
   end
 
