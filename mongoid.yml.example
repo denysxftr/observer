@@ -1,6 +1,14 @@
 development:
   clients:
     default:
-      database: mongoid
+      database: observer
+      hosts:
+        - localhost:27017
+
+
+test:
+  clients:
+    default:
+      database: observer
       hosts:
         - localhost:27017
