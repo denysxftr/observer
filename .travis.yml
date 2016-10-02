@@ -1,0 +1,20 @@
+language: ruby
+services:
+  - redis-server
+  - mongodb
+rvm:
+  - 2.3.1
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y dnsutils
+install:
+  # - npm i gulp-cli -g
+  # - npm i bower -g
+  # - bower install
+  # - npm install
+  # - gulp dev
+  - bundle install
+  - cp mongoid.yml.example mongoid.yml
+  - cp config/config.yml.example config/config.yml
+script:
+  - rspec

@@ -36,11 +36,7 @@ RSpec.describe CheckPerformWorker, :vcr do
         expect(Result.count).to eq 1
         result = Result.first
         expect(result.is_ok).to eq false
-        expect(result.issues)
-          .to eq({
-            'network' => 'Host is down: Failed to open TCP connection to example.wrong_domain:80 '\
-                         '(getaddrinfo: nodename nor servname provided, or not known)'
-          })
+        expect(result.issues['network']).to include('Host is down: Failed to open TCP connection')
       end
     end
 
