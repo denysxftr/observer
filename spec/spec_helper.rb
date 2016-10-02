@@ -1,11 +1,13 @@
 ENV['RACK_ENV'] = 'test'
 
-require './main'
-
 require 'database_cleaner'
 require 'factory_girl'
 require 'vcr'
 require 'webmock'
+require 'simplecov'
+SimpleCov.start
+
+require './main'
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
