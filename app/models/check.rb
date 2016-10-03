@@ -34,7 +34,6 @@ class Check
   end
 
   def first_result
-    res = results.order(:created_at.desc)
-    res.first
+    results.order(:created_at.desc).first
   end
 end
