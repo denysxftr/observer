@@ -1,0 +1,15 @@
+<h3>HTTP checks</h3>
+
+<% checks.each do |check| %>
+  <div class="list-item <%= check.is_ok ? 'success' : 'fail' %>">
+    <a class="item-url" href="/check/<%= check.id %>"><%= check.name_with_project %></a>
+    <a href="<%= check.url %>"><%= check.url %></a>
+    <% unless check.is_ok %>
+      <div class="item-hint">
+        <% check.first_result.issues.values.each do |error|%>
+          <p><%= error %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
