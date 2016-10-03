@@ -1,0 +1,11 @@
+<% if @servers_with_problem.empty? && @checks_with_problem.empty? %>
+  <h2 class="status-success">Everything is ok!</h2>
+<% else %>
+  <h2 class="status-fail">Hey! There are some issues here!</h2>
+  <% unless @servers_with_problem.empty? %>
+    <%= erb :"shared/servers_list", locals: {servers: @servers_with_problem} %>
+  <% end %>
+  <% unless @checks_with_problem.empty? %>
+    <%= erb :"shared/checks_list", locals: {checks: @checks_with_problem} %>
+  <% end %>
+<% end %>

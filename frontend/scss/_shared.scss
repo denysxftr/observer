@@ -60,3 +60,10 @@
   border: 2px solid #bbb;
   background-color: lighten($border-color, 40);
 }
+
+.status-success{
+  color: $success-color;
+}
+.status-fail{
+  color: $fail-color;
+}
