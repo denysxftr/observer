@@ -3,7 +3,6 @@
   border-radius: 3px;
   padding: 10px;
   margin-bottom: 10px;
-
   &.success {
     border-left: 5px solid $success-color;
   }
@@ -11,6 +10,14 @@
   &.fail {
     border-left: 5px solid $fail-color;
     background-color: lighten($fail-color, 20);
+
+    &:after {
+      content: ".";
+      display: block;
+      height: 0;
+      clear: both;
+      visibility: hidden;
+    }
   }
 
   .item-url {
@@ -19,6 +26,16 @@
 
     &:hover {
       color: lighten($minor-text-color, 20);
+    }
+  }
+
+  .item-hint {
+    color: $fail-color;
+    display: inline-block;
+    float: right;
+    & > p{
+      font-size: 12px;
+      margin-bottom: 0;
     }
   }
 

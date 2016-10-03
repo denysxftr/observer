@@ -32,4 +32,9 @@ class Check
       name
     end
   end
+
+  def first_result
+    res = results.order(:created_at.desc)
+    res.first
+  end
 end
