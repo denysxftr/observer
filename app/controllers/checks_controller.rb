@@ -44,8 +44,8 @@ get '/check/:id/data' do
   results = check.results.order(:created_at.asc)
   log = prepare_logs(results, is_ok: true)
   fails_log = prepare_logs(results, is_ok: false)
-  # binding.pry
-  json({ log: log, fails_log: fails_log })
+  issues_log = get_issues(results);
+  json({ log: log, fails_log: fails_log, issues_log: issues_log })
 end
 
 get '/check/:id/edit' do
@@ -88,6 +88,15 @@ def prepare_logs(results, is_ok:)
     [
       x.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
       (is_ok ? x.is_ok : !x.is_ok) ? x.timeout.to_i : 0
+    ]
+  end.to_h
+end
+
+def get_issues(results)
+  results.map do |x|
+    [
+      x.created_at.utc.strftime('%H:%M:%S'),
+      x.issues.values.join(" ")
     ]
   end.to_h
 end

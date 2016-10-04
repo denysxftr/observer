@@ -17,6 +17,7 @@ var paths = {
     'bower_components/peity/jquery.peity.min.js',
     'bower_components/lodash/dist/lodash.min.js',
     'bower_components/select2/dist/js/select2.full.min.js',
+    // 'bower_components/tooltipster/dist/js/tooltipster.bundle.min.js',
     'frontend/js/*'
   ],
   css: [
@@ -26,6 +27,8 @@ var paths = {
     'bower_components/parsleyjs/src/parsley.css',
     'bower_components/c3/c3.min.css',
     'bower_components/select2/dist/css/select2.min.css',
+    'bower_components/hint.css/hint.min.css',
+    // 'bower_components/tooltipster/dist/css/tooltipster.bundle.min.css',
     'frontend/scss/main.scss'
   ]
 };

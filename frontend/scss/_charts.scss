@@ -2,9 +2,32 @@
   width: 100%;
   height: 300px;
   margin-top: 50px;
+  border-bottom: 1px solid #000;
   .chart-bar{
     height: 100%;
     background-color: $success-color;
-    display: inline-block;
+    display: inline-b41ck;
+    font-size: 9px;
+    position: relative;
+    &.fail{
+      background-color: $almost-fail-color;
+    }
+    &.network-fail{
+      background-color: $fail-color;
+    }
+    & > span{
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      font-size: 9px;
+      &:before{
+        content: "";
+        position: absolute;
+        top: 0;
+        height: 3px;
+        width: 1px;
+        background-color: #000;
+      }
+    }
   }
 }

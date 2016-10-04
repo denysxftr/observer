@@ -7,7 +7,6 @@
     <span class="url"><%= @check.url %></span>
     <a class="button right" href="/check/<%= @check.id %>/edit">Edit</a>
   </div>
-  <!-- <div id="responses_chart" data-id=<%= @check.id %>></div> -->
   <div id="checks_chart" data-id=<%= @check.id %>></div>
   <% unless @check.is_ok %>
     <br>

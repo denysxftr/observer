@@ -25,6 +25,8 @@
     "gulp-minify-css": "*",
     "gulp-rev": "*",
     "gulp-sass": "*",
-    "gulp-uglify": "*"
+    "gulp-uglify": "*",
+    "jquery": "^3.1.1",
+    "tooltipster": "^4.1.5"
   }
 }
