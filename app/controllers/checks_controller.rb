@@ -44,6 +44,7 @@ get '/check/:id/data' do
   results = check.results.order(:created_at.asc)
   log = prepare_logs(results, is_ok: true)
   fails_log = prepare_logs(results, is_ok: false)
+  # binding.pry
   json({ log: log, fails_log: fails_log })
 end
 

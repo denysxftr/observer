@@ -1,5 +1,5 @@
 $(function(){
-  if($('#responses_chart').length == 0) {
+  if($('#checks_chart').length == 0) {
     return;
   }
 
@@ -58,7 +58,28 @@ $(function(){
     });
   }
 
-  var checkId = $('#responses_chart').data('id');
-  retrieveData();
-  setInterval(retrieveData, 10000);
+  var checkId = $('#checks_chart').data('id');
+  // retrieveData();
+  // setInterval(retrieveData, 10000);
+
+  function drawDiagram(data){
+    $("#ckecks_chart").html("");
+    var width = $("#checks_chart").width();
+    var height = $("#checks_chart").height();
+    var log = _.toArray(data.log)
+    var amount = log.length;
+    var max = Math.max.apply(Math, log);
+    var parentContainer = $('#checks_chart');
+    for(var i = 0; i < amount; i++){
+      parentContainer.append("<div class= 'chart-bar' data-id="+ i +"></div>");
+      $("div[data-id="+ i +"]").width(width/amount).height(100/max*log[i]);
+    }
+  }
+  function obtainData(){
+    $.get('/check/' + checkId + '/data', function(data) {
+      drawDiagram(data);
+    })
+  }
+  obtainData();
+  //$(window).resize( obtainData());
 });
