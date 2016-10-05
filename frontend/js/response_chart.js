@@ -11,42 +11,41 @@ $(function(){
     var width = 100;
     var legendScale = 20;
     var height = parentContainer.height();
-    var logOfTimes = data.log.time;
-    var logOfTimeouts = data.log.timeout;
-    var logOfFails = data.log.is_ok;
-    var logOfIssues = data.log.issues;
-    var amount = logOfTimes.length;
-    var maxOfTimeouts = _.max(logOfTimeouts);
-    for(var i = 0; i < amount; i++){
-      parentContainer.append('<div class= "chart-bar" data-id='+ i +'></div>');
-      if(logOfFails[i]){
-        $('div[data-id='+ i +']').width(width/amount+'%')
-                                  .height((height-1)/maxOfTimeouts*logOfTimeouts[i])
+    var log = data.log;
+    var amount = log.length;
+    var maxOfTimeouts = _.maxBy(log, function(item){ return item.timeout; }).timeout;
+    log.forEach(function(item, index){
+      parentContainer.append('<div class= "chart-bar" data-id='+ index +'></div>');
+      if(item.timeout && !item.issues){
+        $('div[data-id='+ index +']').width(width/amount+'%')
+                                  .height((height-1)/maxOfTimeouts*item.timeout)
                                   .addClass('hint--bottom hint--small')
-                                  .attr('aria-label', logOfTimes[i] + ' - ' + logOfTimeouts[i]);
+                                  .attr('aria-label', item.time + ' - ' + item.timeout);
       }
-      else if(!logOfFails[i] && logOfTimeouts[i]){
-        $('div[data-id='+ i +']').width(width/amount+'%')
-                                  .height((height-1)/maxOfTimeouts*logOfTimeouts[i])
+      else if(item.timeout && item.issues){
+        $('div[data-id='+ index +']').width(width/amount+'%')
+                                  .height((height-1)/maxOfTimeouts*item.timeout)
                                   .addClass('fail hint--bottom hint--small hint--warning')
-                                  .attr('aria-label',  logOfTimes[i] + ' - ' + logOfTimeouts[i] + ' - ' + logOfIssues[i]);
+                                  .attr('aria-label',  item.time + ' - ' + item.timeout + ' - ' + item.issues);
       }
       else{
-        $('div[data-id='+ i +']').width(width/amount+'%')
+        $('div[data-id='+ index +']').width(width/amount+'%')
                                   .height(height-1)
                                   .addClass('network-fail hint--bottom hint--small hint--error')
-                                  .attr('aria-label',  logOfTimes[i] + ' - ' + logOfIssues[i]);
+                                  .attr('aria-label',  item.time + ' - ' + item.issues);
       }
-      if(i % legendScale == 0){
-        $('div[data-id='+ i +']').append('<span>' + logOfTimes[i].split(' ')[1] + '</span>');
+      if(index % legendScale == 0){
+        $('div[data-id='+ index +']').append('<span>' + item.time.split(' ')[1] + '</span>');
       }
-    }
+    });
   }
+
   function obtainData(){
     $.get('/check/' + checkId + '/data', function(data) {
       drawDiagram(data);
     })
   }
+  
   obtainData();
   setInterval(obtainData, 50000);
 });

@@ -81,16 +81,11 @@ post '/check/:id/delete' do
 end
 
 def prepare_logs(results)
-  time = []
-  timeout = []
-  is_ok = []
-  issues = []
   results.map do |item|
-    time << item.created_at.utc.strftime('%Y-%m-%d %H:%M:%S')
-    timeout << item.timeout.to_i
-    is_ok << item.is_ok
-    issues << item.issues.values.join(' ')
+    [
+      time: item.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
+      timeout: item.timeout.to_i,
+      issues: item.issues.values.join(' ')
+    ]
   end
-  log = { time: time, timeout: timeout, is_ok: is_ok, issues: issues }
-  log
 end
