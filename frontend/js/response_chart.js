@@ -11,29 +11,29 @@ $(function(){
     var width = 100;
     var legendScale = 20;
     var height = parentContainer.height();
-    var logOfTimes = _.keysIn(data.log);
-    var log = _.toArray(data.log);
-    var logOfFails = _.toArray(data.fails_log);
-    var logOfIssues = _.toArray(data.issues_log);
-    var amount = log.length;
-    var max = _.max(log) || _.max(logOfFails);
+    var logOfTimes = data.log.time;
+    var logOfTimeouts = data.log.timeout;
+    var logOfFails = data.log.is_ok;
+    var logOfIssues = data.log.issues;
+    var amount = logOfTimes.length;
+    var maxOfTimeouts = _.max(logOfTimeouts);
     for(var i = 0; i < amount; i++){
       parentContainer.append('<div class= "chart-bar" data-id='+ i +'></div>');
-      if(log[i]){
+      if(logOfFails[i]){
         $('div[data-id='+ i +']').width(width/amount+'%')
-                                  .height((height-1)/max*log[i])
+                                  .height((height-1)/maxOfTimeouts*logOfTimeouts[i])
                                   .addClass('hint--bottom hint--small')
-                                  .attr('aria-label', logOfTimes[i]);
+                                  .attr('aria-label', logOfTimes[i] + ' - ' + logOfTimeouts[i]);
       }
-      else if(logOfFails[i]){
+      else if(!logOfFails[i] && logOfTimeouts[i]){
         $('div[data-id='+ i +']').width(width/amount+'%')
-                                  .height((height-1)/max*logOfFails[i])
+                                  .height((height-1)/maxOfTimeouts*logOfTimeouts[i])
                                   .addClass('fail hint--bottom hint--small hint--warning')
-                                  .attr('aria-label',  logOfTimes[i] + ' - ' + logOfIssues[i]);
+                                  .attr('aria-label',  logOfTimes[i] + ' - ' + logOfTimeouts[i] + ' - ' + logOfIssues[i]);
       }
       else{
         $('div[data-id='+ i +']').width(width/amount+'%')
-                                  .height((height-1)/max*logOfFails[i])
+                                  .height(height-1)
                                   .addClass('network-fail hint--bottom hint--small hint--error')
                                   .attr('aria-label',  logOfTimes[i] + ' - ' + logOfIssues[i]);
       }
