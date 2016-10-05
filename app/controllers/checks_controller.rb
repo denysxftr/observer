@@ -82,10 +82,10 @@ end
 
 def prepare_logs(results)
   results.map do |item|
-    [
+    {
       time: item.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
       timeout: item.timeout.to_i,
       issues: item.issues.values.join(' ')
-    ]
+    }
   end
 end
