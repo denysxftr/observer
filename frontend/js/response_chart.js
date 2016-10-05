@@ -13,8 +13,8 @@ $(function () {
     var height = parentContainer.height();
     var log = data.log;
     var amount = log.length;
-    var maxOfTimeouts = _.maxBy(log, item =>  { return item.timeout; } ).timeout;
-    log.forEach((item, index) => {
+    var maxOfTimeouts = _.maxBy(log, function(item) { return item.timeout; }).timeout;
+    log.forEach(function(item, index) {
       var bar = $('<div class="chart-bar" data-id=' + index + '></div>')
         .width(width / amount + '%')
         .height((height - 1) / maxOfTimeouts * item.timeout)
