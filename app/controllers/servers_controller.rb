@@ -24,6 +24,7 @@ end
 get '/servers' do
   protect!
   @servers = Server.all
+  binding.pry
   erb :'servers/index'
 end
 
