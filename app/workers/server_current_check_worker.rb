@@ -1,6 +1,5 @@
 class ServerCurrentCheckWorker
   include Sidekiq::Worker
-  attr_reader :issues, :states, :server
 
   def perform(id)
     @server = Server.find(id)
