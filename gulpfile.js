@@ -26,6 +26,7 @@ var paths = {
     'bower_components/parsleyjs/src/parsley.css',
     'bower_components/c3/c3.min.css',
     'bower_components/select2/dist/css/select2.min.css',
+    'bower_components/hint.css/hint.min.css',
     'frontend/scss/main.scss'
   ]
 };

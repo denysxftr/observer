@@ -1,64 +1,49 @@
-$(function(){
-  if($('#responses_chart').length == 0) {
+$(function () {
+  if ($('#checks_chart').length == 0) {
     return;
   }
 
-  chart = c3.generate({
-    bindto: '#responses_chart',
-    size: {
-      height: 200
-    },
-    data: {
-      colors: {
-        'good response': '#41C24C',
-        'bad response': '#FD7466'
-      },
-      x: 'time',
-      xFormat: '%Y-%m-%d %H:%M:%S',
-      columns: [],
-      types: {
-        'good response': 'area-step',
-        'bad response': 'area-step'
-      }
-    },
-    regions: [],
-    point: {
-      show: false
-    },
-    axis: {
-      x: {
-        type: 'timeseries',
-        tick: {
-          count: 10,
-          format: '%H:%M:%S'
-        }
-      },
-      y: {
-        min: 0,
-        padding: { top: 50, bottom: 0 }
-      }
-    },
-    legend: {
-      show: false
-    },
-    transition: {
-      duration: 1
-    }
-  });
+  var checkId = $('#checks_chart').data('id');
 
-  var retrieveData = function() {
-    $.get('/check/' + checkId + '/data', function(data) {
-      chart.load({
-        columns: [
-          ['good response'].concat(_.toArray(data.log)),
-          ['bad response'].concat(_.toArray(data.fails_log)),
-          ['time'].concat(_.keysIn(data.log))
-        ]
-      });
+  function drawDiagram(data) {
+    var parentContainer = $('#checks_chart');
+    parentContainer.html('');
+    var width = 100;
+    var legendScale = 20;
+    var height = parentContainer.height();
+    var log = data.log;
+    var amount = log.length;
+    var maxOfTimeouts = _.maxBy(log, function(item) { return item.timeout; }).timeout;
+    log.forEach(function(item, index) {
+      var bar = $('<div class="chart-bar" data-id=' + index + '></div>')
+        .width(width / amount + '%')
+        .height((height - 1) / maxOfTimeouts * item.timeout)
+        .addClass('hint--bottom hint--small');
+      if (item.timeout && !item.issues) {
+        bar.attr('aria-label', item.time + ' - ' + item.timeout);
+      } else if (item.timeout && item.issues) {
+        bar.addClass('fail hint--warning')
+          .attr('aria-label', item.time + ' - ' + item.timeout + ' - ' + item.issues);
+      } else {
+        bar.height(height - 1)
+          .addClass('network-fail hint--error')
+          .attr('aria-label', item.time + ' - ' + item.issues);
+      }
+
+      if (index % legendScale == 0) {
+        bar.append('<span>' + item.time.split(' ')[1] + '</span>');
+      }
+
+      parentContainer.append(bar);
     });
   }
 
-  var checkId = $('#responses_chart').data('id');
-  retrieveData();
-  setInterval(retrieveData, 10000);
+  function obtainData() {
+    $.get('/check/' + checkId + '/data', function (data) {
+      drawDiagram(data);
+    })
+  }
+
+  obtainData();
+  setInterval(obtainData, 50000);
 });

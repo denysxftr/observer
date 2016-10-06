@@ -42,9 +42,7 @@ get '/check/:id/data' do
   protect!
   check = Check.find(params[:id])
   results = check.results.order(:created_at.asc)
-  log = prepare_logs(results, is_ok: true)
-  fails_log = prepare_logs(results, is_ok: false)
-  json({ log: log, fails_log: fails_log })
+  json({ log: prepare_logs(results)})
 end
 
 get '/check/:id/edit' do
@@ -82,11 +80,12 @@ post '/check/:id/delete' do
   redirect "/"
 end
 
-def prepare_logs(results, is_ok:)
-  results.map do |x|
-    [
-      x.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
-      (is_ok ? x.is_ok : !x.is_ok) ? x.timeout.to_i : 0
-    ]
-  end.to_h
+def prepare_logs(results)
+  results.map do |item|
+    {
+      time: item.created_at.utc.strftime('%Y-%m-%d %H:%M:%S'),
+      timeout: item.timeout.to_i,
+      issues: item.issues.values.join(' ')
+    }
+  end
 end
