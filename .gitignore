@@ -5,3 +5,4 @@ config/config.yml
 tmp/*
 coverage
 mongoid.yml
+.byebug_history

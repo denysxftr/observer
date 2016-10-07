@@ -125,7 +125,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug
   database_cleaner
   factory_girl
   faraday
