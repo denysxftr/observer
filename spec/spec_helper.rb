@@ -1,5 +1,5 @@
 ENV['RACK_ENV'] = 'test'
-
+require 'rack/test'
 require 'database_cleaner'
 require 'factory_girl'
 require 'vcr'
@@ -14,6 +14,26 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.configure_rspec_metadata!
   config.ignore_localhost = true
+end
+
+module ControllerMixin
+  include Rack::Test::Methods
+
+  def app()
+    Sinatra::Application
+  end
+
+  def post(*args, **kwargs)
+    @response = super(*args, **kwargs)
+  end
+
+  def get(*args, **kwargs)
+    @response = super(*args, **kwargs)
+  end
+
+  def response
+    @response
+  end
 end
 
 RSpec.configure do |config|

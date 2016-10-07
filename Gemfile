@@ -17,7 +17,7 @@ gem 'redis'
 gem 'mongoid'
 
 gem 'pry'
-
+gem 'byebug'
 
 group :test do
   gem 'factory_girl'

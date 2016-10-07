@@ -1,4 +1,4 @@
-RSpec.describe ServerCurrentCheckWorker, :vcr do
+RSpec.describe ServerCurrentCheckWorker do
 
   context 'if had no issues previously' do
     let!(:server) { create :server, issues: [] }

@@ -14,6 +14,7 @@ GEM
     backports (3.6.8)
     bson (4.1.1)
     builder (3.2.2)
+    byebug (9.0.5)
     chronic (0.10.2)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
@@ -125,6 +126,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   database_cleaner
   factory_girl
   faraday
