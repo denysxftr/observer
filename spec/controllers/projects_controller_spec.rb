@@ -34,7 +34,6 @@ include ControllerMixin
 
     it 'returns project page' do
       get "/project/#{project.id}"
-
       expect(response.errors).to be_empty
       expect(response.status).to eq 200
     end
@@ -45,7 +44,6 @@ include ControllerMixin
 
     it 'returns project page and updates data' do
       post "/project/#{project.id}", name: 'Try to visit google.com'
-
       expect(Project.count).to eq 1
       expect(project.reload.valid?).to eq true
       expect(project.reload.name).to eq 'Try to visit google.com'
@@ -58,7 +56,6 @@ include ControllerMixin
 
     it 'redirects to main page and deletes projects data' do
       post "/projects/#{project.id}/delete"
-
       expect(Project.count).to eq 0
       expect(response.location).to eq 'http://example.org/projects'
       expect(response.status).to eq 302

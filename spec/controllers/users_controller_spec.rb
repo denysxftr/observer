@@ -25,7 +25,6 @@ include ControllerMixin
 
       it 'returns users page and updates data' do
         post "/user/#{user.id}", name: 'Test user updated'
-
         expect(User.count).to eq 2
         expect(user.reload.valid?).to eq true
         expect(user.reload.name).to eq 'Test user updated'

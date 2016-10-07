@@ -93,11 +93,6 @@ RSpec.describe ServerCurrentCheckWorker do
     end
 
     context 'if has problems' do
-      # before do
-      #   expect_any_instance_of(MailerService)
-      #     .to receive(:send_server_bad).and_return(true)
-      # end
-
       context 'when cpu is overloaded' do
         let(:state1) { create :state, cpu_load: 81 }
         let(:state2) { create :state, cpu_load: 82 }
