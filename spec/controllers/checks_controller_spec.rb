@@ -96,7 +96,7 @@ include ControllerMixin
     end
   end
 
-    context 'if user didn\'t sign in' do
+    context "if user didn't sign in" do
       describe 'POST /check/new' do
         let(:check) { Check.first }
 

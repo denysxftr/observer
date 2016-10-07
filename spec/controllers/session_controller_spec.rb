@@ -13,7 +13,7 @@ include ControllerMixin
     end
 
     context 'if there are no users with such credentials' do
-      it 'don\'t show main page' do
+      it "don't show main page" do
         post '/sign_in', email: 'example1@mail.com', password: 'passw_1234'
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"

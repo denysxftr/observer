@@ -8,7 +8,7 @@ include ControllerMixin
     end
 
     describe 'POST /users' do
-      let(:user) { User.all[1] }
+      let(:user) { User.where(email: 'test').first }
 
       it 'saves user and redirects to users page' do
         post '/users', name: 'Test user created', password: 'test', email: 'test'
@@ -52,7 +52,7 @@ include ControllerMixin
 
     describe 'POST /users' do
 
-      it 'don\'t saves user and redirects to users page' do
+      it "don't saves user and redirects to users page" do
         post '/users', name: 'Test user created', password: 'test', email: 'test'
         expect(User.count).to eq 1
         expect(response.status).to eq 302

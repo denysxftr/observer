@@ -5,19 +5,20 @@ include ControllerMixin
   context 'if user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
-      @server = FactoryGirl.create(:server)
     end
 
+    let(:server) { create :server }
+
     describe 'POST /server/new' do
-      let(:server) { Server.all[1] }
+      let(:server_new) { Server.first }
 
       it 'returns server page' do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
-        expect(Server.count).to eq 2
-        expect(server.valid?).to eq true
-        expect(server.name).to eq 'Try to visit google.com'
+        expect(Server.count).to eq 1
+        expect(server_new.valid?).to eq true
+        expect(server_new.name).to eq 'Try to visit google.com'
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/server/#{server.id}"
+        expect(response.location).to eq "http://example.org/server/#{server_new.id}"
       end
     end
 
@@ -33,7 +34,7 @@ include ControllerMixin
 
     describe 'GET /server/id' do
       it 'returns server page' do
-        get "/server/#{@server.id}"
+        get "/server/#{server.id}"
         expect(response.errors).to be_empty
         expect(response.status).to eq 200
       end
@@ -43,8 +44,8 @@ include ControllerMixin
       context 'if server has states' do
         let(:state) { create :state }
         it 'returns json with data' do
-          @server.states << state
-          get "/server/#{@server.id}/data"
+          server.states << state
+          get "/server/#{server.id}/data"
           expect(response.errors).to be_empty
           expect(response.content_type).to eq 'application/json'
           expect(response.status).to eq 200
@@ -55,7 +56,7 @@ include ControllerMixin
 
       context 'if server has no states' do
         it 'returns an empty json' do
-          get "/server/#{@server.id}/data"
+          get "/server/#{server.id}/data"
           expect(response.errors).to be_empty
           expect(response.content_type).to eq 'application/json'
           expect(response.status).to eq 200
@@ -67,17 +68,17 @@ include ControllerMixin
 
     describe 'POST /server/id' do
       it 'returns server page and updates data' do
-        post "/server/#{@server.id}", name: 'Try to visit google.com', project_id: ''
+        post "/server/#{server.id}", name: 'Try to visit google.com', project_id: ''
         expect(Server.count).to eq 1
-        expect(@server.reload.valid?).to eq true
-        expect(@server.reload.name).to eq 'Try to visit google.com'
+        expect(server.reload.valid?).to eq true
+        expect(server.reload.name).to eq 'Try to visit google.com'
 
       end
     end
 
     describe 'POST /server/id/delete' do
       it 'redirects to main page and deletes server data' do
-        post "/servers/#{@server.id}/delete"
+        post "/servers/#{server.id}/delete"
         expect(Server.count).to eq 0
         expect(response.location).to eq 'http://example.org/'
         expect(response.status).to eq 302
@@ -85,17 +86,15 @@ include ControllerMixin
     end
   end
 
-  context 'if user didn\'t sign in' do
-    before(:each) do
-      @server = FactoryGirl.create(:server)
-    end
+  context "if user didn't sign in" do
+    let(:server) { create :server }
 
     describe 'POST /server/new' do
-      let(:server) { Server.all[1] }
+      let(:server_new) { Server.first }
 
       it 'redirects to sign in page' do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
-        expect(Server.count).to eq 1
+        expect(Server.count).to eq 0
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"
       end
@@ -114,7 +113,7 @@ include ControllerMixin
 
     describe 'GET /server/id' do
       it 'redirects to sign in page' do
-        get "/server/#{@server.id}"
+        get "/server/#{server.id}"
         expect(response.errors).to be_empty
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"
@@ -123,7 +122,7 @@ include ControllerMixin
 
     describe 'GET /server/id/data' do
       it 'redirects to sign in page' do
-        get "/server/#{@server.id}/data"
+        get "/server/#{server.id}/data"
         expect(response.errors).to be_empty
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"
@@ -132,9 +131,9 @@ include ControllerMixin
 
     describe 'POST /server/id' do
       it 'redirects to sign in page' do
-        post "/server/#{@server.id}", name: 'Try to visit google.com', project_id: ''
+        post "/server/#{server.id}", name: 'Try to visit google.com', project_id: ''
         expect(Server.count).to eq 1
-        expect(@server.reload.name).to_not eq 'Try to visit google.com'
+        expect(server.reload.name).to_not eq 'Try to visit google.com'
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"
 
@@ -143,7 +142,7 @@ include ControllerMixin
 
     describe 'POST /server/id/delete' do
       it 'redirects to sign in page' do
-        post "/servers/#{@server.id}/delete"
+        post "/servers/#{server.id}/delete"
         expect(Server.count).to eq 1
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/sign_in"
