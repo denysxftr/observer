@@ -45,7 +45,6 @@ end
 
 get '/server/:id/data' do
   protect!
-  server = Server.find(params[:id])
   states = server_states
 
   json states_data states
@@ -53,7 +52,6 @@ end
 
 get '/server/:id/log_data' do
   protect!
-  server = Server.find(params[:id])
   states = server_states true
 
   json states_data states
@@ -74,7 +72,8 @@ post '/servers/:id/delete' do
 end
 
 def server_states(log = false)
-  (log ? selected_server.log_states : selected_server.states)
+  server = Server.find(params[:id])
+  (log ? server.log_states : server.states)
     .where(:created_at.gt => params[:from].to_i.hours.ago, :created_at.lt => params[:to].to_i.hours.ago)
     .order_by(created_at: 'asc')
 end
