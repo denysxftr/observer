@@ -4,7 +4,6 @@ end
 
 post '/sign_in' do
   user = User.find_by(email: params[:email], password_hash: Digest::SHA1.hexdigest(params[:password])) rescue nil
-
   if user
     session[:id] = user.id
     session[:notice] = 'Signed in!'

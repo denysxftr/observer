@@ -33,7 +33,7 @@ private
   end
 
   def check_load_current_swap
-    threshold = @server.issues.include?(:swap_usage) ? 30 : 35
+    threshold = @server.issues.include?(:swap_high) ? 30 : 35
     if @states.all? { |x| x.swap_usage > threshold }
       @issues << :swap_high
     end
