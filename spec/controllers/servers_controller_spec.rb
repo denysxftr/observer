@@ -10,15 +10,15 @@ include ControllerMixin
     end
 
     describe 'POST /server/new' do
-      let(:server_new) { Server.first }
+      let(:server) { Server.first }
 
       it 'returns server page' do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
         expect(Server.count).to eq 1
-        expect(server_new.valid?).to eq true
-        expect(server_new.name).to eq 'Try to visit google.com'
+        expect(server.valid?).to eq true
+        expect(server.name).to eq 'Try to visit google.com'
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/server/#{server_new.id}"
+        expect(response.location).to eq "http://example.org/server/#{server.id}"
       end
     end
 
@@ -90,7 +90,7 @@ include ControllerMixin
     describe 'POST /server/new' do
       let(:server_new) { Server.first }
 
-      it 'redirects to sign in page' do
+      it "redirects to sign in page and doesn't create new server" do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
         expect(Server.count).to eq 0
         expect(response.status).to eq 302
@@ -128,7 +128,7 @@ include ControllerMixin
     end
 
     describe 'POST /server/id' do
-      it 'redirects to sign in page' do
+      it "redirects to sign in page and doesn't update server data" do
         post "/server/#{server.id}", name: 'Try to visit google.com', project_id: ''
         expect(Server.count).to eq 1
         expect(server.reload.name).to_not eq 'Try to visit google.com'
@@ -139,7 +139,7 @@ include ControllerMixin
     end
 
     describe 'POST /server/id/delete' do
-      it 'redirects to sign in page' do
+      it "redirects to sign in page and doesn't delete server data" do
         post "/servers/#{server.id}/delete"
         expect(Server.count).to eq 1
         expect(response.status).to eq 302

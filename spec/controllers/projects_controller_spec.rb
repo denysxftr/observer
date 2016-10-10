@@ -9,12 +9,12 @@ include ControllerMixin
     end
 
     describe 'POST /project/new' do
-      let(:project_new) { Project.first }
+      let(:project) { Project.first }
 
       it 'returns project page' do
         post '/project/new', name: 'Test test project'
         expect(Project.count).to eq 1
-        expect(project_new.valid?).to eq true
+        expect(project.valid?).to eq true
         expect(response.status).to eq 302
         expect(response.location).to eq "http://example.org/projects"
       end
@@ -59,9 +59,9 @@ include ControllerMixin
   end
   context "if user didn't sign in" do
     describe 'POST /project/new' do
-      let(:project_new) { Project.first }
+      let(:project) { Project.first }
 
-      it 'redirects to sign in page' do
+      it "redirects to sign in page and doesn't create new project" do
         post '/project/new', name: 'Test test project'
         expect(Project.count).to eq 0
         expect(response.status).to eq 302

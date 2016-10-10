@@ -10,15 +10,15 @@ include ControllerMixin
     end
 
     describe 'POST /check/new' do
-      let(:check_new) { Check.first }
+      let(:check) { Check.first }
 
       it 'returns check page' do
         post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 1
-        expect(check_new.valid?).to eq true
-        expect(check_new.url).to eq 'http://google.com'
+        expect(check.valid?).to eq true
+        expect(check.url).to eq 'http://google.com'
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/check/#{check_new.id}"
+        expect(response.location).to eq "http://example.org/check/#{check.id}"
       end
     end
 
@@ -91,7 +91,7 @@ include ControllerMixin
   context "if user didn't sign in" do
     describe 'POST /check/new' do
       let(:check_new) { Check.first }
-      it 'redirects to sign in page' do
+      it "redirects to sign in page and doesn't create new check" do
         post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 0
         expect(response.status).to eq 302
@@ -128,7 +128,7 @@ include ControllerMixin
     end
 
     describe 'POST /check/id' do
-      it 'returns check page and updates data' do
+      it "returns check page and doesn't update data" do
         post "/check/#{check.id}", name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 1
         expect(check.reload.name).to_not eq 'Try to visit google.com'
@@ -138,7 +138,7 @@ include ControllerMixin
     end
 
     describe 'POST /check/id/delete' do
-      it 'redirects to main page and deletes check data' do
+      it "redirects to main page and doesn't delete check data" do
         post "/check/#{check.id}/delete"
         expect(Check.count).to eq 1
         expect(response.status).to eq 302
