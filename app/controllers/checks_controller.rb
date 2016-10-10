@@ -18,12 +18,7 @@ post '/check/new' do
   )
   @check.save
 
-  if @check.valid?
-    redirect "/check/#{@check.id}"
-  else
-    session[:alert] = @check.errors.full_messages.join(' ')
-    erb :'checks/new'
-  end
+  validate_instance @check
 end
 
 get '/checks' do

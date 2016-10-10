@@ -9,12 +9,7 @@ post '/server/new' do
   @server = Server.new( server_params )
   @server.save
 
-  if @server.valid?
-    redirect "/server/#{@server.id}"
-  else
-    session[:alert] = @server.errors.full_messages.join(' ')
-    erb :'servers/new'
-  end
+  validate_instance @server
 end
 
 get '/servers' do
