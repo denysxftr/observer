@@ -10,7 +10,6 @@ require 'mailgun'
 require 'securerandom'
 require 'sidekiq/web'
 
-require 'app/helpers/application_helper'
 
 APP_CONFIG = YAML.load_file('config/config.yml')
 
@@ -21,6 +20,7 @@ def load_path(path)
 end
 
 load_path('./initializers/*.rb')
+load_path('./app/helpers/*.rb')
 load_path('./app/models/*.rb')
 load_path('./app/controllers/*.rb')
 load_path('./app/services/*.rb')
@@ -33,6 +33,8 @@ set :session_secret, "something"
 
 def current_user
   @current_user ||= session[:id] && User.find(session[:id])
+rescue Mongoid::Errors::DocumentNotFound
+  session[:id] = nil
 end
 
 def current_user_resource?

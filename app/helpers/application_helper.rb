@@ -1,9 +1,8 @@
-def validate_creating instanse
-  if instanse.valid?
-    redirect "/server/#{instanse.id}"
+def validate_instance instance
+  if instance.valid?
+    redirect "/#{instance.class.name.downcase}/#{instance.id}"
   else
-    session[:alert] = instanse.errors.full_messages.join(' ')
-    binding.pry
-    erb :'servers/new'
+    session[:alert] = instance.errors.full_messages.join(' ')
+    erb :"#{instance.class.name.downcase}s/new"
   end
 end
