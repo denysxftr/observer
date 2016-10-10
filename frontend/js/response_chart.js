@@ -1,5 +1,5 @@
 $(function () {
-  if ($('#checks_chart').length == 0) {
+  if ($('#checks_chart').length === 0) {
     return;
   }
 
@@ -30,7 +30,7 @@ $(function () {
           .attr('aria-label', item.time + ' - ' + item.issues);
       }
 
-      if (index % legendScale == 0) {
+      if (index % legendScale === 0) {
         bar.append('<span>' + item.time.split(' ')[1] + '</span>');
       }
 
