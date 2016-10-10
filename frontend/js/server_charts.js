@@ -1,5 +1,5 @@
 $(function(){
-  if($('#server_chart').length == 0) {
+  if($('#server_chart').length === 0) {
     return;
   }
 
@@ -43,10 +43,11 @@ $(function(){
   var retrieveData = function() {
     $('.panel .loading').show()
     var timezone = -(new Date()).getTimezoneOffset()/60
+    var path = ''
     if (isMonth) {
-      var path = '/server/' + serverId + '/log_data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
+      path = '/server/' + serverId + '/log_data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
     } else {
-      var path = '/server/' + serverId + '/data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
+      path = '/server/' + serverId + '/data?from=' + window.fromTime + '&to=' + window.toTime + '&timezone=' + timezone;
     }
 
     $.get(path, function(data) {
@@ -122,8 +123,8 @@ $(function(){
   }
   slider.noUiSlider.on('change', function(){
     var values = document.getElementById('time_slider').noUiSlider.get()
-    window.fromTime = parseInt(values[1]);
-    window.toTime = parseInt(values[0]);
+    window.fromTime = parseInt(values[1], 10);
+    window.toTime = parseInt(values[0], 10);
 
     retrieveData();
   });
