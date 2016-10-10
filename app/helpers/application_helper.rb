@@ -27,7 +27,7 @@ end
 
 def project_params
   {
-    name: params[name]
+    name: params[:name]
   }
 end
 
