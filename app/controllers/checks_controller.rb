@@ -6,7 +6,7 @@ end
 
 post '/check/new' do
   protect!
-  @check = Check.new( check_params )
+  @check = Check.new(check_params)
   @check.save
 
   validate_instance @check
@@ -41,7 +41,7 @@ end
 post '/check/:id' do
   protect!
   @check = Check.find(params[:id])
-  @check.update( check_params )
+  @check.update(check_params)
 
   validate_updating @check
 end
