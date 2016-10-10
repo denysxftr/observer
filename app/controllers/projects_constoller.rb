@@ -15,12 +15,7 @@ post '/project/new' do
   @project = Project.new(name: params[:name])
   @project.save
 
-  if @project.valid?
-    redirect '/projects'
-  else
-    session[:alert] = @project.errors.full_messages.join(' ')
-    erb :'projects/new'
-  end
+  validate_instance @project
 end
 
 get '/project/:id' do

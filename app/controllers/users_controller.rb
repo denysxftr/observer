@@ -14,12 +14,8 @@ post '/users' do
   protect_admin!
   @user = User.new(user_params)
   @user.save
-  if @user.valid?
-    redirect '/users'
-  else
-    session[:alert] = @user.errors.full_messages.join(' ')
-    erb :'users/new'
-  end
+
+  validate_instance @user
 end
 
 get '/user/:id' do
