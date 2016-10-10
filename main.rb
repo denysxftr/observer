@@ -10,6 +10,8 @@ require 'mailgun'
 require 'securerandom'
 require 'sidekiq/web'
 
+require 'app/helpers/application_helper'
+
 APP_CONFIG = YAML.load_file('config/config.yml')
 
 Thread.abort_on_exception = true
