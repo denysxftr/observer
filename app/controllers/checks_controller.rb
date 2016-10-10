@@ -43,11 +43,7 @@ post '/check/:id' do
   @check = Check.find(params[:id])
   @check.update( check_params )
 
-  if @check.valid?
-    redirect "/check/#{@check.id}"
-  else
-    erb :'check/edit'
-  end
+  validate_updating @check
 end
 
 post '/check/:id/delete' do

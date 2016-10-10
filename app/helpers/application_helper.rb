@@ -9,6 +9,14 @@ def validate_instance instance
   end
 end
 
+def validate_updating instance
+  if instance.valid?
+    redirect "/#{instance.class.name.downcase}/#{instance.id}"
+  else
+    erb :"#{instance.class.name.downcase}s/edit"
+  end
+end
+
 def server_params
   {
     name: params[:name],

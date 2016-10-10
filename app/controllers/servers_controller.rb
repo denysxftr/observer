@@ -61,7 +61,8 @@ post '/server/:id' do
   protect!
   @server = Server.find(params[:id])
   @server.update( server_params )
-  redirect "/server/#{params[:id]}"
+
+  validate_updating @server
 end
 
 post '/servers/:id/delete' do
