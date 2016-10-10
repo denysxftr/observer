@@ -43,13 +43,3 @@ post '/user/:id/delete' do
   User.find(params[:id]).destroy
   redirect '/users'
 end
-
-
-def user_params
-  accepted_params = %w[email name].tap do |attrs|
-    attrs << 'password' if @user&.new_record? || params[:password] && !params[:password].empty?
-    attrs << 'role' if current_user.admin?
-  end
-
-  params.select { |k, v| accepted_params.include?(k) }
-end
