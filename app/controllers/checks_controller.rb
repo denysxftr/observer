@@ -52,8 +52,7 @@ end
 
 post '/check/:id/delete' do
   protect!
-  check = Check.find(params[:id])
-  check.delete
+  Check.find(params[:id]).delete
   session[:success] = 'HTTP check deleted'
   redirect "/"
 end

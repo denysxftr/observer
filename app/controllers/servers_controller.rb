@@ -20,80 +20,70 @@ end
 
 get '/server/:id' do
   protect!
-  @server = selected_server
+  @server = Server.find(params[:id])
   erb :'servers/show'
 end
 
 get '/server/:id/edit' do
   protect!
-  @server = selected_server
+  @server = Server.find(params[:id])
   erb :'servers/edit'
 end
 
 get '/server/:id/last_day' do
   protect!
-  @server = selected_server
+  @server = Server.find(params[:id])
   erb :'servers/last_day'
 end
 
 
 get '/server/:id/last_month' do
   protect!
-  @server = selected_server
+  @server = Server.find(params[:id])
   erb :'servers/last_month'
 end
 
 get '/server/:id/data' do
   protect!
-  server = selected_server
+  server = Server.find(params[:id])
   states = server_states
 
-  data = {
-    time: states.pluck(:created_at).map { |x| (x.utc + params[:timezone].to_i.hours).strftime('%Y-%m-%d %H:%M:%S') },
-    cpu: states.pluck(:cpu_load).map(&:to_i),
-    ram: states.pluck(:ram_usage).map(&:to_i),
-    swap: states.pluck(:swap_usage).map(&:to_i)
-  }
-
-  json data
+  json states_data states
 end
 
 get '/server/:id/log_data' do
   protect!
-  server = selected_server
+  server = Server.find(params[:id])
   states = server_states true
 
-  data = {
-    time: states.pluck(:created_at).map { |x| (x.utc + params[:timezone].to_i.hours).strftime('%Y-%m-%d %H:%M:%S') },
-    cpu: states.pluck(:cpu_load).map(&:to_i),
-    ram: states.pluck(:ram_usage).map(&:to_i),
-    swap: states.pluck(:swap_usage).map(&:to_i)
-  }
-
-  json data
+  json states_data states
 end
 
 post '/server/:id' do
   protect!
-  @server = selected_server
+  @server = Server.find(params[:id])
   @server.update( server_params )
   redirect "/server/#{params[:id]}"
 end
 
 post '/servers/:id/delete' do
   protect!
-  server = selected_server
-  server.delete
+  Server.find(params[:id]).delete
   session[:success] = 'Server deleted'
   redirect "/"
 end
 
-def selected_server
-  Server.find(params[:id])
-end
-
-def server_states (log = false)
+def server_states(log = false)
   (log ? selected_server.log_states : selected_server.states)
     .where(:created_at.gt => params[:from].to_i.hours.ago, :created_at.lt => params[:to].to_i.hours.ago)
     .order_by(created_at: 'asc')
+end
+
+def states_data(states)
+   {
+     time: states.pluck(:created_at).map { |x| (x.utc + params[:timezone].to_i.hours).strftime('%Y-%m-%d %H:%M:%S') },
+     cpu: states.pluck(:cpu_load).map(&:to_i),
+     ram: states.pluck(:ram_usage).map(&:to_i),
+     swap: states.pluck(:swap_usage).map(&:to_i)
+   }
 end
