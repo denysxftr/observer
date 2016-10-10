@@ -12,7 +12,7 @@ end
 
 post '/project/new' do
   protect!
-  @project = Project.new(name: params[:name])
+  @project = Project.new(project_params)
   @project.save
 
   validate_instance @project
@@ -33,7 +33,7 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
-  @project.update(name: params[:name])
+  @project.update(project_params)
 
   redirect "/project/#{params[:id]}"
 end

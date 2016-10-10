@@ -8,3 +8,38 @@ def validate_instance instance
     erb :"#{name_of_class}s/new"
   end
 end
+
+def server_params
+  {
+    name: params[:name],
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails] || []
+  }
+end
+
+def project_params
+  {
+    name: params[name]
+  }
+end
+
+def check_params
+  {
+    url: params[:url],
+    name: params[:name],
+    project: !params[:project_id].empty? && Project.find(params[:project_id]),
+    emails: params[:emails] || [],
+    expected_ip: params[:expected_ip],
+    expected_status: params[:expected_status],
+    retries: params[:retries]
+  }
+end
+
+def user_params
+  accepted_params = %w[email name].tap do |attrs|
+    attrs << 'password' if @user&.new_record? || params[:password] && !params[:password].empty?
+    attrs << 'role' if current_user.admin?
+  end
+
+  params.select { |k, v| accepted_params.include?(k) }
+end

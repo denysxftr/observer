@@ -82,7 +82,7 @@ end
 
 post '/servers/:id/delete' do
   protect!
-  server = Server.find(params[:id])
+  server = selected_server
   server.delete
   session[:success] = 'Server deleted'
   redirect "/"
@@ -96,12 +96,4 @@ def server_states (log = false)
   (log ? selected_server.log_states : selected_server.states)
     .where(:created_at.gt => params[:from].to_i.hours.ago, :created_at.lt => params[:to].to_i.hours.ago)
     .order_by(created_at: 'asc')
-end
-
-def server_params
-  {
-    name: params[:name],
-    project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || []
-  }
 end

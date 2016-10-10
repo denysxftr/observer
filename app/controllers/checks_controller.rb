@@ -6,16 +6,7 @@ end
 
 post '/check/new' do
   protect!
-  @check = Check.new(
-    url: params[:url],
-    name: params[:name],
-    project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || [],
-    is_ok: true,
-    expected_ip: params[:expected_ip],
-    expected_status: params[:expected_status],
-    retries: params[:retries]
-  )
+  @check = Check.new( check_params )
   @check.save
 
   validate_instance @check
@@ -50,15 +41,7 @@ end
 post '/check/:id' do
   protect!
   @check = Check.find(params[:id])
-  @check.update(
-    url: params[:url],
-    name: params[:name],
-    project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || [],
-    expected_ip: params[:expected_ip],
-    expected_status: params[:expected_status],
-    retries: params[:retries]
-  )
+  @check.update( check_params )
 
   if @check.valid?
     redirect "/check/#{@check.id}"
