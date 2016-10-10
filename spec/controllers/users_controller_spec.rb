@@ -51,7 +51,6 @@ include ControllerMixin
     end
 
     describe 'POST /users' do
-
       it "don't saves user and redirects to users page" do
         post '/users', name: 'Test user created', password: 'test', email: 'test'
         expect(User.count).to eq 1

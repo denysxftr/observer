@@ -2,12 +2,12 @@ RSpec.describe 'ServersController', :vcr do
 include ControllerMixin
 
   let!(:user) { create :user }
+  let(:server) { create :server }
+
   context 'if user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
     end
-
-    let(:server) { create :server }
 
     describe 'POST /server/new' do
       let(:server_new) { Server.first }
@@ -87,8 +87,6 @@ include ControllerMixin
   end
 
   context "if user didn't sign in" do
-    let(:server) { create :server }
-
     describe 'POST /server/new' do
       let(:server_new) { Server.first }
 

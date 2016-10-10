@@ -9,7 +9,6 @@ FactoryGirl.define do
       name 'Test admin'
       role 'admin'
       email 'example_admin@mail.com'
-      password 'passw_1234'
     end
   end
 end

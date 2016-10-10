@@ -2,6 +2,7 @@ RSpec.describe 'ChecksController', :vcr do
 include ControllerMixin
 
   let!(:user) { create :user }
+  let(:check) { create :check }
 
   context 'if user signed in' do
     before(:each) do
@@ -9,15 +10,15 @@ include ControllerMixin
     end
 
     describe 'POST /check/new' do
-      let(:check) { Check.first }
+      let(:check_new) { Check.first }
 
       it 'returns check page' do
         post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 1
-        expect(check.valid?).to eq true
-        expect(check.url).to eq 'http://google.com'
+        expect(check_new.valid?).to eq true
+        expect(check_new.url).to eq 'http://google.com'
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/check/#{check.id}"
+        expect(response.location).to eq "http://example.org/check/#{check_new.id}"
       end
     end
 
@@ -32,9 +33,7 @@ include ControllerMixin
     end
 
     describe 'GET /check/id' do
-      let!(:check) { create :check }
-
-      it 'returns check page' do
+        it 'returns check page' do
         get "/check/#{check.id}"
 
         expect(response.errors).to be_empty
@@ -44,7 +43,6 @@ include ControllerMixin
 
     describe 'GET /check/id/data' do
       context 'if check has results' do
-        let!(:check) { create :check }
         let(:result) { create :result }
 
         it 'returns json with data' do
@@ -59,8 +57,6 @@ include ControllerMixin
       end
 
       context 'if check has no results' do
-        let!(:check) { create :check }
-
         it 'returns an empty json' do
           get "/check/#{check.id}/data"
           expect(response.errors).to be_empty
@@ -73,8 +69,6 @@ include ControllerMixin
     end
 
     describe 'POST /check/id' do
-      let!(:check) { create :check }
-
       it 'returns check page and updates data' do
         post "/check/#{check.id}", name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 1
@@ -85,8 +79,6 @@ include ControllerMixin
     end
 
     describe 'POST /check/id/delete' do
-      let!(:check) { create :check }
-
       it 'redirects to main page and deletes check data' do
         post "/check/#{check.id}/delete"
         expect(Check.count).to eq 0
@@ -96,71 +88,62 @@ include ControllerMixin
     end
   end
 
-    context "if user didn't sign in" do
-      describe 'POST /check/new' do
-        let(:check) { Check.first }
-
-        it 'redirects to sign in page' do
-          post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
-          expect(Check.count).to eq 0
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
-      end
-
-      describe 'GET /checks' do
-        let!(:checks) { create_list :check, 5 }
-
-        it 'redirects to sign in page' do
-          get '/checks'
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
-      end
-
-      describe 'GET /check/id' do
-        let!(:check) { create :check }
-
-        it 'redirects to sign in page' do
-          get "/check/#{check.id}"
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
-      end
-
-      describe 'GET /check/id/data' do
-        let!(:check) { create :check }
-
-        it 'redirects to sign in page' do
-          get "/check/#{check.id}/data"
-          expect(response.errors).to be_empty
-          expect(response.content_type).to_not eq 'application/json'
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
-      end
-
-      describe 'POST /check/id' do
-        let!(:check) { create :check }
-
-        it 'returns check page and updates data' do
-          post "/check/#{check.id}", name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
-          expect(Check.count).to eq 1
-          expect(check.reload.name).to_not eq 'Try to visit google.com'
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
-      end
-
-      describe 'POST /check/id/delete' do
-        let!(:check) { create :check }
-
-        it 'redirects to main page and deletes check data' do
-          post "/check/#{check.id}/delete"
-          expect(Check.count).to eq 1
-          expect(response.status).to eq 302
-          expect(response.location).to eq "http://example.org/sign_in"
-        end
+  context "if user didn't sign in" do
+    describe 'POST /check/new' do
+      let(:check_new) { Check.first }
+      it 'redirects to sign in page' do
+        post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
+        expect(Check.count).to eq 0
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
       end
     end
+
+    describe 'GET /checks' do
+      let!(:checks) { create_list :check, 5 }
+
+      it 'redirects to sign in page' do
+        get '/checks'
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
+      end
+    end
+
+    describe 'GET /check/id' do
+      it 'redirects to sign in page' do
+        get "/check/#{check.id}"
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
+      end
+    end
+
+    describe 'GET /check/id/data' do
+      it 'redirects to sign in page' do
+        get "/check/#{check.id}/data"
+        expect(response.errors).to be_empty
+        expect(response.content_type).to_not eq 'application/json'
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
+      end
+    end
+
+    describe 'POST /check/id' do
+      it 'returns check page and updates data' do
+        post "/check/#{check.id}", name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
+        expect(Check.count).to eq 1
+        expect(check.reload.name).to_not eq 'Try to visit google.com'
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
+      end
+    end
+
+    describe 'POST /check/id/delete' do
+      it 'redirects to main page and deletes check data' do
+        post "/check/#{check.id}/delete"
+        expect(Check.count).to eq 1
+        expect(response.status).to eq 302
+        expect(response.location).to eq "http://example.org/sign_in"
+      end
+    end
+  end
 end
