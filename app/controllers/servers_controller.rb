@@ -6,7 +6,7 @@ end
 
 post '/server/new' do
   protect!
-  @server = Server.new( server_params )
+  @server = Server.new(server_params)
   @server.save
 
   validate_instance @server
@@ -60,7 +60,7 @@ end
 post '/server/:id' do
   protect!
   @server = Server.find(params[:id])
-  @server.update( server_params )
+  @server.update(server_params)
 
   validate_updating @server
 end
