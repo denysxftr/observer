@@ -35,7 +35,7 @@ post '/project/:id' do
   @project = Project.find(params[:id])
   @project.update(project_params)
 
-  redirect "/project/#{params[:id]}"
+  validate_updating @project
 end
 
 post '/projects/:id/delete' do
