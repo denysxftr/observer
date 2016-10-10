@@ -69,7 +69,10 @@ helpers do
         sleep(1)
       end
 
-      puts('Assets not found!') if tries == 0
+      if tries == 0
+        puts('Assets not found!')
+        return
+      end
       tries -= 1
     end
 
