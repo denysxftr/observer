@@ -3,6 +3,7 @@ include ControllerMixin
 
   let!(:user) { create :user }
   let(:project) { create :project }
+  
   context 'if user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'

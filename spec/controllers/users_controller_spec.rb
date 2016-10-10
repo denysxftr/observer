@@ -62,7 +62,7 @@ include ControllerMixin
     describe 'POST /user/id' do
       let!(:user) { create :user, email: 'example@qwe.com' }
 
-      it 'returns users page and updates data' do
+      it "doesn't update data" do
         post "/user/#{user.id}", name: 'Test user updated'
         expect(user.reload.name).to_not eq 'Test user updated'
         expect(User.count).to eq 2
@@ -72,7 +72,7 @@ include ControllerMixin
     describe 'POST /user/id/delete' do
       let!(:user) { create :user }
 
-      it 'redirects to user page and deletes user data' do
+      it "redirects to main page and doesn't delete user data" do
         post "/user/#{user.id}/delete"
         expect(User.count).to eq 2
         expect(response.location).to eq 'http://example.org/'

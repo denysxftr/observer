@@ -90,7 +90,6 @@ include ControllerMixin
 
   context "if user didn't sign in" do
     describe 'POST /check/new' do
-      let(:check_new) { Check.first }
       it "redirects to sign in page and doesn't create new check" do
         post '/check/new', name: 'Try to visit google.com', url: 'http://google.com', expected_status: 302, project_id: '', retries: 1
         expect(Check.count).to eq 0

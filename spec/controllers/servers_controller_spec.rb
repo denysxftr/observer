@@ -43,6 +43,7 @@ include ControllerMixin
     describe 'GET /server/id/data' do
       context 'if server has states' do
         let(:state) { create :state }
+
         it 'returns json with data' do
           server.states << state
           get "/server/#{server.id}/data"
@@ -88,8 +89,6 @@ include ControllerMixin
 
   context "if user didn't sign in" do
     describe 'POST /server/new' do
-      let(:server_new) { Server.first }
-
       it "redirects to sign in page and doesn't create new server" do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
         expect(Server.count).to eq 0
