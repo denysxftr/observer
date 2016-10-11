@@ -15,7 +15,7 @@ post '/project/new' do
   @project = Project.new(project_params)
   @project.save
 
-  validate_instance @project
+  finish_action @project
 end
 
 get '/project/:id' do
@@ -35,7 +35,7 @@ post '/project/:id' do
   @project = Project.find(params[:id])
   @project.update(project_params)
 
-  validate_updating @project
+  update_finish_action @project
 end
 
 post '/projects/:id/delete' do

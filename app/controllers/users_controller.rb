@@ -15,7 +15,7 @@ post '/users' do
   @user = User.new(user_params)
   @user.save
 
-  validate_instance @user
+  finish_action @user
 end
 
 get '/user/:id' do

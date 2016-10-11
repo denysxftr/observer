@@ -1,4 +1,4 @@
-def validate_instance instance
+def finish_action instance
   name_of_class = instance.class.name.downcase
   if instance.valid?
     redirect "/#{name_of_class}/#{instance.id}" unless (name_of_class == 'project'|| name_of_class == 'user')
@@ -9,7 +9,7 @@ def validate_instance instance
   end
 end
 
-def validate_updating instance
+def update_finish_action instance
   if instance.valid?
     redirect "/#{instance.class.name.downcase}/#{instance.id}"
   else
@@ -49,5 +49,5 @@ def user_params
     attrs << 'role' if current_user.admin?
   end
 
-  params.select { |k, v| accepted_params.include?(k) }
+  params.select { |k, _| accepted_params.include?(k) }
 end

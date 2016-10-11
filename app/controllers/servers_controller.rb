@@ -9,7 +9,7 @@ post '/server/new' do
   @server = Server.new(server_params)
   @server.save
 
-  validate_instance @server
+  finish_action @server
 end
 
 get '/servers' do
@@ -62,7 +62,7 @@ post '/server/:id' do
   @server = Server.find(params[:id])
   @server.update(server_params)
 
-  validate_updating @server
+  update_finish_action @server
 end
 
 post '/servers/:id/delete' do

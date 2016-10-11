@@ -9,7 +9,7 @@ post '/check/new' do
   @check = Check.new(check_params)
   @check.save
 
-  validate_instance @check
+  finish_action @check
 end
 
 get '/checks' do
@@ -43,7 +43,7 @@ post '/check/:id' do
   @check = Check.find(params[:id])
   @check.update(check_params)
 
-  validate_updating @check
+  update_finish_action @check
 end
 
 post '/check/:id/delete' do
