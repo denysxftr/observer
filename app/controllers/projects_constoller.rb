@@ -35,7 +35,7 @@ post '/project/:id' do
   @project = Project.find(params[:id])
   @project.update(project_params)
 
-  update_finish_action @project
+  finish_update_action @project
 end
 
 post '/projects/:id/delete' do

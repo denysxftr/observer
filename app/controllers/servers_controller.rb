@@ -62,7 +62,7 @@ post '/server/:id' do
   @server = Server.find(params[:id])
   @server.update(server_params)
 
-  update_finish_action @server
+  finish_update_action @server
 end
 
 post '/servers/:id/delete' do

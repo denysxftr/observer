@@ -9,7 +9,7 @@ def finish_action instance
   end
 end
 
-def update_finish_action instance
+def finish_update_action instance
   if instance.valid?
     redirect "/#{instance.class.name.downcase}/#{instance.id}"
   else

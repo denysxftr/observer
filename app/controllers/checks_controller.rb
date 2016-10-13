@@ -43,7 +43,7 @@ post '/check/:id' do
   @check = Check.find(params[:id])
   @check.update(check_params)
 
-  update_finish_action @check
+  finish_update_action @check
 end
 
 post '/check/:id/delete' do
