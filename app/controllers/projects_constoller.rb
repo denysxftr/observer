@@ -12,15 +12,10 @@ end
 
 post '/project/new' do
   protect!
-  @project = Project.new(name: params[:name])
+  @project = Project.new(project_params)
   @project.save
 
-  if @project.valid?
-    redirect '/projects'
-  else
-    session[:alert] = @project.errors.full_messages.join(' ')
-    erb :'projects/new'
-  end
+  finish_action @project
 end
 
 get '/project/:id' do
@@ -38,9 +33,9 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
-  @project.update(name: params[:name])
+  @project.update(project_params)
 
-  redirect "/project/#{params[:id]}"
+  finish_update_action @project
 end
 
 post '/projects/:id/delete' do

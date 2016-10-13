@@ -1,5 +1,5 @@
 $(function () {
-  if ($('#checks_chart').length == 0) {
+  if ($('#checks_chart').length === 0) {
     return;
   }
 
@@ -13,7 +13,7 @@ $(function () {
     var height = parentContainer.height();
     var log = data.log;
     var amount = log.length;
-    var maxOfTimeouts = _.maxBy(log, function(item) { return item.timeout; }).timeout;
+    var maxOfTimeouts = amount ? _.maxBy(log, function(item) { return item.timeout; }).timeout : 0;
     log.forEach(function(item, index) {
       var bar = $('<div class="chart-bar" data-id=' + index + '></div>')
         .width(width / amount + '%')
@@ -30,7 +30,7 @@ $(function () {
           .attr('aria-label', item.time + ' - ' + item.issues);
       }
 
-      if (index % legendScale == 0) {
+      if (index % legendScale === 0) {
         bar.append('<span>' + item.time.split(' ')[1] + '</span>');
       }
 

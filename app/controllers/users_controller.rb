@@ -14,12 +14,8 @@ post '/users' do
   protect_admin!
   @user = User.new(user_params)
   @user.save
-  if @user.valid?
-    redirect '/users'
-  else
-    session[:alert] = @user.errors.full_messages.join(' ')
-    erb :'users/new'
-  end
+
+  finish_action @user
 end
 
 get '/user/:id' do
@@ -46,14 +42,4 @@ post '/user/:id/delete' do
   protect_admin!
   User.find(params[:id]).destroy
   redirect '/users'
-end
-
-
-def user_params
-  accepted_params = %w[email name].tap do |attrs|
-    attrs << 'password' if @user&.new_record? || params[:password] && !params[:password].empty?
-    attrs << 'role' if current_user.admin?
-  end
-
-  params.select { |k, v| accepted_params.include?(k) }
 end

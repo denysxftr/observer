@@ -6,24 +6,10 @@ end
 
 post '/check/new' do
   protect!
-  @check = Check.new(
-    url: params[:url],
-    name: params[:name],
-    project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || [],
-    is_ok: true,
-    expected_ip: params[:expected_ip],
-    expected_status: params[:expected_status],
-    retries: params[:retries]
-  )
+  @check = Check.new(check_params)
   @check.save
 
-  if @check.valid?
-    redirect "/check/#{@check.id}"
-  else
-    session[:alert] = @check.errors.full_messages.join(' ')
-    erb :'checks/new'
-  end
+  finish_action @check
 end
 
 get '/checks' do
@@ -55,27 +41,14 @@ end
 post '/check/:id' do
   protect!
   @check = Check.find(params[:id])
-  @check.update(
-    url: params[:url],
-    name: params[:name],
-    project: !params[:project_id].empty? && Project.find(params[:project_id]),
-    emails: params[:emails] || [],
-    expected_ip: params[:expected_ip],
-    expected_status: params[:expected_status],
-    retries: params[:retries]
-  )
+  @check.update(check_params)
 
-  if @check.valid?
-    redirect "/check/#{@check.id}"
-  else
-    erb :'check/edit'
-  end
+  finish_update_action @check
 end
 
 post '/check/:id/delete' do
   protect!
-  check = Check.find(params[:id])
-  check.delete
+  Check.find(params[:id]).delete
   session[:success] = 'HTTP check deleted'
   redirect "/"
 end
