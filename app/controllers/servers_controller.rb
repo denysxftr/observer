@@ -45,14 +45,14 @@ end
 
 get '/server/:id/data' do
   protect!
-  states = server_states
+  states = server_states(unit: :hours)
 
   json states_data states
 end
 
 get '/server/:id/log_data' do
   protect!
-  states = server_states true
+  states = server_states(unit: :days)
 
   json states_data states
 end
@@ -72,10 +72,12 @@ post '/servers/:id/delete' do
   redirect "/"
 end
 
-def server_states(log = false)
+def server_states(unit:)
   server = Server.find(params[:id])
-  (log ? server.log_states : server.states)
-    .where(:created_at.gt => params[:from].to_i.hours.ago, :created_at.lt => params[:to].to_i.hours.ago)
+  from = params[:from].to_i
+  from += 1 if unit == :days
+  (unit == :days ? server.log_states : server.states)
+    .where(:created_at.gt => from.send(unit).ago, :created_at.lt => params[:to].to_i.send(unit).ago)
     .order_by(created_at: 'asc')
 end
 
