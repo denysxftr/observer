@@ -76,10 +76,10 @@ class CheckPerformWorker
   end
 
   def send_failure_emails
-    MailerService.new.send_host_failed_email(@result)
+    MailerWorker.perform_async(@result.id, :send_host_failed_email)
   end
 
   def send_successful_emails
-    MailerService.new.send_host_success_email(@result)
+    MailerWorker.perform_async(@result.id, :send_host_success_email)
   end
 end

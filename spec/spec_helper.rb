@@ -5,9 +5,12 @@ require 'factory_girl'
 require 'vcr'
 require 'webmock'
 require 'simplecov'
+require 'sidekiq/testing'
 SimpleCov.start
 
 require './main'
+
+Sidekiq::Testing.inline!
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'

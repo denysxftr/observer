@@ -15,14 +15,6 @@ class Processing < Thor
     end
   end
 
-  desc 'trends_check', 'perform state trends checks'
-  def trends_check
-    Server.pluck(:id).each do |id|
-      MemoryLeakDetectWorker.new.perform(id.to_s)
-      sleep 1
-    end
-  end
-
   desc 'create_log_states', 'creates long live logs'
   def create_log_states
     LogStatesCreator.perform_async

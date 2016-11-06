@@ -8,7 +8,7 @@ class LogStatesCreator
 private
 
   def create_log(server)
-    return if server.log_states.where(:created_at.gt => Time.at(Time.now.utc.to_i - 3600)).exists?
+    return if server.log_states.where(:created_at.gt => 1.hour.ago).exists?
     states = states(server)
     LogState.create(
       server: server,
@@ -19,7 +19,7 @@ private
   end
 
   def states(server)
-    server.states.where(:created_at.gt => Time.at(Time.now.utc.to_i - 3600))
+    server.states.where(:created_at.gt => 1.hour.ago)
   end
 
   def average(values)

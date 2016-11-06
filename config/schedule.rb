@@ -22,16 +22,12 @@
 job_type :thor, 'cd :path && bundle exec thor :task'
 
 
-every 10.minutes do
+every 5.minutes do
   thor 'processing:states_check'
   thor 'processing:clear_old'
 end
 
-every 5.minutes do
+every 2.minutes do
   thor 'processing:http_check'
   thor 'processing:create_log_states'
-end
-
-every 6.hours do
-  thor 'processing:trends_check'
 end

@@ -47,7 +47,7 @@ private
 
   def send_notifications
     if @issues.count >= @old_issues.count && @issues.sort != @old_issues.sort
-      MailerService.new.send_server_bad(@server)
+      MailerWorker.perform_async(@server.id, :send_server_bad)
     end
   end
 end

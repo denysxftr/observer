@@ -58,7 +58,8 @@ include ControllerMixin
       end
     end
   end
-  context "if user didn't sign in" do
+
+  context "when user didn't sign in" do
     describe 'POST /project/new' do
       let(:project) { Project.first }
 

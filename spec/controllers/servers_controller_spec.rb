@@ -87,7 +87,7 @@ include ControllerMixin
     end
   end
 
-  context "if user didn't sign in" do
+  context "when user didn't sign in" do
     describe 'POST /server/new' do
       it "redirects to sign in page and doesn't create new server" do
         post '/server/new', name: 'Try to visit google.com', project_id: '', emails: ['efwe']
