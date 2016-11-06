@@ -6,7 +6,7 @@ include ControllerMixin
 
   context 'when user signed in' do
     before(:each) do
-      post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
+      post '/sign_in', email: 'example@example.com', password: '12345678'
     end
 
     describe 'POST /check/new' do

@@ -5,7 +5,7 @@ RSpec.describe 'UsersController', :vcr do
     let!(:user_admin) { create :user_admin }
 
     before(:each) do
-      post '/sign_in', email: 'example_admin@mail.com', password: 'passw_1234'
+      post '/sign_in', email: 'example_admin@example.com', password: '12345678'
     end
 
     describe 'POST /users' do
@@ -48,7 +48,7 @@ RSpec.describe 'UsersController', :vcr do
     let!(:user_trying) { create :user }
 
     before(:each) do
-      post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
+      post '/sign_in', email: 'example@example.com', password: '12345678'
     end
 
     describe 'POST /users' do
