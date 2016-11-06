@@ -12,10 +12,10 @@ end
 
 post '/users' do
   protect_admin!
-  @user = User.new(user_params)
+  @user = User.new(user_params(params))
   @user.save
 
-  finish_action @user
+  make_response @user
 end
 
 get '/user/:id' do
@@ -27,7 +27,7 @@ end
 post '/user/:id' do
   current_user_resource? || protect_admin!
   @user = User.find(params[:id])
-  @user.update(user_params)
+  @user.update(user_params(params))
 
   if @user.valid?
     session[:notice] = 'Profile updated'

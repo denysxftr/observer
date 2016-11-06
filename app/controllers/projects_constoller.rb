@@ -12,10 +12,10 @@ end
 
 post '/project/new' do
   protect!
-  @project = Project.new(project_params)
+  @project = Project.new(project_params(params))
   @project.save
 
-  finish_action @project
+  make_response @project
 end
 
 get '/project/:id' do
@@ -33,9 +33,9 @@ end
 post '/project/:id' do
   protect!
   @project = Project.find(params[:id])
-  @project.update(project_params)
+  @project.update(project_params(params))
 
-  finish_update_action @project
+  make_update_response @project
 end
 
 post '/projects/:id/delete' do

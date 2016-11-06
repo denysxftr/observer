@@ -4,7 +4,7 @@ include ControllerMixin
   let!(:user) { create :user }
   let(:server) { create :server }
 
-  context 'if user signed in' do
+  context 'when user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
     end
@@ -41,7 +41,7 @@ include ControllerMixin
     end
 
     describe 'GET /server/id/data' do
-      context 'if server has states' do
+      context 'when server has states' do
         let(:state) { create :state }
 
         it 'returns json with data' do
@@ -55,7 +55,7 @@ include ControllerMixin
         end
       end
 
-      context 'if server has no states' do
+      context 'when server has no states' do
         it 'returns an empty json' do
           get "/server/#{server.id}/data"
           expect(response.errors).to be_empty

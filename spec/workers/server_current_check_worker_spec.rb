@@ -1,6 +1,6 @@
 RSpec.describe ServerCurrentCheckWorker do
 
-  context 'if had no issues previously' do
+  context 'when had no issues previously' do
     let!(:server) { create :server, issues: [] }
 
       context 'when all is ok' do
@@ -71,10 +71,10 @@ RSpec.describe ServerCurrentCheckWorker do
       end
   end
 
-  context 'if had issues previously' do
+  context 'when had issues previously' do
     let!(:server) { create :server_with_isues }
 
-    context 'if has no problems' do
+    context 'when has no problems' do
       before do
         expect_any_instance_of(MailerService)
           .to_not receive(:send_server_bad)
@@ -92,7 +92,7 @@ RSpec.describe ServerCurrentCheckWorker do
       end
     end
 
-    context 'if has problems' do
+    context 'when has problems' do
       context 'when cpu is overloaded' do
         let(:state1) { create :state, cpu_load: 81 }
         let(:state2) { create :state, cpu_load: 82 }

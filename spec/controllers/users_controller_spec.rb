@@ -1,6 +1,7 @@
 RSpec.describe 'UsersController', :vcr do
-include ControllerMixin
-  context 'if main user is admin' do
+  include ControllerMixin
+
+  context 'when main user is admin' do
     let!(:user_admin) { create :user_admin }
 
     before(:each) do
@@ -16,7 +17,7 @@ include ControllerMixin
         expect(user.valid?).to eq true
         expect(user.name).to eq 'Test user created'
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/users"
+        expect(response.location).to eq "http://example.org/user/#{user.id}"
       end
     end
 
@@ -43,7 +44,7 @@ include ControllerMixin
     end
   end
 
-  context 'if main user is not admin' do
+  context 'when main user is not admin' do
     let!(:user_trying) { create :user }
 
     before(:each) do

@@ -3,8 +3,8 @@ include ControllerMixin
 
   let!(:user) { create :user }
   let(:project) { create :project }
-  
-  context 'if user signed in' do
+
+  context 'when user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
     end
@@ -17,7 +17,7 @@ include ControllerMixin
         expect(Project.count).to eq 1
         expect(project.valid?).to eq true
         expect(response.status).to eq 302
-        expect(response.location).to eq "http://example.org/projects"
+        expect(response.location).to eq "http://example.org/project/#{project.id}"
       end
     end
 

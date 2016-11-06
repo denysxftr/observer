@@ -6,10 +6,10 @@ end
 
 post '/server/new' do
   protect!
-  @server = Server.new(server_params)
+  @server = Server.new(server_params(params))
   @server.save
 
-  finish_action @server
+  make_response @server
 end
 
 get '/servers' do
@@ -60,9 +60,9 @@ end
 post '/server/:id' do
   protect!
   @server = Server.find(params[:id])
-  @server.update(server_params)
+  @server.update(server_params(params))
 
-  finish_update_action @server
+  make_update_response @server
 end
 
 post '/servers/:id/delete' do

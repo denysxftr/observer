@@ -4,7 +4,7 @@ include ControllerMixin
   let!(:user) { create :user }
   let(:check) { create :check }
 
-  context 'if user signed in' do
+  context 'when user signed in' do
     before(:each) do
       post '/sign_in', email: 'example@mail.com', password: 'passw_1234'
     end
@@ -42,7 +42,7 @@ include ControllerMixin
     end
 
     describe 'GET /check/id/data' do
-      context 'if check has results' do
+      context 'when check has results' do
         let(:result) { create :result }
 
         it 'returns json with data' do
@@ -56,7 +56,7 @@ include ControllerMixin
         end
       end
 
-      context 'if check has no results' do
+      context 'when check has no results' do
         it 'returns an empty json' do
           get "/check/#{check.id}/data"
           expect(response.errors).to be_empty

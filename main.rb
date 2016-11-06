@@ -52,46 +52,5 @@ def protect_admin!
 end
 
 helpers do
-  def alert
-    session.delete(:alert)
-  end
-
-  def notice
-    session.delete(:notice)
-  end
-
-  def assets_tags
-    assets = nil
-    tries = 5
-    loop do
-      assets = read_manifest rescue nil
-
-      if assets
-        break
-      else
-        puts 'Assets not ready'
-        sleep(1)
-      end
-
-      if tries == 0
-        puts('Assets not found!')
-        return
-      end
-      tries -= 1
-    end
-
-    js_tag = "<script src='/assets/#{assets[:js]}' type='text/javascript'></script>"
-    css_tag = "<link rel='stylesheet' type='text/css' href='/assets/#{assets[:css]}'>"
-
-    js_tag + css_tag
-  end
-
-  def read_manifest
-    result = {}
-    manifest = JSON.parse(File.read(File.join(settings.public_folder, 'assets/manifest.json')))
-    result[:js] = manifest['application.js']
-    result[:css] = manifest['application.css']
-
-    result
-  end
+  include ApplicationHelper
 end
