@@ -14,7 +14,7 @@ gem 'sidekiq'
 gem 'whenever', require: false
 
 gem 'redis'
-gem 'mongoid'
+gem 'mongoid', '5.1.5'
 
 gem 'pry'
 

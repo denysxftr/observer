@@ -1,7 +1,7 @@
 # Observer
-[![Build Status](https://travis-ci.org/ololyay/observer.svg?branch=master)](https://travis-ci.org/ololyay/observer)
-[![Code Climate](https://codeclimate.com/github/ololyay/observer/badges/gpa.svg)](https://codeclimate.com/github/ololyay/observer)
-[![Dependency Status](https://gemnasium.com/badges/github.com/ololyay/observer.svg)](https://gemnasium.com/github.com/ololyay/observer)
+[![Build Status](https://travis-ci.org/zxftr45/observer.svg?branch=master)](https://travis-ci.org/ololyay/observer)
+[![Code Climate](https://codeclimate.com/github/zxftr45/observer/badges/gpa.svg)](https://codeclimate.com/github/zxftr45/observer)
+[![Dependency Status](https://gemnasium.com/badges/github.com/zxftr45/observer.svg)](https://gemnasium.com/github.com/zxftr45/observer)
 
 ### Setup
 #### Requirements
@@ -50,6 +50,11 @@ host: 127.0.0.1:9292
 email_from: 'bot@observer'
 default_emails: # default emails for notifications
   - 'some@example.com'
+```
+
+Set up crontab
+```
+whenever --update-cronatb
 ```
 
 ### Run
