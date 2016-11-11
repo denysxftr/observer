@@ -19,7 +19,7 @@
       <div>
         <% @server.current_data[:disks].each do |disk| %>
           <strong>Partition: <%= disk[:path] %></strong>
-          <%= "#{disk[:free]}GB free from #{disk[:total]}GB total" %>
+          <%= "#{disk[:free]}GB free of #{disk[:total]}GB total" %>
           <div class="progress">
             <div class="bar <%= disk[:usage] > 80 ? 'fail' : 'ok' %>" style="width: <%= disk[:usage] %>%">
             <span class="value"><%= "#{disk[:usage]}%" %></span>
